@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Owner>Dietcode</Owner>
+		<Authors>Humberto Almeida</Authors>
+		<Description>Api Core - Para uso e facilidade de APIs</Description>
+		<Copyright>Dietcode Web</Copyright>
+		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
+		<Title>Dietcode Api Core</Title>
+		<Version>1.1.5</Version>
+		<AssemblyVersion>1.1.5.0</AssemblyVersion>
+		<FileVersion>1.1.5.0</FileVersion>
+		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
+		<!--<PackageOutputPath>D:\Nuget\\</PackageOutputPath>-->
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<Optimize>True</Optimize>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Dietcode.Api.Core.Results" Version="1.1.5" />
+		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+	</ItemGroup>
+
+</Project>
