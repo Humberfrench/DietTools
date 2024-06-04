@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Dietcode.Database.Interfaces;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -6,13 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dietcode.Database
+namespace Dietcode.Database.DatabaseProviders
 {
-    public class DefaultMySqlConnectionFactory : IConnectionFactory
+    public class DefaultSqlConnectionFactory : IConnectionFactory
     {
         protected readonly string ConnectionString;
 
-        public DefaultMySqlConnectionFactory(string connectionString)
+        public DefaultSqlConnectionFactory(string connectionString)
         {
             ConnectionString = connectionString;
         }

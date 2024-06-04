@@ -1,13 +1,14 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Dietcode.Database.Interfaces;
+using Microsoft.Data.SqlClient;
 using System.Data;
 
-namespace Dietcode.Database
+namespace Dietcode.Database.DatabaseProviders
 {
-    public class DefaultOracleConnectionFactory : IConnectionFactory
+    public class DefaultPostgreSqlConnectionFactory : IConnectionFactory
     {
         protected readonly string ConnectionString;
 
-        public DefaultOracleConnectionFactory(string connectionString)
+        public DefaultPostgreSqlConnectionFactory(string connectionString)
         {
             ConnectionString = connectionString;
         }

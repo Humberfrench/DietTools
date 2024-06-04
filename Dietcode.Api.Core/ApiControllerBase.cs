@@ -18,7 +18,7 @@ namespace Dietcode.Api.Core
         }
 
         [NonAction]
-        protected IActionResult Completed<TContent>(MethodResult methodResult) where TContent : new()
+        protected IActionResult Completed<TContent>(MethodResult methodResult) 
         {
             var contentResult = methodResult as MethodResult<TContent>;
             var errorResult = methodResult as ErrorResult;
@@ -58,7 +58,7 @@ namespace Dietcode.Api.Core
             return CreateStatusCodeResult(errorResult.Status);
         }
 
-        private IActionResult CompletedAtAction<TContent>(MethodResult methodResult, string actionName) where TContent : new()
+        private IActionResult CompletedAtAction<TContent>(MethodResult methodResult, string actionName) 
         {
             var createdResult = methodResult as CreatedResult<TContent>;
 

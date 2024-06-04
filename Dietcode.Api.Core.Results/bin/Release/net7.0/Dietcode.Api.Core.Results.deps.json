@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v7.0": {
-      "Dietcode.Api.Core.Results/1.1.5": {
+      "Dietcode.Api.Core.Results/1.2.0": {
         "dependencies": {
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5"
         },
@@ -738,7 +738,7 @@
     }
   },
   "libraries": {
-    "Dietcode.Api.Core.Results/1.1.5": {
+    "Dietcode.Api.Core.Results/1.2.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

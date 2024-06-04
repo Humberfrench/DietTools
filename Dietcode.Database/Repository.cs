@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper;
+using Dapper.Contrib.Extensions;
+using Dietcode.Database.Enums;
+using Dietcode.Database.Interfaces;
+using Dietcode.Database.DatabaseProviders;
 
 namespace Dietcode.Database
 {
     public class Repository<T> : IRepository<T> where T : class
     {
         protected readonly string ConnectionString;
-        protected readonly IConnectionFactory connectionFactory;
+        protected readonly IDbConnection Connection;
 
         public Repository(string connectionString, EnumBancos banco) : base()
         {
             ConnectionString = connectionString;
+            IConnectionFactory connectionFactory;
             switch (banco)
             {
                 case EnumBancos.SqlServer:
@@ -32,31 +39,33 @@ namespace Dietcode.Database
                     connectionFactory = new DefaultSqlConnectionFactory(ConnectionString);
                     break;
             }
+            Connection = connectionFactory.Connection();
         }
 
-        public Task<T> Add(T entity)
+        public async Task<int> Add(T entity)
         {
-            throw new NotImplementedException();
+            return await Connection.InsertAsync<T>(entity);
         }
 
-        public Task<T> Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var entity = await Connection.GetAsync<T>(id);
+            return await Connection.DeleteAsync<T>(entity);
         }
 
-        public Task<T> Get(int id)
+        public async Task<T> Get(int id)
         {
-            throw new NotImplementedException();
+            return await Connection.GetAsync<T>(id);
         }
 
-        public Task<IEnumerable<T>> Get()
+        public async Task<IEnumerable<T>> Get()
         {
-            throw new NotImplementedException();
+            return await Connection.GetAllAsync<T>();
         }
 
-        public Task<T> Update(T entity)
+        public async Task<bool> Update(T entity)
         {
-            throw new NotImplementedException();
+            return await Connection.UpdateAsync<T>(entity);
         }
     }
 }

@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dietcode.Database
+namespace Dietcode.Database.Enums
 {
-    public interface IConnectionFactory
+    public enum EnumBancos
     {
-        IDbConnection Connection();
+        SqlServer,
+        MySql,
+        PostgreSql,
+        Oracle
     }
 }
