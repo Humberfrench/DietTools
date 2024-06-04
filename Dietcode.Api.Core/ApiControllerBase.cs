@@ -1,7 +1,6 @@
 ﻿using Dietcode.Api.Core.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
-using System.Linq;
 
 namespace Dietcode.Api.Core
 {
@@ -19,7 +18,7 @@ namespace Dietcode.Api.Core
         }
 
         [NonAction]
-        protected IActionResult Completed<TContent>(MethodResult methodResult)
+        protected IActionResult Completed<TContent>(MethodResult methodResult) where TContent : new()
         {
             var contentResult = methodResult as MethodResult<TContent>;
             var errorResult = methodResult as ErrorResult;
@@ -59,7 +58,7 @@ namespace Dietcode.Api.Core
             return CreateStatusCodeResult(errorResult.Status);
         }
 
-        private IActionResult CompletedAtAction<TContent>(MethodResult methodResult, string actionName)
+        private IActionResult CompletedAtAction<TContent>(MethodResult methodResult, string actionName) where TContent : new()
         {
             var createdResult = methodResult as CreatedResult<TContent>;
 

@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-
-namespace Dietcode.Api.Core.Results
+﻿namespace Dietcode.Api.Core.Results
 {
     public class ErrorResult<TContent> : MethodResult<TContent>
     {
         public IEnumerable<ErrorValidation> Errors { get; set; }
 
-        public ErrorResult(TContent content, ResultStatusCode statusCode, ErrorValidation error) : base(content,statusCode)
+        public ErrorResult(TContent content, ResultStatusCode statusCode, ErrorValidation error) : base(content, statusCode)
         {
             Errors = new[] { error };
         }

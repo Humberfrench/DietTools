@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Dietcode.Api.Core.Results
+﻿namespace Dietcode.Api.Core.Results
 {
     public class InternalServerErrorResult : MethodResult
     {

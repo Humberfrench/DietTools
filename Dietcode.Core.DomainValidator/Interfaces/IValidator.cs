@@ -1,6 +1,4 @@
-﻿using Dietcode.Core.DomainValidator;
-
-namespace Dietcode.Core.DomainValidator.Interfaces
+﻿namespace Dietcode.Core.DomainValidator.Interfaces
 {
     public interface IValidator<in TEntity>
     {

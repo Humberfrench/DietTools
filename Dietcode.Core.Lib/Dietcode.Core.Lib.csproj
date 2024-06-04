@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Owner>Dietcode</Owner>
+		<Authors>Humberto Almeida</Authors>
+		<Description>Api Core Tools - Extensoes e ferramentas auxiliares</Description>
+		<Copyright>Dietcode Web</Copyright>
+		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
+		<Title>Dietcode Api Core Tools</Title>
+		<Version>1.8.0</Version>
+		<AssemblyVersion>1.8.0.0</AssemblyVersion>
+		<FileVersion>1.8.0.0</FileVersion>
+		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
+		<!--<PackageOutputPath>D:\Nuget\\</PackageOutputPath>-->
+		<NeutralLanguage>pt-BR</NeutralLanguage>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+
+</Project>

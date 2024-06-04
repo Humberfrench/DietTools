@@ -22,7 +22,7 @@ namespace Dietcode.Api.Core.Results
         /// Total de paginas.
         /// </summary>
         public int Total { get; set; }
-                
+
         /// <summary>
         /// Conteúdo dos objetos paginados.
         /// </summary>

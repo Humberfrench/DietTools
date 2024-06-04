@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dietcode.Api.Core.Results
+﻿namespace Dietcode.Api.Core.Results
 {
     /// <summary>
     /// Indica o resultado de um processamento realizado.

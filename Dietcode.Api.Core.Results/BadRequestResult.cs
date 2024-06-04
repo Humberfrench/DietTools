@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Dietcode.Api.Core.Results
+﻿namespace Dietcode.Api.Core.Results
 {
     public class BadRequestResult : ErrorResult
     {

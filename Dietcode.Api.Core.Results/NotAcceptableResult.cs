@@ -1,7 +1,4 @@
-﻿using Dietcode.Api.Core.Results;
-using System.Collections.Generic;
-
-namespace Dietcode.Api.Core.Results
+﻿namespace Dietcode.Api.Core.Results
 {
     public class NotAcceptableResult : ErrorResult
     {

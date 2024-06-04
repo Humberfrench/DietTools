@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Dietcode.Core.DomainValidator
+﻿namespace Dietcode.Core.DomainValidator
 {
     [Serializable]
     public class ValidationError

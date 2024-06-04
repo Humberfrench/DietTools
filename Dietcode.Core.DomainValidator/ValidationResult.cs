@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Dietcode.Core.DomainValidator.Interfaces;
+﻿using Dietcode.Core.DomainValidator.Interfaces;
 using Dietcode.Core.DomainValidator.ObjectValue;
 
 namespace Dietcode.Core.DomainValidator

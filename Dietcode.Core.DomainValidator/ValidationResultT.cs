@@ -1,8 +1,6 @@
-﻿using System.Net;
-using Dietcode.Core.DomainValidator.Interfaces;
-using Dietcode.Core.DomainValidator.ObjectValue;
-using Newtonsoft.Json.Serialization;
+﻿using Dietcode.Core.DomainValidator.Interfaces;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Dietcode.Core.DomainValidator
 {
@@ -19,7 +17,7 @@ namespace Dietcode.Core.DomainValidator
             NullValueHandling = NullValueHandling.Ignore,
         };
 
-        public ValidationResult() 
+        public ValidationResult()
         {
             Retorno = new T();
             Mensagem = string.Empty;
@@ -80,7 +78,7 @@ namespace Dietcode.Core.DomainValidator
             try
             {
                 newValidationResult.GetErros(errors);
-                retorno = JsonConvert.DeserializeObject<T1>(json,jsonSettings);
+                retorno = JsonConvert.DeserializeObject<T1>(json, jsonSettings);
             }
             catch
             {
