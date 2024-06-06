@@ -1,0 +1,13 @@
+D:\Desenvolvimento\Sistemas\DietTools\Dietcode.Database\bin\Debug\net8.0\Dietcode.Database.deps.json
+D:\Desenvolvimento\Sistemas\DietTools\Dietcode.Database\bin\Debug\net8.0\Dietcode.Database.dll
+D:\Desenvolvimento\Sistemas\DietTools\Dietcode.Database\bin\Debug\net8.0\Dietcode.Database.pdb
+D:\Desenvolvimento\Sistemas\DietTools\Dietcode.Database\obj\Debug\net8.0\Dietcode.Database.csproj.AssemblyReference.cache
+D:\Desenvolvimento\Sistemas\DietTools\Dietcode.Database\obj\Debug\net8.0\Dietcode.Database.GeneratedMSBuildEditorConfig.editorconfig
+D:\Desenvolvimento\Sistemas\DietTools\Dietcode.Database\obj\Debug\net8.0\Dietcode.Database.AssemblyInfoInputs.cache
+D:\Desenvolvimento\Sistemas\DietTools\Dietcode.Database\obj\Debug\net8.0\Dietcode.Database.AssemblyInfo.cs
+D:\Desenvolvimento\Sistemas\DietTools\Dietcode.Database\obj\Debug\net8.0\Dietcode.Database.csproj.CoreCompileInputs.cache
+D:\Desenvolvimento\Sistemas\DietTools\Dietcode.Database\obj\Debug\net8.0\Dietcode.Database.sourcelink.json
+D:\Desenvolvimento\Sistemas\DietTools\Dietcode.Database\obj\Debug\net8.0\Dietcode.Database.dll
+D:\Desenvolvimento\Sistemas\DietTools\Dietcode.Database\obj\Debug\net8.0\refint\Dietcode.Database.dll
+D:\Desenvolvimento\Sistemas\DietTools\Dietcode.Database\obj\Debug\net8.0\Dietcode.Database.pdb
+D:\Desenvolvimento\Sistemas\DietTools\Dietcode.Database\obj\Debug\net8.0\ref\Dietcode.Database.dll

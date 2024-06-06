@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dietcode.Core.DomainValidat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dietcode.Core.Lib", "Dietcode.Core.Lib\Dietcode.Core.Lib.csproj", "{0338091C-24E7-4E8E-B8BD-AE1C1EFA1D8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietcode.Database", "Dietcode.Database\Dietcode.Database.csproj", "{D535DDEB-3609-4BD3-B92E-568C79A68569}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dietcode.Database", "Dietcode.Database\Dietcode.Database.csproj", "{D535DDEB-3609-4BD3-B92E-568C79A68569}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingDb", "TestingDb\TestingDb.csproj", "{95D882FA-4787-42C8-8171-6595924D3635}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{D535DDEB-3609-4BD3-B92E-568C79A68569}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D535DDEB-3609-4BD3-B92E-568C79A68569}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D535DDEB-3609-4BD3-B92E-568C79A68569}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95D882FA-4787-42C8-8171-6595924D3635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95D882FA-4787-42C8-8171-6595924D3635}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95D882FA-4787-42C8-8171-6595924D3635}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95D882FA-4787-42C8-8171-6595924D3635}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

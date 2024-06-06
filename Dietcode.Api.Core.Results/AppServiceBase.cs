@@ -1,4 +1,7 @@
-﻿namespace Dietcode.Api.Core.Results
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Dietcode.Api.Core.Results
 {
     public abstract partial class AppServiceBase
     {
@@ -37,6 +40,27 @@
         public BadRequestResult BadRequest(string error)
         {
             return new BadRequestResult(new ErrorValidation(null!, error));
+        }
+        public BadRequestResult<T> BadRequest<T>(string error, T content) where T : class, new()
+        {
+            return new BadRequestResult<T>(new ErrorValidation(null!, error), content);
+        }
+
+
+        public BadRequestProblemResult BadRequestProblem(Enum error)
+        {
+            return new BadRequestProblemResult(ErrorBuilder.GetError(error));
+        }
+
+        public BadRequestProblemResult BadRequestProblem(string error)
+        {
+            var problem = new ProblemDetails
+            {
+                Detail = error,
+                Status = 400,
+                Title = "Bad Request"
+            };
+            return new BadRequestProblemResult(new ErrorValidation(null!, error), problem);
         }
 
         public BadRequestResult BadRequest(Enum error)

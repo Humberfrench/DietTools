@@ -22,6 +22,11 @@ namespace Dietcode.Core.DomainValidator
             Retorno = new T();
             Mensagem = string.Empty;
         }
+        public ValidationResult(T content)
+        {
+            Retorno = content;
+            Mensagem = string.Empty;
+        }
 
         public void Add(params ValidationResult<T>[] validationResults)
         {

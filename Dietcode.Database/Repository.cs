@@ -21,6 +21,7 @@ namespace Dietcode.Database
         {
             ConnectionString = connectionString;
             IConnectionFactory connectionFactory;
+
             switch (banco)
             {
                 case EnumBancos.SqlServer:
@@ -50,6 +51,10 @@ namespace Dietcode.Database
         public async Task<bool> Delete(int id)
         {
             var entity = await Connection.GetAsync<T>(id);
+            if(entity == null)
+            {
+                return false;
+            }
             return await Connection.DeleteAsync<T>(entity);
         }
 
