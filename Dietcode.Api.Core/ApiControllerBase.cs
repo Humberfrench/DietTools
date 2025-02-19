@@ -122,5 +122,24 @@ namespace Dietcode.Api.Core
                 return BadRequest(retornoErro);
             }
         }
+
+
+        #region ProblemsDetails Returns
+
+        [NonAction]
+        protected ProblemDetails ObterErro(string title, int status, string detail, string instance)
+        {
+            var problem = new ProblemDetails();
+
+            problem.Title = title;
+            problem.Status = status;
+            problem.Detail = detail;
+            problem.Instance = instance;
+            problem.Extensions.Add("TraceId", Guid.NewGuid().ToString());
+
+            return problem;
+        }
+
+        #endregion
     }
 }

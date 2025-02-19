@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Dietcode.Database</id>
+    <version>1.0.0</version>
+    <title>Dietcode Api Database</title>
+    <authors>Dietcode.Database</authors>
+    <projectUrl>http://www.dietcode.com.br/</projectUrl>
+    <description>Package Description</description>
+    <repository type="git" commit="e895d1e0536fb3f8dd01a4e0e113a8e54bcde304" />
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="Dapper" version="2.1.35" exclude="Build,Analyzers" />
+        <dependency id="Dapper.Contrib" version="2.0.78" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Data.SqlClient" version="5.2.1" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="D:\Desenvolvimento\Sistemas\DietTools\Dietcode.Database\bin\Release\net8.0\Dietcode.Database.dll" target="lib\net8.0\Dietcode.Database.dll" />
+  </files>
+</package>

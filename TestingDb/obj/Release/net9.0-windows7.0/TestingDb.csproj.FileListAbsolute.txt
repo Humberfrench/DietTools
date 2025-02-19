@@ -1,0 +1,8 @@
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingDb\obj\Release\net9.0-windows7.0\TestingDb.csproj.AssemblyReference.cache
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingDb\obj\Release\net9.0-windows7.0\TestingDb.Form1.resources
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingDb\obj\Release\net9.0-windows7.0\TestingDb.csproj.GenerateResource.cache
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingDb\obj\Release\net9.0-windows7.0\TestingDb.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingDb\obj\Release\net9.0-windows7.0\TestingDb.AssemblyInfoInputs.cache
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingDb\obj\Release\net9.0-windows7.0\TestingDb.AssemblyInfo.cs
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingDb\obj\Release\net9.0-windows7.0\TestingDb.csproj.CoreCompileInputs.cache
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingDb\obj\Release\net9.0-windows7.0\TestingDb.sourcelink.json

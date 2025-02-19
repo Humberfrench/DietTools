@@ -1,3 +1,5 @@
+using System.Text.RegularExpressions;
+
 namespace Dietcode.Core.Lib
 {
     public static class Validacao
@@ -93,5 +95,94 @@ namespace Dietcode.Core.Lib
             digito = digito + resto.ToString();
             return cnpj.EndsWith(digito);
         }
+        public static string DataRangeValido(string dataValidar)
+        {
+            var min = DateTime.Now.AddYears(-18);
+            var max = DateTime.Now.AddYears(-100);
+            var msg = $"Data Inválida, entrar com uma data entre {max:dd/MM/yyyy} e {min:dd/MM/yyyy}";
+
+            try
+            {
+                var date = DateTime.Parse(dataValidar);
+
+                if (date > min || date < max)
+                {
+                    return msg;
+                }
+                return "true";
+            }
+            catch (Exception)
+            {
+                return msg;
+            }
+        }
+        public static string DataRangeValido(DateTime dataValidar)
+        {
+            var min = DateTime.Now.AddYears(-18);
+            var max = DateTime.Now.AddYears(-100);
+            var msg = $"Data Inválida, entrar com uma data entre {max:dd/MM/yyyy} e {min:dd/MM/yyyy}";
+
+            try
+            {
+                if (dataValidar > min || dataValidar < max)
+                {
+                    return msg;
+                }
+                return "true";
+            }
+            catch (Exception)
+            {
+                return msg;
+            }
+        }
+        public static string DataDocumentoRangeValido(string dataValidar, string dataNascimento)
+        {
+            var hoje = DateTime.Now;
+            var msg = String.Empty;
+            try
+            {
+                var date = DateTime.Parse(dataValidar);
+                var dateNasc = DateTime.Parse(dataNascimento);
+                msg = $"Data Inválida, entrar com uma data entre {dateNasc:dd/MM/yyyy} e {hoje:dd/MM/yyyy}";
+
+                if (date > hoje || date < dateNasc)
+                {
+                    return msg;
+                }
+                return "true";
+            }
+            catch (Exception)
+            {
+                return msg;
+            }
+        }
+
+        public static string DataDocumentoRangeValido(DateTime dataValidar, DateTime dataNascimento)
+        {
+            var hoje = DateTime.Now;
+            var msg = String.Empty;
+            try
+            {
+                msg = $"Data Inválida, entrar com uma data entre {dataNascimento:dd/MM/yyyy} e {hoje:dd/MM/yyyy}";
+
+                if (dataValidar > hoje || dataValidar < dataNascimento)
+                {
+                    return msg;
+                }
+                return "true";
+            }
+            catch (Exception)
+            {
+                return msg;
+            }
+        }
+
+        public static bool ValidarEmail(string email)
+        {
+            var rg = new Regex(@"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$");
+
+            return rg.IsMatch(email);
+        }
+
     }
 }

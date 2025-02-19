@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v8.0": {
-      "Dietcode.Api.Core/1.2.1": {
+      "Dietcode.Api.Core/1.4.5": {
         "dependencies": {
           "Dietcode.Api.Core.Results": "1.1.5",
           "Microsoft.AspNetCore.Http": "2.2.2",
@@ -1703,7 +1703,7 @@
     }
   },
   "libraries": {
-    "Dietcode.Api.Core/1.2.1": {
+    "Dietcode.Api.Core/1.4.5": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

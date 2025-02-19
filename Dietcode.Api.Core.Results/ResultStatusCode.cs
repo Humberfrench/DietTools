@@ -15,6 +15,16 @@
         /// Recurso criado com sucesso.
         /// </summary>
         Created = 201,
+
+        /// <summary>
+        /// Recurso criado com sucesso.
+        /// </summary>
+        Accepted = 202,
+
+        /// <summary>
+        /// Recurso criado com sucesso.
+        /// </summary>
+        NoContent = 204,
         #endregion
 
         #region 4xx Codes (Invalid, operation aborted)
@@ -52,6 +62,11 @@
         /// Recurso ja existente 
         /// </summary>
         Conflict = 409,
+
+        /// <summary>
+        /// UnprocessableEntity
+        /// </summary>
+        UnprocessableEntity = 422,
         #endregion
 
         #region 5xx Codes (Error, server fault)

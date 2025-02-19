@@ -27,6 +27,17 @@ namespace Dietcode.Core.Lib
             return names.Last();
 
         }
+        public static bool HasLetters(string input)
+        {
+            foreach (char c in input)
+            {
+                if (char.IsLetter(c))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         public static bool IsNullOrEmptyOrWhiteSpace(this string value)
         {

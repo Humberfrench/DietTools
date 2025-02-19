@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Dietcode.Core.Lib</id>
+    <version>1.5.0</version>
+    <title>Dietcode Api Core Tools</title>
+    <authors>Humberto Almeida</authors>
+    <projectUrl>http://www.dietcode.com.br/</projectUrl>
+    <description>Api Core Tools - Extensoes e ferramentas auxiliares</description>
+    <copyright>Dietcode Web</copyright>
+    <dependencies>
+      <group targetFramework="net7.0">
+        <dependency id="Newtonsoft.Json" version="13.0.1" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\humbe\OneDrive\Desenvolvimento\Lib\Dietcode.Api.Core\Dietcode.Core.Lib\bin\Debug\net7.0\Dietcode.Core.Lib.dll" target="lib\net7.0\Dietcode.Core.Lib.dll" />
+  </files>
+</package>

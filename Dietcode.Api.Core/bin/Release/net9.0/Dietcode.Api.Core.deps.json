@@ -1,0 +1,41 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "Dietcode.Api.Core/2.0.1": {
+        "dependencies": {
+          "Dietcode.Api.Core.Results": "2.0.0"
+        },
+        "runtime": {
+          "Dietcode.Api.Core.dll": {}
+        }
+      },
+      "Dietcode.Api.Core.Results/2.0.0": {
+        "runtime": {
+          "lib/net9.0/Dietcode.Api.Core.Results.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Dietcode.Api.Core/2.0.1": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Dietcode.Api.Core.Results/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-USNY5XSnxUnn3n/E96m72p5psaP4yReM0Ns7hmnz3ADgYr7VWypiCu6kAp7dvL5Pltsbi0Mo9bffkpbkkWDuhQ==",
+      "path": "dietcode.api.core.results/2.0.0",
+      "hashPath": "dietcode.api.core.results.2.0.0.nupkg.sha512"
+    }
+  }
+}

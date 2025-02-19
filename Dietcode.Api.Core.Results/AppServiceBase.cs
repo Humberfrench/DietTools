@@ -37,15 +37,25 @@ namespace Dietcode.Api.Core.Results
             return new CreatedResult<TContent>(content, identifier);
         }
 
+        public AcceptedResult<TContent> Accepted<TContent>(TContent content, object identifier)
+        {
+            return new AcceptedResult<TContent>(content, identifier);
+        }
+
+        public AcceptedResult Accepted()
+        {
+            return new AcceptedResult();
+        }
+
         public BadRequestResult BadRequest(string error)
         {
             return new BadRequestResult(new ErrorValidation(null!, error));
         }
+
         public BadRequestResult<T> BadRequest<T>(string error, T content) where T : class, new()
         {
             return new BadRequestResult<T>(new ErrorValidation(null!, error), content);
         }
-
 
         public BadRequestProblemResult BadRequestProblem(Enum error)
         {
@@ -81,6 +91,16 @@ namespace Dietcode.Api.Core.Results
         public BadRequestResult BadRequest(IEnumerable<ErrorValidation> errorList)
         {
             return new BadRequestResult(errorList);
+        }
+
+        public UnprocessableEntityResult UnprocessableEntity(ErrorValidation error)
+        {
+            return new UnprocessableEntityResult(error);
+        }
+
+        public UnprocessableEntityResult UnprocessableEntity(IEnumerable<ErrorValidation> errorList)
+        {
+            return new UnprocessableEntityResult(errorList);
         }
 
         public NotFoundResult NotFound(string error)
@@ -172,6 +192,7 @@ namespace Dietcode.Api.Core.Results
         {
             return new NotAcceptableResult<TContent>(content, error);
         }
+    
         public NotAcceptableResult<TContent> NotAcceptable<TContent>(TContent content, IEnumerable<ErrorValidation> errorList)
         {
             return new NotAcceptableResult<TContent>(content, errorList);
