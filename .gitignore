@@ -3,3 +3,4 @@ Dietcode.Api.Core/obj/
 Dietcode.Api.RestHelper/obj/
 Dietcode.Api.Core.Results/obj/
 Dietcode.Core.DomainValidator/obj/
+/Dietcode.Database.Orm/obj

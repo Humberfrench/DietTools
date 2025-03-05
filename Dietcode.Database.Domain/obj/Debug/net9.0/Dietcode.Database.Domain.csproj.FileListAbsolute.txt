@@ -1,0 +1,12 @@
+D:\Dropbox\Desenvolvimento\French.Erp.RepMenor\Dietcode.Database.Domain\bin\Debug\net9.0\Dietcode.Database.Domain.deps.json
+D:\Dropbox\Desenvolvimento\French.Erp.RepMenor\Dietcode.Database.Domain\bin\Debug\net9.0\Dietcode.Database.Domain.dll
+D:\Dropbox\Desenvolvimento\French.Erp.RepMenor\Dietcode.Database.Domain\bin\Debug\net9.0\Dietcode.Database.Domain.pdb
+D:\Dropbox\Desenvolvimento\French.Erp.RepMenor\Dietcode.Database.Domain\obj\Debug\net9.0\Dietcode.Database.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\Dropbox\Desenvolvimento\French.Erp.RepMenor\Dietcode.Database.Domain\obj\Debug\net9.0\Dietcode.Database.Domain.AssemblyInfoInputs.cache
+D:\Dropbox\Desenvolvimento\French.Erp.RepMenor\Dietcode.Database.Domain\obj\Debug\net9.0\Dietcode.Database.Domain.AssemblyInfo.cs
+D:\Dropbox\Desenvolvimento\French.Erp.RepMenor\Dietcode.Database.Domain\obj\Debug\net9.0\Dietcode.Database.Domain.csproj.CoreCompileInputs.cache
+D:\Dropbox\Desenvolvimento\French.Erp.RepMenor\Dietcode.Database.Domain\obj\Debug\net9.0\Dietcode.Database.Domain.dll
+D:\Dropbox\Desenvolvimento\French.Erp.RepMenor\Dietcode.Database.Domain\obj\Debug\net9.0\refint\Dietcode.Database.Domain.dll
+D:\Dropbox\Desenvolvimento\French.Erp.RepMenor\Dietcode.Database.Domain\obj\Debug\net9.0\Dietcode.Database.Domain.pdb
+D:\Dropbox\Desenvolvimento\French.Erp.RepMenor\Dietcode.Database.Domain\obj\Debug\net9.0\ref\Dietcode.Database.Domain.dll
+D:\Dropbox\Desenvolvimento\French.Erp.RepMenor\Dietcode.Database.Domain\obj\Debug\net9.0\Dietcode.Database.Domain.csproj.AssemblyReference.cache

@@ -1,0 +1,185 @@
+{
+  "version": 3,
+  "targets": {
+    "net9.0": {
+      "Dietcode.Core.DomainValidator/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "compile": {
+          "lib/net9.0/Dietcode.Core.DomainValidator.dll": {}
+        },
+        "runtime": {
+          "lib/net9.0/Dietcode.Core.DomainValidator.dll": {}
+        }
+      },
+      "Dietcode.Core.Lib/2.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "compile": {
+          "lib/net9.0/Dietcode.Core.Lib.dll": {}
+        },
+        "runtime": {
+          "lib/net9.0/Dietcode.Core.Lib.dll": {}
+        }
+      },
+      "Newtonsoft.Json/13.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Dietcode.Core.DomainValidator/2.0.0": {
+      "sha512": "+S3h84ig5UUhPmEj7YSjhfOBAueSjuTC4OWbcyQ61vkiwJ/seVG6Ftzyux4TDmWdk+yJw2OkgDPBm91lHUJC8g==",
+      "type": "package",
+      "path": "dietcode.core.domainvalidator/2.0.0",
+      "files": [
+        ".nupkg.metadata",
+        "dietcode.core.domainvalidator.2.0.0.nupkg.sha512",
+        "dietcode.core.domainvalidator.nuspec",
+        "lib/net9.0/Dietcode.Core.DomainValidator.dll"
+      ]
+    },
+    "Dietcode.Core.Lib/2.0.0": {
+      "sha512": "OTvwtwaEhQixlcJk8KIJ15A4x79+vx7DCK8eIfTTKzsv6yJmigZUM2yhZ+GZ5yJteorLh1VtszIAWDQfsxsgXw==",
+      "type": "package",
+      "path": "dietcode.core.lib/2.0.0",
+      "files": [
+        ".nupkg.metadata",
+        "dietcode.core.lib.2.0.0.nupkg.sha512",
+        "dietcode.core.lib.nuspec",
+        "lib/net9.0/Dietcode.Core.Lib.dll"
+      ]
+    },
+    "Newtonsoft.Json/13.0.3": {
+      "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
+      "type": "package",
+      "path": "newtonsoft.json/13.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/net6.0/Newtonsoft.Json.dll",
+        "lib/net6.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "newtonsoft.json.13.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net9.0": [
+      "Dietcode.Core.DomainValidator >= 2.0.0",
+      "Dietcode.Core.Lib >= 2.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\humbe\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Dropbox\\Desenvolvimento\\French.Erp.RepMenor\\Dietcode.Database.Domain\\Dietcode.Database.Domain.csproj",
+      "projectName": "Dietcode.Database.Domain",
+      "projectPath": "C:\\Dropbox\\Desenvolvimento\\French.Erp.RepMenor\\Dietcode.Database.Domain\\Dietcode.Database.Domain.csproj",
+      "packagesPath": "C:\\Users\\humbe\\.nuget\\packages\\",
+      "outputPath": "C:\\Dropbox\\Desenvolvimento\\French.Erp.RepMenor\\Dietcode.Database.Domain\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\humbe\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net9.0"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://nuget.dietcode.com.br/nuget": {}
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.200"
+    },
+    "frameworks": {
+      "net9.0": {
+        "targetAlias": "net9.0",
+        "dependencies": {
+          "Dietcode.Core.DomainValidator": {
+            "target": "Package",
+            "version": "[2.0.0, )"
+          },
+          "Dietcode.Core.Lib": {
+            "target": "Package",
+            "version": "[2.0.0, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

@@ -11,5 +11,6 @@
             : base(ResultStatusCode.BadRequest, errors)
         {
         }
+
     }
 }
