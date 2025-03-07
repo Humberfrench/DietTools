@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "daElKQ+uMo4=",
+  "dgSpecHash": "KzuWwdtYzwM=",
   "success": true,
   "projectFilePath": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\TestingDb\\TestingDb.csproj",
   "expectedPackageFiles": [
@@ -39,7 +39,8 @@
     "C:\\Users\\humbe\\.nuget\\packages\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
     "C:\\Users\\humbe\\.nuget\\packages\\system.text.encodings.web\\4.7.2\\system.text.encodings.web.4.7.2.nupkg.sha512",
     "C:\\Users\\humbe\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512",
-    "C:\\Users\\humbe\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512"
+    "C:\\Users\\humbe\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
+    "C:\\Users\\humbe\\.nuget\\packages\\dietcode.database\\2.0.0\\dietcode.database.2.0.0.nupkg.sha512"
   ],
   "logs": []
 }

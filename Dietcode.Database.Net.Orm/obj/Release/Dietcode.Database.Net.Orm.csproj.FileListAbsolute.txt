@@ -1,0 +1,2 @@
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Net.Orm\obj\Release\Dietcode.Database.Net.Orm.csproj.AssemblyReference.cache
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Net.Orm\obj\Release\Dietcode.Database.Net.Orm.csproj.CoreCompileInputs.cache
