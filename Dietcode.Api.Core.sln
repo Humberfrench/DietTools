@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietcode.Database.Net.Orm",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietcode.Database.Net.Domain", "Dietcode.Database.Net.Domain\Dietcode.Database.Net.Domain.csproj", "{352D07D1-AAD8-4C4C-9FD3-D0B8DF61B36E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools", "Tools\Tools.csproj", "{5BD58BCA-7A2B-4002-8576-D472163190F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{352D07D1-AAD8-4C4C-9FD3-D0B8DF61B36E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{352D07D1-AAD8-4C4C-9FD3-D0B8DF61B36E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{352D07D1-AAD8-4C4C-9FD3-D0B8DF61B36E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BD58BCA-7A2B-4002-8576-D472163190F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BD58BCA-7A2B-4002-8576-D472163190F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BD58BCA-7A2B-4002-8576-D472163190F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BD58BCA-7A2B-4002-8576-D472163190F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,6 +114,7 @@ Global
 		{A33C2163-AB68-D6FD-655C-87C729CB6773} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{A1AB0BF1-E101-4C49-B38F-5FAADBB5B116} = {558CEA04-F5A4-4FA7-AB37-FBE7D468FF6E}
 		{352D07D1-AAD8-4C4C-9FD3-D0B8DF61B36E} = {558CEA04-F5A4-4FA7-AB37-FBE7D468FF6E}
+		{5BD58BCA-7A2B-4002-8576-D472163190F2} = {558CEA04-F5A4-4FA7-AB37-FBE7D468FF6E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0ED78C3A-F78A-413C-870C-FE9FB681E5B6}

@@ -117,6 +117,10 @@
       <Project>{352D07D1-AAD8-4C4C-9FD3-D0B8DF61B36E}</Project>
       <Name>Dietcode.Database.Net.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Tools\Tools.csproj">
+      <Project>{5bd58bca-7a2b-4002-8576-d472163190f2}</Project>
+      <Name>Tools</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

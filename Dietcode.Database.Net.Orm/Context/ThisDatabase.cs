@@ -20,14 +20,14 @@ namespace Dietcode.Database.Net.Orm.Context
             Configuration.LazyLoadingEnabled = false;
             Configuration.ProxyCreationEnabled = false;
             ConnectionString = GetConnString();
-
+            this.Database.Initialize(false);
         }
 
-        static ThisDatabase()
-        {
-            // Defina o inicializador do banco de dados aqui
-            Database.SetInitializer<ThisDatabase>(null);
-        }
+        //static ThisDatabase()
+        //{
+        //    // Defina o inicializador do banco de dados aqui
+        //    //Database.SetInitializer<ThisDatabase>(null);
+        //}
 
         string GetConnString()
         {
@@ -39,7 +39,6 @@ namespace Dietcode.Database.Net.Orm.Context
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
         }
 
     }
