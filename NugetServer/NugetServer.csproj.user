@@ -9,8 +9,8 @@
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
     <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
-    <NameOfLastUsedPublishProfile>C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\NugetServer\Properties\PublishProfiles\FolderProfile.pubxml</NameOfLastUsedPublishProfile>
-    <ProjectView>ShowAllFiles</ProjectView>
+    <NameOfLastUsedPublishProfile>C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\NugetServer\Properties\PublishProfiles\FolderProfile2.pubxml</NameOfLastUsedPublishProfile>
+    <ProjectView>ProjectFiles</ProjectView>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

@@ -54,7 +54,7 @@
           "dependencies": {
             "Dapper": {
               "target": "Package",
-              "version": "[2.1.35, )"
+              "version": "[2.1.66, )"
             },
             "Dapper.Contrib": {
               "target": "Package",
@@ -62,7 +62,7 @@
             },
             "Microsoft.Data.SqlClient": {
               "target": "Package",
-              "version": "[5.2.2, )"
+              "version": "[6.0.1, )"
             }
           },
           "imports": [
@@ -81,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
@@ -155,7 +155,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

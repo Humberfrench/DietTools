@@ -8,7 +8,7 @@
     <projectUrl>http://www.dietcode.com.br/</projectUrl>
     <description>Api Core Tools - Extensoes e ferramentas auxiliares</description>
     <copyright>Dietcode Web</copyright>
-    <repository type="git" commit="b68208d68f8205175f636b377373e8140df0083e" />
+    <repository type="git" commit="a338109f101a929773d8a0e00765fd47fdd1c766" />
     <dependencies>
       <group targetFramework="net9.0">
         <dependency id="Newtonsoft.Json" version="13.0.3" exclude="Build,Analyzers" />

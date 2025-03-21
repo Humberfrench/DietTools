@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Dapper.Contrib.Extensions;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Dapper;
-using Dapper.Contrib.Extensions;
-using Dietcode.Database.Enums;
-using Dietcode.Database.Interfaces;
-using Dietcode.Database.DatabaseProviders;
-using System.Linq.Expressions;
 
 namespace Dietcode.Database
 {

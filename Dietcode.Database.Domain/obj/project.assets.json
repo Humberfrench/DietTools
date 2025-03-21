@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     "net9.0": {
-      "Dietcode.Core.DomainValidator/2.0.0": {
+      "Dietcode.Core.DomainValidator/2.1.0": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "13.0.3"
@@ -14,7 +14,7 @@
           "lib/net9.0/Dietcode.Core.DomainValidator.dll": {}
         }
       },
-      "Dietcode.Core.Lib/2.0.0": {
+      "Dietcode.Core.Lib/2.2.0": {
         "type": "package",
         "dependencies": {
           "Newtonsoft.Json": "13.0.3"
@@ -42,24 +42,24 @@
     }
   },
   "libraries": {
-    "Dietcode.Core.DomainValidator/2.0.0": {
-      "sha512": "+S3h84ig5UUhPmEj7YSjhfOBAueSjuTC4OWbcyQ61vkiwJ/seVG6Ftzyux4TDmWdk+yJw2OkgDPBm91lHUJC8g==",
+    "Dietcode.Core.DomainValidator/2.1.0": {
+      "sha512": "TR7rv5kO4RN1PkLJ4E3y0tQslT6FT0lxA9htAlGFwUxhLpopoLV0RBPANvnP8t+yaem3b5amPeHCWAFg1iV1uQ==",
       "type": "package",
-      "path": "dietcode.core.domainvalidator/2.0.0",
+      "path": "dietcode.core.domainvalidator/2.1.0",
       "files": [
         ".nupkg.metadata",
-        "dietcode.core.domainvalidator.2.0.0.nupkg.sha512",
+        "dietcode.core.domainvalidator.2.1.0.nupkg.sha512",
         "dietcode.core.domainvalidator.nuspec",
         "lib/net9.0/Dietcode.Core.DomainValidator.dll"
       ]
     },
-    "Dietcode.Core.Lib/2.0.0": {
-      "sha512": "OTvwtwaEhQixlcJk8KIJ15A4x79+vx7DCK8eIfTTKzsv6yJmigZUM2yhZ+GZ5yJteorLh1VtszIAWDQfsxsgXw==",
+    "Dietcode.Core.Lib/2.2.0": {
+      "sha512": "Ir5X+p5QsaQFYC9oRggs6wsvfYKP6axqqBAqfiEY/UZsnDJLwbRzV9ulT/dHCospu4HrCQubPZHtiCgyoEv4Mw==",
       "type": "package",
-      "path": "dietcode.core.lib/2.0.0",
+      "path": "dietcode.core.lib/2.2.0",
       "files": [
         ".nupkg.metadata",
-        "dietcode.core.lib.2.0.0.nupkg.sha512",
+        "dietcode.core.lib.2.2.0.nupkg.sha512",
         "dietcode.core.lib.nuspec",
         "lib/net9.0/Dietcode.Core.Lib.dll"
       ]
@@ -97,8 +97,8 @@
   },
   "projectFileDependencyGroups": {
     "net9.0": [
-      "Dietcode.Core.DomainValidator >= 2.0.0",
-      "Dietcode.Core.Lib >= 2.0.0"
+      "Dietcode.Core.DomainValidator >= 2.1.0",
+      "Dietcode.Core.Lib >= 2.2.0"
     ]
   },
   "packageFolders": {
@@ -106,7 +106,7 @@
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
-    "version": "1.0.0",
+    "version": "1.2.0",
     "restore": {
       "projectUniqueName": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Database.Domain\\Dietcode.Database.Domain.csproj",
       "projectName": "Dietcode.Database.Domain",
@@ -155,11 +155,11 @@
         "dependencies": {
           "Dietcode.Core.DomainValidator": {
             "target": "Package",
-            "version": "[2.0.0, )"
+            "version": "[2.1.0, )"
           },
           "Dietcode.Core.Lib": {
             "target": "Package",
-            "version": "[2.0.0, )"
+            "version": "[2.2.0, )"
           }
         },
         "imports": [
@@ -178,7 +178,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.200/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

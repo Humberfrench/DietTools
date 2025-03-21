@@ -74,7 +74,15 @@
         /// Erro durante o processamento ou exceção não tratada. (Falha)
         /// </summary>
         InternalServerError = 500,
-        ServiceUnavailable = 503
+        ServiceUnavailable = 503,
+        #endregion
+
+        #region 6xx Codes (Personal Error/Messages)
+        /// <summary>
+        /// Erro durante o processamento ou exceção não tratada. (Falha)
+        /// </summary>
+        InternalPersonalError = 600,
+        InternalPersonalWarning = 601
         #endregion
     }
 }

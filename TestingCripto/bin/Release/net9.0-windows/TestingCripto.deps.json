@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "TestingCripto/1.0.0": {
+        "runtime": {
+          "TestingCripto.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TestingCripto/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

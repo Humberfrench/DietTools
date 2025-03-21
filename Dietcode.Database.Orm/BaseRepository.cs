@@ -2,12 +2,16 @@
 using Dietcode.Database.Orm.Context;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
+
+////MUST Add
+//{
+//    services.AddScoped(typeof(IMyUnitOfWork<>), typeof(MyUnitOfWork<>));
+//    services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+//    services.AddScoped(typeof(IMyContextManager<>), typeof(MyContextManager<>));
+
+//}
 
 namespace Dietcode.Database.Orm
 {
@@ -15,9 +19,9 @@ namespace Dietcode.Database.Orm
     {
         protected DbSet<TEntity> DbSet;
         protected readonly ThisDatabase<TEntity> Context;
-        private readonly IContextManager<ThisDatabase<TEntity>> contextManager;
+        private readonly IMyContextManager<ThisDatabase<TEntity>> contextManager;
 
-        public BaseRepository(IContextManager<ThisDatabase<TEntity>> contextManager)
+        public BaseRepository(IMyContextManager<ThisDatabase<TEntity>> contextManager)
         {
             this.contextManager = contextManager;
             Context = contextManager.GetContext();

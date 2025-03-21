@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+  <metadata>
+    <id>Dietcode.Database.Entity.Net.Domain</id>
+    <version>1.1.0</version>
+    <title>Dietcode Entity Repository Net Framework Release - Domain</title>
+    <authors>Humberto Almeida</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <description>Extensões e Utilidades do Projeto</description>
+    <releaseNotes>Extensões e Utilidades do Projeto</releaseNotes>
+    <copyright>Dietcode</copyright>
+    <dependencies>
+      <group targetFramework=".NETFramework4.8" />
+    </dependencies>
+  </metadata>
+  <files>
+     <file src="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Net.Orm\bin\Release\Dietcode.Database.Net.Domain.dll" target="lib\net48\" />
+  </files>
+</package>

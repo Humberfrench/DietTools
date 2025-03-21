@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace Dietcode.Api.Core.Results
 {
@@ -192,7 +191,7 @@ namespace Dietcode.Api.Core.Results
         {
             return new NotAcceptableResult<TContent>(content, error);
         }
-    
+
         public NotAcceptableResult<TContent> NotAcceptable<TContent>(TContent content, IEnumerable<ErrorValidation> errorList)
         {
             return new NotAcceptableResult<TContent>(content, errorList);

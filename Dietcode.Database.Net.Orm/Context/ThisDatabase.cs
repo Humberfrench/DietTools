@@ -1,13 +1,5 @@
-﻿using Credpay.Tools.Library;
+﻿using System.Data.Entity;
 using static Credpay.Tools.Library.AppSettings;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Data.Entity.Validation;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace Dietcode.Database.Net.Orm.Context

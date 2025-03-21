@@ -5,37 +5,37 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Copyright>Dietcode Web</Copyright>
+		<Owner>Dietcode</Owner>
+		<Authors>Humberto Almeida</Authors>
+		<Copyright>Dietcode Web</Copyright>
+		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 		<Title>Dietcode Entity ORM Generic</Title>
 		<Description>Dietcode Entity ORM Generic - Repositorio patterns and unit of work patterns</Description>
-		<Copyright>Dietcode</Copyright>
-		<PackageIcon>gereciamento.png</PackageIcon>
+		<Version>1.2.3.0</Version>
+		<AssemblyVersion>1.2.3.0</AssemblyVersion>
+		<FileVersion>1.2.3.0</FileVersion>
+		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Include="..\..\..\..\Imagens\gereciamento.png">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Dietcode.Core.DomainValidator" Version="2.0.0" />
-		<PackageReference Include="Dietcode.Core.Lib" Version="2.0.0" />
+		<PackageReference Include="Dietcode.Core.DomainValidator" Version="2.1.0" />
+		<PackageReference Include="Dietcode.Core.Lib" Version="2.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="9.0.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.1" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.1">
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="9.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.3" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.3">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.1" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.3" />
 
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Dietcode.Database.Domain\Dietcode.Database.Domain.csproj" />
+		<ProjectReference Include="..\Dietcode.Database.Domain\Dietcode.Database.Domain.csproj" />
 	</ItemGroup>
 </Project>

@@ -1,6 +1,5 @@
 using Dietcode.Database;
 using Dietcode.Database.Enums;
-using TestingDb;
 
 namespace TestingDb
 {

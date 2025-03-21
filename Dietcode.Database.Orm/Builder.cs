@@ -12,11 +12,11 @@ namespace Dietcode.Database.Orm
 {
     public static class Builder
     {
-        public static void BuilderStary(IServiceCollection services)
+        public static void BuilderStart(IServiceCollection services)
         {
-            services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+            services.AddScoped(typeof(IMyUnitOfWork<>), typeof(MyUnitOfWork<>));
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            services.AddScoped(typeof(IContextManager<>), typeof(ContextManager<>));
+            services.AddScoped(typeof(IMyContextManager<>), typeof(MyContextManager<>));
 
         }
     }

@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
-      "Dietcode.Api.Core.Results/2.1.4": {
+      "Dietcode.Api.Core.Results/2.2.0": {
         "runtime": {
           "Dietcode.Api.Core.Results.dll": {}
         }
@@ -14,7 +14,7 @@
     }
   },
   "libraries": {
-    "Dietcode.Api.Core.Results/2.1.4": {
+    "Dietcode.Api.Core.Results/2.2.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

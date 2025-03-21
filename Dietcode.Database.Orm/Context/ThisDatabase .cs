@@ -1,8 +1,6 @@
 ﻿using Dietcode.Core.Lib;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.IO;
 
 
 namespace Dietcode.Database.Orm.Context
@@ -31,6 +29,7 @@ namespace Dietcode.Database.Orm.Context
         }
 
         public string ConnectionString { get; private set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (ConnectionString.IsNullOrEmptyOrWhiteSpace())

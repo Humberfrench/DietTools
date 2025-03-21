@@ -1,5 +1,4 @@
-﻿using Dietcode.Database.Interfaces;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace Dietcode.Database.DatabaseProviders

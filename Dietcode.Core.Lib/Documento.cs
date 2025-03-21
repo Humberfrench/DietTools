@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dietcode.Core.Lib
+﻿namespace Dietcode.Core.Lib
 {
     public static class Documento
     {

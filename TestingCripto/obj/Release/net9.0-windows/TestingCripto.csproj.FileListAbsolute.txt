@@ -1,0 +1,17 @@
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\bin\Release\net9.0-windows\TestingCripto.exe
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\bin\Release\net9.0-windows\TestingCripto.deps.json
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\bin\Release\net9.0-windows\TestingCripto.runtimeconfig.json
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\bin\Release\net9.0-windows\TestingCripto.dll
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\bin\Release\net9.0-windows\TestingCripto.pdb
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\obj\Release\net9.0-windows\TestingCripto.Form1.resources
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\obj\Release\net9.0-windows\TestingCripto.csproj.GenerateResource.cache
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\obj\Release\net9.0-windows\TestingCripto.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\obj\Release\net9.0-windows\TestingCripto.AssemblyInfoInputs.cache
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\obj\Release\net9.0-windows\TestingCripto.AssemblyInfo.cs
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\obj\Release\net9.0-windows\TestingCripto.csproj.CoreCompileInputs.cache
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\obj\Release\net9.0-windows\TestingCripto.sourcelink.json
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\obj\Release\net9.0-windows\TestingCripto.dll
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\obj\Release\net9.0-windows\refint\TestingCripto.dll
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\obj\Release\net9.0-windows\TestingCripto.pdb
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\obj\Release\net9.0-windows\TestingCripto.genruntimeconfig.cache
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingCripto\obj\Release\net9.0-windows\ref\TestingCripto.dll
