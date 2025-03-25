@@ -11,10 +11,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("Dietcode.Database.Classic")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("Humberto Almeida")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
+[assembly: System.Reflection.AssemblyCopyrightAttribute("Dietcode Web")]
+[assembly: System.Reflection.AssemblyDescriptionAttribute("Dietcode Entity ORM Classic - Repositorio Classic")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a338109f101a929773d8a0e00765fd47fdd1c766")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0.0+b7309245294eee2a04d1854e563f2dae07f472d1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Dietcode.Database.Classic")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Dietcode.Database.Classic")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
