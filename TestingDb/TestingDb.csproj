@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Dietcode.Database\Dietcode.Database.csproj" />
+    <ProjectReference Include="..\Dietcode.Database.Classic\Dietcode.Database.Classic.csproj" />
   </ItemGroup>
 
 </Project>

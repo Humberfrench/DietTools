@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Dietcode.Database.Classic</id>
+    <version>1.0.0</version>
+    <title>Dietcode Entity ORM Generic</title>
+    <authors>Humberto Almeida</authors>
+    <projectUrl>http://www.dietcode.com.br/</projectUrl>
+    <description>Dietcode Entity ORM Classic - Repositorio Classic</description>
+    <copyright>Dietcode Web</copyright>
+    <repository type="git" commit="66c11c481e00a9bba53b902b27a9228fd01c6656" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="Dapper" version="2.1.66" exclude="Build,Analyzers" />
+        <dependency id="Dietcode.Core.DomainValidator" version="2.1.0" exclude="Build,Analyzers" />
+        <dependency id="Dietcode.Core.Lib" version="2.2.0" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore" version="9.0.3" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.EntityFrameworkCore.SqlServer" version="9.0.3" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkReferences>
+      <group targetFramework="net9.0">
+        <frameworkReference name="Microsoft.AspNetCore.App" />
+      </group>
+    </frameworkReferences>
+  </metadata>
+  <files>
+    <file src="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Classic\bin\Release\net9.0\Dietcode.Database.Classic.dll" target="lib\net9.0\Dietcode.Database.Classic.dll" />
+  </files>
+</package>

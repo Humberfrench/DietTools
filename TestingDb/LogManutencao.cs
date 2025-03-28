@@ -1,8 +1,10 @@
-﻿using Dietcode.Database.Attribute;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TestingDb
 {
-    [TableName("LogManutencao")]
+    [Table("LogManutencao")]
     public class LogManutencao
     {
         public LogManutencao()
@@ -13,7 +15,7 @@ namespace TestingDb
             Data = DateTime.Now;
         }
 
-        [KeyId]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int LogManutencaoId { get; set; }
         public string Processo { get; set; }
         public string Comando { get; set; }

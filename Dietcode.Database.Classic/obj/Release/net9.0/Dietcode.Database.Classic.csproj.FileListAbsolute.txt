@@ -1,0 +1,13 @@
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Classic\bin\Release\net9.0\Dietcode.Database.Classic.deps.json
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Classic\bin\Release\net9.0\Dietcode.Database.Classic.dll
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Classic\bin\Release\net9.0\Dietcode.Database.Classic.pdb
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Classic\obj\Release\net9.0\Dietcode.Database.Classic.csproj.AssemblyReference.cache
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Classic\obj\Release\net9.0\Dietcode.Database.Classic.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Classic\obj\Release\net9.0\Dietcode.Database.Classic.AssemblyInfoInputs.cache
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Classic\obj\Release\net9.0\Dietcode.Database.Classic.AssemblyInfo.cs
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Classic\obj\Release\net9.0\Dietcode.Database.Classic.csproj.CoreCompileInputs.cache
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Classic\obj\Release\net9.0\Dietcode.Database.Classic.sourcelink.json
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Classic\obj\Release\net9.0\Dietcode.Database.Classic.dll
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Classic\obj\Release\net9.0\refint\Dietcode.Database.Classic.dll
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Classic\obj\Release\net9.0\Dietcode.Database.Classic.pdb
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Classic\obj\Release\net9.0\ref\Dietcode.Database.Classic.dll
