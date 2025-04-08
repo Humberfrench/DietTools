@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore.Storage;
 using Dapper;
 
-
 namespace Dietcode.Database.Classic
 {
     public class BaseRepository<T> where T : class //: Database<T>
