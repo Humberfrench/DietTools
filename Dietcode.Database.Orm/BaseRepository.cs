@@ -36,7 +36,6 @@ namespace Dietcode.Database.Orm
             var entry = Context.Entry(obj);
             await DbSet.AddAsync(obj);
             entry.State = EntityState.Added;
-
             return true;
         }
 
