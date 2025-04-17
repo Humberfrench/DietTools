@@ -8,7 +8,7 @@
     <projectUrl>http://www.dietcode.com.br/</projectUrl>
     <description>Dietcode Entity ORM Domain - Repositorio patterns and unit of work patterns</description>
     <copyright>Dietcode Web</copyright>
-    <repository type="git" commit="68d7e2bae3c3adb7a45715a96ec0a2629cac69e2" />
+    <repository type="git" commit="e6f4bf12f558797b2aaba2b022d936158ca6d5c3" />
     <dependencies>
       <group targetFramework="net9.0">
         <dependency id="Dietcode.Core.DomainValidator" version="2.1.0" exclude="Build,Analyzers" />
