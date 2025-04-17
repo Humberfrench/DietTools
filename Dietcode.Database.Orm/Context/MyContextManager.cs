@@ -20,7 +20,7 @@ namespace Dietcode.Database.Orm.Context
 
         public T GetContext()
         {
-            if (context.HttpContext == null)
+            if (context.HttpContext.Items[CONTEXT_KEY] == null)
                 return new T();
 
             if (context.HttpContext.Items[CONTEXT_KEY] == null)

@@ -5,33 +5,31 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Linq.Expressions;
 
-////MUST Add
-//{
-//    services.AddScoped(typeof(IMyUnitOfWork<>), typeof(MyUnitOfWork<>));
-//    services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-//    services.AddScoped(typeof(IMyContextManager<>), typeof(MyContextManager<>));
-
-//}
-
 namespace Dietcode.Database.Orm
 {
-    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class, new()
+    public abstract class Repository<Table> : IBaseRepository<Table> where Table : class, new()
     {
-        protected DbSet<TEntity> DbSet;
-        protected readonly ThisDatabase<TEntity> Context;
-        private readonly IMyContextManager<ThisDatabase<TEntity>> contextManager;
+        protected DbSet<Table> DbSet;
+        protected readonly ThisDatabase<Table> Context;
+        private readonly IMyContextManager<ThisDatabase<Table>> contextManager;
 
-        public BaseRepository(IMyContextManager<ThisDatabase<TEntity>> contextManager)
+        public Repository(IMyContextManager<ThisDatabase<Table>> contextManager)
         {
             this.contextManager = contextManager;
             Context = contextManager.GetContext();
-            DbSet = Context.Set<TEntity>();
+            DbSet = Context.Set<Table>();
         }
+
+        #region Dapper
 
         //for dapper
         public IDbConnection Connection => new SqlConnection(Context.ConnectionString);
 
-        public async virtual Task<bool> Adicionar(TEntity obj)
+        #endregion
+
+        #region Crud
+
+        public async virtual Task<bool> Adicionar(Table obj)
         {
             var entry = Context.Entry(obj);
             await DbSet.AddAsync(obj);
@@ -39,7 +37,7 @@ namespace Dietcode.Database.Orm
             return true;
         }
 
-        public async virtual Task<bool> Atualizar(TEntity obj)
+        public async virtual Task<bool> Atualizar(Table obj)
         {
             var entry = Context.Entry(obj);
             await Task.Run(() => DbSet.Attach(obj));
@@ -47,7 +45,7 @@ namespace Dietcode.Database.Orm
             return true;
         }
 
-        public async virtual Task<bool> Remover(TEntity obj)
+        public async virtual Task<bool> Remover(Table obj)
         {
             var entry = Context.Entry(obj);
             await Task.Run(() => DbSet.Remove(obj));
@@ -57,31 +55,35 @@ namespace Dietcode.Database.Orm
             return true;
         }
 
-        public async virtual Task<TEntity> ObterPorId(int id)
+        public async virtual Task<Table> ObterPorId(int id)
         {
             var resultado = await DbSet.FindAsync(id);
-            return resultado ?? new TEntity();
+            return resultado ?? new Table();
         }
 
-        public async virtual Task<IEnumerable<TEntity>> ObterTodos()
+        public async virtual Task<IEnumerable<Table>> ObterTodos()
         {
             return await Task.Run(() => DbSet.ToList());
         }
 
-        public async virtual Task<IEnumerable<TEntity>> ObterTodosPaginado(int pagina, int registros)
+        public async virtual Task<IEnumerable<Table>> ObterTodosPaginado(int pagina, int registros)
         {
             return await Task.Run(() => DbSet.Take(pagina).Skip(registros));
         }
 
-        public async virtual Task<IEnumerable<TEntity>> Pesquisar(Expression<Func<TEntity, bool>> predicate)
+        public async virtual Task<IEnumerable<Table>> Pesquisar(Expression<Func<Table, bool>> predicate)
         {
             return await Task.Run(() => DbSet.Where(predicate));
         }
+        #endregion
 
+        #region Dispose
         public void Dispose()
         {
             GC.SuppressFinalize(this);
         }
+        #endregion
 
     }
 }
+

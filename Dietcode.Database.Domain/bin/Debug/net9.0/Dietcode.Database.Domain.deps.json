@@ -6,34 +6,34 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
-      "Dietcode.Database.Domain/1.0.0": {
+      "Dietcode.Database.Domain/1.2.0.0": {
         "dependencies": {
-          "Dietcode.Core.DomainValidator": "2.0.0",
-          "Dietcode.Core.Lib": "2.0.0"
+          "Dietcode.Core.DomainValidator": "2.1.0",
+          "Dietcode.Core.Lib": "2.2.0"
         },
         "runtime": {
           "Dietcode.Database.Domain.dll": {}
         }
       },
-      "Dietcode.Core.DomainValidator/2.0.0": {
+      "Dietcode.Core.DomainValidator/2.1.0": {
         "dependencies": {
           "Newtonsoft.Json": "13.0.3"
         },
         "runtime": {
           "lib/net9.0/Dietcode.Core.DomainValidator.dll": {
-            "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.0.0.0"
+            "assemblyVersion": "2.1.0.0",
+            "fileVersion": "2.1.0.0"
           }
         }
       },
-      "Dietcode.Core.Lib/2.0.0": {
+      "Dietcode.Core.Lib/2.2.0": {
         "dependencies": {
           "Newtonsoft.Json": "13.0.3"
         },
         "runtime": {
           "lib/net9.0/Dietcode.Core.Lib.dll": {
-            "assemblyVersion": "2.0.0.0",
-            "fileVersion": "2.0.0.0"
+            "assemblyVersion": "2.2.0.0",
+            "fileVersion": "2.2.0.0"
           }
         }
       },
@@ -48,24 +48,24 @@
     }
   },
   "libraries": {
-    "Dietcode.Database.Domain/1.0.0": {
+    "Dietcode.Database.Domain/1.2.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "Dietcode.Core.DomainValidator/2.0.0": {
+    "Dietcode.Core.DomainValidator/2.1.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-+S3h84ig5UUhPmEj7YSjhfOBAueSjuTC4OWbcyQ61vkiwJ/seVG6Ftzyux4TDmWdk+yJw2OkgDPBm91lHUJC8g==",
-      "path": "dietcode.core.domainvalidator/2.0.0",
-      "hashPath": "dietcode.core.domainvalidator.2.0.0.nupkg.sha512"
+      "sha512": "sha512-TR7rv5kO4RN1PkLJ4E3y0tQslT6FT0lxA9htAlGFwUxhLpopoLV0RBPANvnP8t+yaem3b5amPeHCWAFg1iV1uQ==",
+      "path": "dietcode.core.domainvalidator/2.1.0",
+      "hashPath": "dietcode.core.domainvalidator.2.1.0.nupkg.sha512"
     },
-    "Dietcode.Core.Lib/2.0.0": {
+    "Dietcode.Core.Lib/2.2.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-OTvwtwaEhQixlcJk8KIJ15A4x79+vx7DCK8eIfTTKzsv6yJmigZUM2yhZ+GZ5yJteorLh1VtszIAWDQfsxsgXw==",
-      "path": "dietcode.core.lib/2.0.0",
-      "hashPath": "dietcode.core.lib.2.0.0.nupkg.sha512"
+      "sha512": "sha512-Ir5X+p5QsaQFYC9oRggs6wsvfYKP6axqqBAqfiEY/UZsnDJLwbRzV9ulT/dHCospu4HrCQubPZHtiCgyoEv4Mw==",
+      "path": "dietcode.core.lib/2.2.0",
+      "hashPath": "dietcode.core.lib.2.2.0.nupkg.sha512"
     },
     "Newtonsoft.Json/13.0.3": {
       "type": "package",
