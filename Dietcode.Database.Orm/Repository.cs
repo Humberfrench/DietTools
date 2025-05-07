@@ -1,5 +1,7 @@
-﻿using Dietcode.Database.Domain;
+﻿using Dietcode.Core.DomainValidator;
+using Dietcode.Database.Domain;
 using Dietcode.Database.Orm.Context;
+using Dietcode.Database.Orm.UnitOfWork;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -12,12 +14,14 @@ namespace Dietcode.Database.Orm
         protected DbSet<Table> DbSet;
         protected readonly ThisDatabase<Table> Context;
         private readonly IMyContextManager<ThisDatabase<Table>> contextManager;
+        private readonly IMyUnitOfWork<Table> myUnitOfWork;
 
         public Repository(IMyContextManager<ThisDatabase<Table>> contextManager)
         {
             this.contextManager = contextManager;
             Context = contextManager.GetContext();
             DbSet = Context.Set<Table>();
+            this.myUnitOfWork = new MyUnitOfWork<Table>(contextManager);
         }
 
         #region Dapper
@@ -76,6 +80,21 @@ namespace Dietcode.Database.Orm
             return await Task.Run(() => DbSet.Where(predicate));
         }
         #endregion
+
+        #region Uow
+        public void BeginTransaction()
+        {
+            myUnitOfWork.BeginTransaction();
+        }
+
+        public ValidationResult<Table> SaveChanges()
+        {
+            return myUnitOfWork.SaveChanges();
+        }
+
+        #endregion
+
+
 
         #region Dispose
         public void Dispose()

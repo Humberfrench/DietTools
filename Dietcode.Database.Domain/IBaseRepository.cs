@@ -1,8 +1,9 @@
-﻿using System.Linq.Expressions;
+﻿using Dietcode.Core.DomainValidator;
+using System.Linq.Expressions;
 
 namespace Dietcode.Database.Domain
 {
-    public interface IBaseRepository<TEntity> : IDisposable
+    public interface IBaseRepository<TEntity> : IDisposable  where TEntity : class, new()
     {
         Task<bool> Adicionar(TEntity obj);
 
@@ -17,5 +18,9 @@ namespace Dietcode.Database.Domain
         Task<IEnumerable<TEntity>> ObterTodosPaginado(int pagina, int registros);
 
         Task<IEnumerable<TEntity>> Pesquisar(Expression<Func<TEntity, bool>> predicate);
+
+        void BeginTransaction();
+        ValidationResult<TEntity> SaveChanges();
+
     }
 }

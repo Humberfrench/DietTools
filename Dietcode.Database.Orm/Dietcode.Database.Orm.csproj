@@ -36,6 +36,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Dietcode.Database.Domain\Dietcode.Database.Domain.csproj" />
+	  <ProjectReference Include="..\Dietcode.Database.Domain\Dietcode.Database.Domain.csproj" />
 	</ItemGroup>
 </Project>
