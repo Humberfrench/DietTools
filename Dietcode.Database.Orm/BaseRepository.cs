@@ -7,21 +7,28 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using System.Linq.Expressions;
 
+////MUST Add
+//{
+//    services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+//    services.AddScoped(typeof(IMyContextManager<>), typeof(MyContextManager<>));
+
+//}
+
 namespace Dietcode.Database.Orm
 {
-    public abstract class Repository<Table> : IBaseRepository<Table> where Table : class, new()
+    public class BaseRepository<Table> : IBaseRepository<Table> where Table : class, new()
     {
         protected DbSet<Table> DbSet;
-        protected readonly ThisDatabase<Table> Context;
+        protected readonly ThisDatabase<Table> Context ;
         private readonly IMyContextManager<ThisDatabase<Table>> contextManager;
         private readonly IMyUnitOfWork<Table> myUnitOfWork;
 
-        public Repository(IMyContextManager<ThisDatabase<Table>> contextManager)
+        public BaseRepository(IMyContextManager<ThisDatabase<Table>> contextManager)
         {
             this.contextManager = contextManager;
             Context = contextManager.GetContext();
+            this.myUnitOfWork = new MyUnitOfWork<Table>(Context);
             DbSet = Context.Set<Table>();
-            this.myUnitOfWork = new MyUnitOfWork<Table>(contextManager);
         }
 
         #region Dapper
@@ -38,15 +45,23 @@ namespace Dietcode.Database.Orm
             var entry = Context.Entry(obj);
             await DbSet.AddAsync(obj);
             entry.State = EntityState.Added;
-            return true;
+
+            var entries = Context.ChangeTracker.Entries().Where(e => e.State == EntityState.Added).ToList();
+
+            return entries.Count > 0;
         }
 
         public async virtual Task<bool> Atualizar(Table obj)
         {
             var entry = Context.Entry(obj);
             await Task.Run(() => DbSet.Attach(obj));
+            //await Task.Run(() => DbSet.Update(obj));
             entry.State = EntityState.Modified;
-            return true;
+
+            var entries = Context.ChangeTracker.Entries().Where(e => e.State == EntityState.Modified).ToList();
+
+            return entries.Count > 0;
+
         }
 
         public async virtual Task<bool> Remover(Table obj)
@@ -56,7 +71,9 @@ namespace Dietcode.Database.Orm
             //DbSet.Remove(obj);
             entry.State = EntityState.Deleted;
 
-            return true;
+            var entries = Context.ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted).ToList();
+
+            return entries.Count > 0;
         }
 
         public async virtual Task<Table> ObterPorId(int id)
@@ -87,14 +104,12 @@ namespace Dietcode.Database.Orm
             myUnitOfWork.BeginTransaction();
         }
 
-        public ValidationResult<Table> SaveChanges()
+        public ValidationResult<Table> Commit()
         {
             return myUnitOfWork.SaveChanges();
         }
 
         #endregion
-
-
 
         #region Dispose
         public void Dispose()

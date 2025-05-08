@@ -1,6 +1,8 @@
 ﻿using Dietcode.Core.DomainValidator;
 using Dietcode.Database.Domain;
 using Dietcode.Database.Orm.Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Dietcode.Database.Orm.UnitOfWork
 {
@@ -12,9 +14,9 @@ namespace Dietcode.Database.Orm.UnitOfWork
 
         private bool _disposed;
 
-        public MyUnitOfWork(IMyContextManager<ThisDatabase<T>> contextManager)
+        public MyUnitOfWork(ThisDatabase<T> dbContext)
         {
-            dbContext = contextManager.GetContext();
+            this.dbContext = dbContext;
             validationResult = new ValidationResult<T>();
         }
 
@@ -33,6 +35,9 @@ namespace Dietcode.Database.Orm.UnitOfWork
             try
             {
                 var dados = dbContext.SaveChanges();
+                var entries = dbContext.ChangeTracker.Entries().ToList();
+                var keys = GetPrimaryKeyValues();
+                validationResult.Mensagem = $"Dados salvos com sucesso. Total {entries.Count}";
             }
             //EntityValidationException
             catch (Exception ex)
@@ -95,6 +100,40 @@ namespace Dietcode.Database.Orm.UnitOfWork
             }
             return mensagem;
         }
+        public List<Entries> GetPrimaryKeyValues()
+        {
+            //var modifiedEntities = ChangeTracker.Entries().Where(p => p.State == EntityState.Added).ToList();
+            //var entries = dbContext.ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified || e.State == EntityState.Deleted)
+            var modifiedEntities = dbContext.ChangeTracker.Entries().ToList();
+            var entries = new List<Entries>();
+
+            foreach (var change in modifiedEntities)
+            {
+
+                entries.Add(new Entries
+                {
+                    EntryName = change.Entity.GetType().Name,
+                    EntryKeyValue = ""//this.GetPrimaryKeyValue(change)
+                });
+            }
+
+            return entries;
+        }
+        //public object GetPrimaryKeyValue(EntityEntry entry)
+        //{
+        //    var objectStateEntry = ((IObjectContext)this).ObjectContext.ObjectStateManager.GetObjectStateEntry(entry.Entity);
+        //    dbContext.ChangeTracker.
+        //    try
+        //    {
+        //        return objectStateEntry.EntityKey.EntityKeyValues[0].Value;
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return "0";
+        //    }
+
+        //}
+
 
         protected virtual void Dispose(bool disposing)
         {

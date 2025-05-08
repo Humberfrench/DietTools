@@ -20,7 +20,8 @@ namespace Dietcode.Database.Domain
         Task<IEnumerable<TEntity>> Pesquisar(Expression<Func<TEntity, bool>> predicate);
 
         void BeginTransaction();
-        ValidationResult<TEntity> SaveChanges();
+
+        ValidationResult<TEntity> Commit();
 
     }
 }
