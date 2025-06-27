@@ -95,6 +95,7 @@ namespace Dietcode.Core.Lib
             digito = digito + resto.ToString();
             return cnpj.EndsWith(digito);
         }
+
         public static string DataRangeValido(string dataValidar)
         {
             var min = DateTime.Now.AddYears(-18);
@@ -116,6 +117,7 @@ namespace Dietcode.Core.Lib
                 return msg;
             }
         }
+
         public static string DataRangeValido(DateTime dataValidar)
         {
             var min = DateTime.Now.AddYears(-18);
@@ -135,6 +137,7 @@ namespace Dietcode.Core.Lib
                 return msg;
             }
         }
+
         public static string DataDocumentoRangeValido(string dataValidar, string dataNascimento)
         {
             var hoje = DateTime.Now;
@@ -175,13 +178,6 @@ namespace Dietcode.Core.Lib
             {
                 return msg;
             }
-        }
-
-        public static bool ValidarEmail(string email)
-        {
-            var rg = new Regex(@"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$");
-
-            return rg.IsMatch(email);
         }
 
     }

@@ -11,9 +11,9 @@
 		<Copyright>Dietcode Web</Copyright>
 		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 		<Title>Dietcode Domain Validator</Title>
-		<Version>2.2.0</Version>
-		<AssemblyVersion>2.2.0.0</AssemblyVersion>
-		<FileVersion>2.2.0.0</FileVersion>
+		<Version>2.3.0</Version>
+		<AssemblyVersion>2.3.0.0</AssemblyVersion>
+		<FileVersion>2.3.0.0</FileVersion>
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 		<!--<PackageOutputPath>D:\Nuget\\</PackageOutputPath>-->
 	</PropertyGroup>

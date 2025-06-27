@@ -16,21 +16,28 @@ namespace Dietcode.Core.Lib
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
 
-        public static string SerializeObject(object value, JsonSerializerOptions? options)
+        public static string SerializeObject(object value, JsonSerializerOptions options)
         {
-            options ??= defaultJsonOptions; // Usa opções padrão se não fornecidas
             return JsonSerializer.Serialize(value, options);
         }
 
-        public static string Serialize<T>(T value, JsonSerializerOptions? options)
+        public static string SerializeObject(object value)
         {
-            options ??= defaultJsonOptions; // Usa opções padrão se não fornecidas
+            return JsonSerializer.Serialize(value, defaultJsonOptions);
+        }
+
+        public static string Serialize<T>(T value, JsonSerializerOptions options)
+        {
             return JsonSerializer.Serialize(value, options);
         }
 
-        public static T DeserializeObject<T>(string value, JsonSerializerOptions? options) where T : new()
+        public static string Serialize<T>(T value)
         {
-            options ??= defaultJsonOptions; // Usa opções padrão se não fornecidas
+            return JsonSerializer.Serialize(value, defaultJsonOptions);
+        }
+
+        public static T DeserializeObject<T>(string value, JsonSerializerOptions options) where T : new()
+        {
             try
             {
                 return JsonSerializer.Deserialize<T>(value, options) ?? new T();
@@ -41,9 +48,26 @@ namespace Dietcode.Core.Lib
             }
         }
 
-        public static string ToJson(this object dado, JsonSerializerOptions? options)
+        public static T DeserializeObject<T>(string value) where T : new()
+        {
+            try
+            {
+                return JsonSerializer.Deserialize<T>(value, defaultJsonOptions) ?? new T();
+            }
+            catch (JsonException ex)
+            {
+                throw new InvalidOperationException("Erro ao desserializar o objeto.", ex);
+            }
+        }
+
+        public static string ToJson(this object dado, JsonSerializerOptions options)
         {
             return Serialize(dado, options);
+        }
+
+        public static string ToJson(this object dado)
+        {
+            return Serialize(dado, defaultJsonOptions);
         }
 
         public static string ToJson(this string dado)
