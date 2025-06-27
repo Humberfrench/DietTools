@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Dietcode.Database.Domain</id>
-    <version>1.6.0</version>
+    <version>1.7.5</version>
     <title>Dietcode Entity ORM Domain</title>
     <authors>Humberto Almeida</authors>
     <projectUrl>http://www.dietcode.com.br/</projectUrl>

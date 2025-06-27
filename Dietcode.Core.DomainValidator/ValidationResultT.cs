@@ -1,20 +1,21 @@
 ﻿using Dietcode.Core.DomainValidator.Interfaces;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using System;
+using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Dietcode.Core.DomainValidator
 {
     [Serializable]
     public class ValidationResult<T> : ValidationResultBase, IValidationResult where T : new()
     {
-        private JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+        private JsonSerializerOptions jsonOptions = new JsonSerializerOptions
         {
-            PreserveReferencesHandling = PreserveReferencesHandling.None,
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            ReferenceHandler = ReferenceHandler.IgnoreCycles,
             MaxDepth = 4,
-            Formatting = Formatting.Indented,
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            NullValueHandling = NullValueHandling.Ignore,
+            WriteIndented = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
 
         public ValidationResult()
@@ -22,6 +23,7 @@ namespace Dietcode.Core.DomainValidator
             Retorno = new T();
             Mensagem = string.Empty;
         }
+
         public ValidationResult(T content)
         {
             Retorno = content;
@@ -32,19 +34,20 @@ namespace Dietcode.Core.DomainValidator
         {
             if (validationResults != null)
             {
-                foreach (var result in from result in validationResults
-                                       where result != null
-                                       select result)
+                foreach (var result in validationResults)
                 {
-                    errors.AddRange(result.errors);
+                    if (result != null)
+                    {
+                        errors.AddRange(result.errors);
+                    }
                 }
             }
         }
 
         public T Retorno { get; set; }
+
         public ValidationResult Converter()
         {
-
             var newValidationResult = new ValidationResult
             {
                 CodigoMessagem = CodigoMessagem,
@@ -65,12 +68,10 @@ namespace Dietcode.Core.DomainValidator
             return newValidationResult;
         }
 
-
-        //Usar de Model para ViewModel e Vice Versa.
+        // Usar de Model para ViewModel e Vice Versa.
         public ValidationResult<T1> Converter<T1>() where T1 : new()
-
         {
-            var json = JsonConvert.SerializeObject(Retorno, jsonSettings);
+            var json = JsonSerializer.Serialize(Retorno, jsonOptions);
             var retorno = new T1();
 
             var newValidationResult = new ValidationResult<T1>
@@ -83,7 +84,7 @@ namespace Dietcode.Core.DomainValidator
             try
             {
                 newValidationResult.GetErros(errors);
-                retorno = JsonConvert.DeserializeObject<T1>(json, jsonSettings);
+                retorno = JsonSerializer.Deserialize<T1>(json, jsonOptions);
             }
             catch
             {
@@ -91,10 +92,6 @@ namespace Dietcode.Core.DomainValidator
             }
 
             return newValidationResult;
-
         }
-
-
     }
 }
-

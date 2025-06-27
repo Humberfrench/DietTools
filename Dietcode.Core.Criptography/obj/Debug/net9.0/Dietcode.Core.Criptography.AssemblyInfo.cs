@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Dietcode.Core.Criptography")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+68d7e2bae3c3adb7a45715a96ec0a2629cac69e2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+24c01fb077b90abf10c4d20feecc43afc1d61f48")]
 [assembly: System.Reflection.AssemblyProductAttribute("Dietcode.Core.Criptography")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Dietcode.Core.Criptography")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

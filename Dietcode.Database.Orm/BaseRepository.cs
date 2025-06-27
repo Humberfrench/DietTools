@@ -76,7 +76,7 @@ namespace Dietcode.Database.Orm
             return entries.Count > 0;
         }
 
-        public async virtual Task<Table> ObterPorId(int id)
+        public async virtual Task<Table> ObterPorId<Tipo>(Tipo id)
         {
             var resultado = await DbSet.FindAsync(id);
             return resultado ?? new Table();

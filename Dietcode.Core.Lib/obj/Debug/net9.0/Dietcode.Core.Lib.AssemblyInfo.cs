@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyrightAttribute("Dietcode Web")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Api Core Tools - Extensoes e ferramentas auxiliares")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("2.2.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.2.0+68d7e2bae3c3adb7a45715a96ec0a2629cac69e2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.2.0+24c01fb077b90abf10c4d20feecc43afc1d61f48")]
 [assembly: System.Reflection.AssemblyProductAttribute("Dietcode.Core.Lib")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Dietcode.Core.Lib")]
 [assembly: System.Reflection.AssemblyVersionAttribute("2.2.0.0")]

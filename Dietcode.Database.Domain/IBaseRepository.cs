@@ -11,7 +11,7 @@ namespace Dietcode.Database.Domain
 
         Task<bool> Remover(TEntity obj);
 
-        Task<TEntity> ObterPorId(int id);
+        Task<TEntity> ObterPorId<Tipo>(Tipo id);
 
         Task<IEnumerable<TEntity>> ObterTodos();
 
