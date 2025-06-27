@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace Dietcode.Database.Domain
 {
-    public interface IBaseRepository<TEntity> : IDisposable  where TEntity : class, new()
+    public interface IBaseRepository<TEntity, Tipo> : IDisposable  where TEntity : class, new()
     {
         Task<bool> Adicionar(TEntity obj);
 
@@ -11,7 +11,7 @@ namespace Dietcode.Database.Domain
 
         Task<bool> Remover(TEntity obj);
 
-        Task<TEntity> ObterPorId<Tipo>(Tipo id);
+        Task<TEntity> ObterPorId(Tipo id);
 
         Task<IEnumerable<TEntity>> ObterTodos();
 

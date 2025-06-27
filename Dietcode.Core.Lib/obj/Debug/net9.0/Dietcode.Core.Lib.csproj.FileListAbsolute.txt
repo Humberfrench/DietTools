@@ -1,7 +1,6 @@
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib\bin\Debug\net9.0\Dietcode.Core.Lib.deps.json
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib\bin\Debug\net9.0\Dietcode.Core.Lib.dll
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib\bin\Debug\net9.0\Dietcode.Core.Lib.pdb
-C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib\obj\Debug\net9.0\Dietcode.Core.Lib.csproj.AssemblyReference.cache
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib\obj\Debug\net9.0\Dietcode.Core.Lib.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib\obj\Debug\net9.0\Dietcode.Core.Lib.AssemblyInfoInputs.cache
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib\obj\Debug\net9.0\Dietcode.Core.Lib.AssemblyInfo.cs

@@ -1,58 +1,49 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+﻿using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Dietcode.Core.Lib
 {
     public static partial class Extensions
     {
         private static int maxDepth = 8;
-        private static JsonSerializerSettings JsonSettings = new JsonSerializerSettings
+        private static JsonSerializerOptions defaultJsonOptions = new JsonSerializerOptions
         {
-            PreserveReferencesHandling = PreserveReferencesHandling.None,
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            ReferenceHandler = ReferenceHandler.IgnoreCycles,
             MaxDepth = maxDepth,
-            Formatting = Formatting.Indented,
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            NullValueHandling = NullValueHandling.Ignore,
-
+            WriteIndented = true,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };
 
-        public static string SerializeObject(object value)
+        public static string SerializeObject(object value, JsonSerializerOptions? options)
         {
-            return JsonConvert.SerializeObject(value, Formatting.None, JsonSettings);
+            options ??= defaultJsonOptions; // Usa opções padrão se não fornecidas
+            return JsonSerializer.Serialize(value, options);
         }
 
-        public static string Serialize<T>(T value)
+        public static string Serialize<T>(T value, JsonSerializerOptions? options)
         {
-            return JsonConvert.SerializeObject(value, Formatting.None, JsonSettings);
+            options ??= defaultJsonOptions; // Usa opções padrão se não fornecidas
+            return JsonSerializer.Serialize(value, options);
         }
 
-        public static string SerializeObject(object value, JsonSerializerSettings settings)
+        public static T DeserializeObject<T>(string value, JsonSerializerOptions? options) where T : new()
         {
-            return JsonConvert.SerializeObject(value, Formatting.None, settings);
+            options ??= defaultJsonOptions; // Usa opções padrão se não fornecidas
+            try
+            {
+                return JsonSerializer.Deserialize<T>(value, options) ?? new T();
+            }
+            catch (JsonException ex)
+            {
+                throw new InvalidOperationException("Erro ao desserializar o objeto.", ex);
+            }
         }
 
-        public static string Serialize<T>(T value, JsonSerializerSettings settings)
+        public static string ToJson(this object dado, JsonSerializerOptions? options)
         {
-            return JsonConvert.SerializeObject(value, Formatting.None, settings);
-        }
-
-        public static T DeserializeObject<T>(string value) where T : new()
-        {
-            return JsonConvert.DeserializeObject<T>(value, JsonSettings) ?? new T();
-        }
-        public static T DeserializeObject<T>(string value, JsonSerializerSettings settings) where T : new()
-        {
-            return JsonConvert.DeserializeObject<T>(value, settings) ?? new T();
-        }
-
-        public static string ToJson(this object dado, JsonSerializerSettings settings)
-        {
-            return Serialize(dado, settings);
-        }
-        public static string ToJson(this object dado)
-        {
-            return Serialize(dado, JsonSettings);
+            return Serialize(dado, options);
         }
 
         public static string ToJson(this string dado)
@@ -62,122 +53,29 @@ namespace Dietcode.Core.Lib
 
         #region Convert Objects
 
-        /// <summary>
-        /// Conversor de Objeto. 
-        /// Atenção, o destino deve ter [json property] preenchido
-        /// </summary>
-        /// <typeparam name="Destiny">Objeto origem</typeparam>
-        /// <typeparam name="Origin">Objeto destino</typeparam>
-        /// <param name="data">objeto origem</param>
-        /// <returns></returns>
         public static Destiny ConvertObjects<Destiny, Origin>(this Origin data) where Destiny : new()
         {
-            var json = SerializeObject(data);
-            var retorno = new Destiny();
-            try
-            {
-                retorno = DeserializeObject<Destiny>(json);
-            }
-            catch
-            {
-                return retorno;
-            }
-
-            return retorno;
-
-        }
-        public static Destiny ConvertObjects<Destiny, Origin>(this Origin data, int profundidade) where Destiny : new()
-        {
-            JsonSettings.MaxDepth = profundidade;
-            var json = SerializeObject(data, JsonSettings);
-            var retorno = new Destiny();
-            try
-            {
-                retorno = DeserializeObject<Destiny>(json, JsonSettings);
-            }
-            catch
-            {
-                JsonSettings.MaxDepth = maxDepth;
-                return retorno;
-            }
-
-            JsonSettings.MaxDepth = maxDepth;
-
-            return retorno;
-
-        }
-        public static Destiny ConvertObjects<Destiny, Origin>(this Origin data, JsonSerializerSettings settings) where Destiny : new()
-        {
-            var json = SerializeObject(data, settings);
-            var retorno = new Destiny();
-            try
-            {
-                retorno = DeserializeObject<Destiny>(json, settings);
-            }
-            catch
-            {
-                return retorno;
-            }
-
-            return retorno;
-
+            var json = SerializeObject(data!, defaultJsonOptions);
+            return DeserializeObject<Destiny>(json, defaultJsonOptions);
         }
 
         public static Destiny ConvertObjects<Destiny>(this object data) where Destiny : new()
         {
-            var json = SerializeObject(data);
-            var retorno = new Destiny();
-            try
-            {
-                retorno = DeserializeObject<Destiny>(json);
-            }
-            catch
-            {
-                return retorno;
-            }
-
-            return retorno;
-
+            var json = SerializeObject(data, defaultJsonOptions);
+            return DeserializeObject<Destiny>(json, defaultJsonOptions);
+        }
+        public static Destiny ConvertObjects<Destiny, Origin>(this Origin data, JsonSerializerOptions options) where Destiny : new()
+        {
+            var json = SerializeObject(data!, options);
+            return DeserializeObject<Destiny>(json, options);
         }
 
-        public static Destiny ConvertObjects<Destiny>(this object data, int profundidade) where Destiny : new()
+        public static Destiny ConvertObjects<Destiny>(this object data, JsonSerializerOptions options) where Destiny : new()
         {
-            JsonSettings.MaxDepth = profundidade;
-            var json = SerializeObject(data, JsonSettings);
-            var retorno = new Destiny();
-            try
-            {
-                retorno = DeserializeObject<Destiny>(json, JsonSettings);
-            }
-            catch
-            {
-                JsonSettings.MaxDepth = maxDepth;
-                return retorno;
-            }
-
-            JsonSettings.MaxDepth = maxDepth;
-
-            return retorno;
-
-        }
-        public static Destiny ConvertObjects<Destiny>(this object data, JsonSerializerSettings settings) where Destiny : new()
-        {
-            var json = SerializeObject(data, settings);
-            var retorno = new Destiny();
-            try
-            {
-                retorno = DeserializeObject<Destiny>(json, settings);
-            }
-            catch
-            {
-                return retorno;
-            }
-
-            return retorno;
-
+            var json = SerializeObject(data, options);
+            return DeserializeObject<Destiny>(json, options);
         }
 
         #endregion
-
     }
 }

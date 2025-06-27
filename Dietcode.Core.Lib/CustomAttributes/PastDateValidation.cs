@@ -14,7 +14,7 @@ namespace Dietcode.Core.Lib.CustomAttributes
                 }
             }
 
-            return ValidationResult.Success;
+            return ValidationResult.Success!;
         }
     }
 }

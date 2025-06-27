@@ -14,7 +14,7 @@ namespace Dietcode.Database.Orm
     {
         public static void BuilderStart(IServiceCollection services)
         {
-            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddScoped(typeof(IBaseRepository<,>), typeof(BaseRepository<,>));
             services.AddScoped(typeof(IMyContextManager<>), typeof(MyContextManager<>));
 
         }

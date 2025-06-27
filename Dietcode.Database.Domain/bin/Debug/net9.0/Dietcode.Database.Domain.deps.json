@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
-      "Dietcode.Database.Domain/1.7.5.0": {
+      "Dietcode.Database.Domain/1.8.0.0": {
         "dependencies": {
           "Dietcode.Core.DomainValidator": "2.1.0",
           "Dietcode.Core.Lib": "2.2.0"
@@ -48,7 +48,7 @@
     }
   },
   "libraries": {
-    "Dietcode.Database.Domain/1.7.5.0": {
+    "Dietcode.Database.Domain/1.8.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

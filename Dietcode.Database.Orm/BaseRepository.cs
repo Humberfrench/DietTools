@@ -16,7 +16,7 @@ using System.Linq.Expressions;
 
 namespace Dietcode.Database.Orm
 {
-    public class BaseRepository<Table> : IBaseRepository<Table> where Table : class, new()
+    public class BaseRepository<Table, Tipo> : IBaseRepository<Table, Tipo> where Table : class, new()
     {
         protected DbSet<Table> DbSet;
         protected readonly ThisDatabase<Table> Context ;
@@ -76,7 +76,7 @@ namespace Dietcode.Database.Orm
             return entries.Count > 0;
         }
 
-        public async virtual Task<Table> ObterPorId<Tipo>(Tipo id)
+        public async virtual Task<Table> ObterPorId(Tipo id)
         {
             var resultado = await DbSet.FindAsync(id);
             return resultado ?? new Table();

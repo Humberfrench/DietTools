@@ -13,7 +13,7 @@ namespace Dietcode.Core.Lib.CustomAttributes
                     return new ValidationResult(ErrorMessage);
                 }
             }
-            return ValidationResult.Success;
+            return ValidationResult.Success!;
         }
     }
 }
