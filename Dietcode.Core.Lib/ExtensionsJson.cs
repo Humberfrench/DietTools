@@ -9,6 +9,7 @@ namespace Dietcode.Core.Lib
         private static int maxDepth = 8;
         private static JsonSerializerOptions defaultJsonOptions = new JsonSerializerOptions
         {
+            PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             ReferenceHandler = ReferenceHandler.IgnoreCycles,
             MaxDepth = maxDepth,

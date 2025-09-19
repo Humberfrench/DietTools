@@ -17,5 +17,20 @@ namespace Dietcode.Core.Lib
             return $"{cardNumber.Substring(0, 6)}{cardNumber.Substring(cardNumber.Length - 4, 4)}";
         }
 
+        public static string ObterBinInicio(string cardNumber)
+        {
+            if (string.IsNullOrWhiteSpace(cardNumber) || cardNumber.Length < 6)
+                return string.Empty;
+
+            return cardNumber.Substring(0, 6);
+        }
+        public static string ObterBinFim(string cardNumber)
+        {
+            if (string.IsNullOrWhiteSpace(cardNumber) || cardNumber.Length < 4)
+                return string.Empty;
+
+            return cardNumber.Substring(cardNumber.Length - 4, 4);
+        }
+
     }
 }
