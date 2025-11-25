@@ -38,8 +38,15 @@ namespace Dietcode.Database.Orm.Context
             }
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(ConnectionString);
-
+                optionsBuilder
+                    .UseSqlServer(ConnectionString)
+                    .EnableSensitiveDataLogging()     // mostra parâmetros do SQL
+                    .EnableDetailedErrors()           // mostra erros detalhados
+                    .LogTo(Console.WriteLine,         // envia para console e debug
+                           Microsoft.Extensions.Logging.LogLevel.Information,
+                           Microsoft.EntityFrameworkCore.Diagnostics.DbContextLoggerOptions.Category |
+                           Microsoft.EntityFrameworkCore.Diagnostics.DbContextLoggerOptions.SingleLine |
+                           Microsoft.EntityFrameworkCore.Diagnostics.DbContextLoggerOptions.UtcTime);
             }
         }
 

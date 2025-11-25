@@ -38,7 +38,7 @@ namespace Dietcode.Core.Lib.Rest
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             ReferenceHandler = ReferenceHandler.IgnoreCycles,
-            MaxDepth = 4,
+            MaxDepth = 12,
             WriteIndented = true,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
         };

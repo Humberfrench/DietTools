@@ -6,12 +6,14 @@ namespace Dietcode.Core.Lib
 {
     public static partial class Extensions
     {
-        private static int maxDepth = 8;
+        private static int maxDepth = 128;
         private static JsonSerializerOptions defaultJsonOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
             ReferenceHandler = ReferenceHandler.IgnoreCycles,
+            NumberHandling = JsonNumberHandling.AllowReadingFromString,
             MaxDepth = maxDepth,
             WriteIndented = true,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,

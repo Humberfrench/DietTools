@@ -2,10 +2,10 @@
 
 namespace Dietcode.Api.Core.Results
 {
-    public class InternalPersonalErrorResult : MethodResult<ProblemDetails>
+    public class InternalPersonalErrorResult : MethodResult
     {
-        public InternalPersonalErrorResult(ProblemDetails content)
-                : base(content, ResultStatusCode.InternalPersonalError)
+        public InternalPersonalErrorResult()
+            : base(ResultStatusCode.InternalPersonalError)
         {
         }
     }

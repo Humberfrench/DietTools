@@ -2,11 +2,8 @@
   "version": 3,
   "targets": {
     "net9.0": {
-      "Dietcode.Core.DomainValidator/2.1.0": {
+      "Dietcode.Core.DomainValidator/2.3.0": {
         "type": "package",
-        "dependencies": {
-          "Newtonsoft.Json": "13.0.3"
-        },
         "compile": {
           "lib/net9.0/Dietcode.Core.DomainValidator.dll": {}
         },
@@ -14,10 +11,10 @@
           "lib/net9.0/Dietcode.Core.DomainValidator.dll": {}
         }
       },
-      "Dietcode.Core.Lib/2.2.0": {
+      "Dietcode.Core.Lib/2.7.0": {
         "type": "package",
         "dependencies": {
-          "Newtonsoft.Json": "13.0.3"
+          "Polly": "8.6.3"
         },
         "compile": {
           "lib/net9.0/Dietcode.Core.Lib.dll": {}
@@ -26,79 +23,120 @@
           "lib/net9.0/Dietcode.Core.Lib.dll": {}
         }
       },
-      "Newtonsoft.Json/13.0.3": {
+      "Polly/8.6.3": {
         "type": "package",
+        "dependencies": {
+          "Polly.Core": "8.6.3"
+        },
         "compile": {
-          "lib/net6.0/Newtonsoft.Json.dll": {
-            "related": ".xml"
+          "lib/net6.0/Polly.dll": {
+            "related": ".pdb;.xml"
           }
         },
         "runtime": {
-          "lib/net6.0/Newtonsoft.Json.dll": {
-            "related": ".xml"
+          "lib/net6.0/Polly.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "Polly.Core/8.6.3": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/Polly.Core.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Polly.Core.dll": {
+            "related": ".pdb;.xml"
           }
         }
       }
     }
   },
   "libraries": {
-    "Dietcode.Core.DomainValidator/2.1.0": {
-      "sha512": "TR7rv5kO4RN1PkLJ4E3y0tQslT6FT0lxA9htAlGFwUxhLpopoLV0RBPANvnP8t+yaem3b5amPeHCWAFg1iV1uQ==",
+    "Dietcode.Core.DomainValidator/2.3.0": {
+      "sha512": "pRuykI+kZF4reaFJVOlQJL6TLf5WQ6PqtxUwgUGejaLHAoQFoZSXrtgX7u5WZ6oLIRNmtcs+eala4rueCYOFqw==",
       "type": "package",
-      "path": "dietcode.core.domainvalidator/2.1.0",
+      "path": "dietcode.core.domainvalidator/2.3.0",
       "files": [
         ".nupkg.metadata",
-        "dietcode.core.domainvalidator.2.1.0.nupkg.sha512",
+        "dietcode.core.domainvalidator.2.3.0.nupkg.sha512",
         "dietcode.core.domainvalidator.nuspec",
         "lib/net9.0/Dietcode.Core.DomainValidator.dll"
       ]
     },
-    "Dietcode.Core.Lib/2.2.0": {
-      "sha512": "Ir5X+p5QsaQFYC9oRggs6wsvfYKP6axqqBAqfiEY/UZsnDJLwbRzV9ulT/dHCospu4HrCQubPZHtiCgyoEv4Mw==",
+    "Dietcode.Core.Lib/2.7.0": {
+      "sha512": "B0wV9mJi9L85vL2XS6D+LRfpXWEfTPLcKG24DTcsN5Uz5fnBVNPSQWGMIMFWJ7V91cnkMc02UUXEy7rR747rmg==",
       "type": "package",
-      "path": "dietcode.core.lib/2.2.0",
+      "path": "dietcode.core.lib/2.7.0",
       "files": [
         ".nupkg.metadata",
-        "dietcode.core.lib.2.2.0.nupkg.sha512",
+        "dietcode.core.lib.2.7.0.nupkg.sha512",
         "dietcode.core.lib.nuspec",
         "lib/net9.0/Dietcode.Core.Lib.dll"
       ]
     },
-    "Newtonsoft.Json/13.0.3": {
-      "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
+    "Polly/8.6.3": {
+      "sha512": "8X6mWAGDrgTHyqDthifiv9QGR+FgnRe13/sPhSR4ZbhXCqUDJuLrVqunB39LLbf87TXZ+06dMdopd6LpY4oK0w==",
       "type": "package",
-      "path": "newtonsoft.json/13.0.3",
+      "path": "polly/8.6.3",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "LICENSE.md",
-        "README.md",
-        "lib/net20/Newtonsoft.Json.dll",
-        "lib/net20/Newtonsoft.Json.xml",
-        "lib/net35/Newtonsoft.Json.dll",
-        "lib/net35/Newtonsoft.Json.xml",
-        "lib/net40/Newtonsoft.Json.dll",
-        "lib/net40/Newtonsoft.Json.xml",
-        "lib/net45/Newtonsoft.Json.dll",
-        "lib/net45/Newtonsoft.Json.xml",
-        "lib/net6.0/Newtonsoft.Json.dll",
-        "lib/net6.0/Newtonsoft.Json.xml",
-        "lib/netstandard1.0/Newtonsoft.Json.dll",
-        "lib/netstandard1.0/Newtonsoft.Json.xml",
-        "lib/netstandard1.3/Newtonsoft.Json.dll",
-        "lib/netstandard1.3/Newtonsoft.Json.xml",
-        "lib/netstandard2.0/Newtonsoft.Json.dll",
-        "lib/netstandard2.0/Newtonsoft.Json.xml",
-        "newtonsoft.json.13.0.3.nupkg.sha512",
-        "newtonsoft.json.nuspec",
-        "packageIcon.png"
+        "LICENSE",
+        "lib/net462/Polly.dll",
+        "lib/net462/Polly.pdb",
+        "lib/net462/Polly.xml",
+        "lib/net472/Polly.dll",
+        "lib/net472/Polly.pdb",
+        "lib/net472/Polly.xml",
+        "lib/net6.0/Polly.dll",
+        "lib/net6.0/Polly.pdb",
+        "lib/net6.0/Polly.xml",
+        "lib/netstandard2.0/Polly.dll",
+        "lib/netstandard2.0/Polly.pdb",
+        "lib/netstandard2.0/Polly.xml",
+        "package-icon.png",
+        "package-readme.md",
+        "polly.8.6.3.nupkg.sha512",
+        "polly.nuspec"
+      ]
+    },
+    "Polly.Core/8.6.3": {
+      "sha512": "xRlcE+1FidqIfZ7zxBT6klSblJ/7MAJq1x5yvYoLnwNhs8Xc2gp3Srf8wHG2NpFxVBqrldc3svhkMPJjSzTmzw==",
+      "type": "package",
+      "path": "polly.core/8.6.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "lib/net462/Polly.Core.dll",
+        "lib/net462/Polly.Core.pdb",
+        "lib/net462/Polly.Core.xml",
+        "lib/net472/Polly.Core.dll",
+        "lib/net472/Polly.Core.pdb",
+        "lib/net472/Polly.Core.xml",
+        "lib/net6.0/Polly.Core.dll",
+        "lib/net6.0/Polly.Core.pdb",
+        "lib/net6.0/Polly.Core.xml",
+        "lib/net8.0/Polly.Core.dll",
+        "lib/net8.0/Polly.Core.pdb",
+        "lib/net8.0/Polly.Core.xml",
+        "lib/netstandard2.0/Polly.Core.dll",
+        "lib/netstandard2.0/Polly.Core.pdb",
+        "lib/netstandard2.0/Polly.Core.xml",
+        "package-icon.png",
+        "package-readme.md",
+        "polly.core.8.6.3.nupkg.sha512",
+        "polly.core.nuspec"
       ]
     }
   },
   "projectFileDependencyGroups": {
     "net9.0": [
-      "Dietcode.Core.DomainValidator >= 2.1.0",
-      "Dietcode.Core.Lib >= 2.2.0"
+      "Dietcode.Core.DomainValidator >= 2.3.0",
+      "Dietcode.Core.Lib >= 2.7.0"
     ]
   },
   "packageFolders": {
@@ -106,7 +144,7 @@
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
-    "version": "1.8.0",
+    "version": "1.9.0",
     "restore": {
       "projectUniqueName": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Database.Domain\\Dietcode.Database.Domain.csproj",
       "projectName": "Dietcode.Database.Domain",
@@ -155,11 +193,11 @@
         "dependencies": {
           "Dietcode.Core.DomainValidator": {
             "target": "Package",
-            "version": "[2.1.0, )"
+            "version": "[2.3.0, )"
           },
           "Dietcode.Core.Lib": {
             "target": "Package",
-            "version": "[2.2.0, )"
+            "version": "[2.7.0, )"
           }
         },
         "imports": [
@@ -178,7 +216,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

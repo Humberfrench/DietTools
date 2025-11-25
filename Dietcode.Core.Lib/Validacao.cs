@@ -4,6 +4,25 @@ namespace Dietcode.Core.Lib
 {
     public static class Validacao
     {
+        public static string CorrigirDocumento(string documento)
+        {
+            if (string.IsNullOrEmpty(documento))
+                return documento;
+
+            var cleaned = documento.Trim();
+
+            if (cleaned.Length == 11 || cleaned.Length == 14)
+                return cleaned;
+
+            if (cleaned.Length < 11)
+                return cleaned.PadLeft(11, '0'); // CPF
+
+            if (cleaned.Length >= 12 && cleaned.Length < 14)
+                return cleaned.PadLeft(14, '0'); // CNPJ
+
+            return cleaned; // mantém como está se maior que 14
+        }
+
         public static bool IsPis(string pis)
         {
             int[] multiplicador = new int[10] { 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };

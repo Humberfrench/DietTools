@@ -3,7 +3,7 @@
     public class ForbiddenResult : MethodResult
     {
         public ForbiddenResult()
-                : base(ResultStatusCode.Forbidden)
+            : base(ResultStatusCode.Forbidden)
         {
         }
     }

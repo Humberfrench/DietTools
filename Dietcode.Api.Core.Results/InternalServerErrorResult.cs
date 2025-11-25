@@ -2,12 +2,12 @@
 {
     public class InternalServerErrorResult : MethodResult
     {
-        public Exception Exception { get; set; }
+        public Exception Exception { get; }
 
-        public InternalServerErrorResult(Exception exception)
+        public InternalServerErrorResult(Exception ex)
             : base(ResultStatusCode.InternalServerError)
         {
-            Exception = exception;
+            Exception = ex;
         }
     }
 }

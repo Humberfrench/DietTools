@@ -30,7 +30,6 @@ namespace Dietcode.Core.Lib.Cryptography
             aes.Mode = CipherMode.ECB;
             aes.Padding = PaddingMode.PKCS7;
 
-            //using (ICryptoTransform transform = aes.CreateEncryptor(aes.Key, Encoding.UTF8.GetBytes(iv)))
             using (ICryptoTransform transform = aes.CreateEncryptor())
             {
                 byte[] encryptedBytes = transform.TransformFinalBlock(messageBytes, 0, messageBytes.Length);
@@ -66,5 +65,7 @@ namespace Dietcode.Core.Lib.Cryptography
 
             return result;
         }
+
+
     }
 }

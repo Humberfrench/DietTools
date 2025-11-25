@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Dietcode.Database.Domain</id>
+    <version>1.9.0</version>
+    <title>Dietcode Entity ORM Domain</title>
+    <authors>Humberto Almeida</authors>
+    <projectUrl>http://www.dietcode.com.br/</projectUrl>
+    <description>Dietcode Entity ORM Domain - Repositorio patterns and unit of work patterns</description>
+    <copyright>Dietcode Web</copyright>
+    <repository type="git" commit="3d45008389964702331ae9294b24fc7276fcccd1" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="Dietcode.Core.DomainValidator" version="2.3.0" exclude="Build,Analyzers" />
+        <dependency id="Dietcode.Core.Lib" version="2.7.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Domain\bin\Debug\net9.0\Dietcode.Database.Domain.dll" target="lib\net9.0\Dietcode.Database.Domain.dll" />
+  </files>
+</package>

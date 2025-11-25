@@ -6,6 +6,5 @@ namespace Dietcode.Api.Core.Results
             : base(ResultStatusCode.NoContent)
         {
         }
-
     }
 }

@@ -1,145 +1,277 @@
 ﻿using Dietcode.Api.Core.Results;
+using Dietcode.Api.Core.Results.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 
 namespace Dietcode.Api.Core
 {
-    public abstract class ApiControllerBase : ControllerBase
+    using System;
+    using System.Linq;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Net.Http.Headers;
+
+    namespace SeuNamespace // ajuste aqui
     {
-        public ApiControllerBase()
+        public abstract class ApiControllerBase : ControllerBase
         {
+            protected ApiControllerBase() { }
 
-        }
-
-        [NonAction]
-        protected IActionResult Completed(ResultStatusCode statusCode)
-        {
-            return CreateStatusCodeResult(statusCode);
-        }
-
-        [NonAction]
-        protected IActionResult Completed<TContent>(MethodResult methodResult)
-        {
-            var contentResult = methodResult as MethodResult<TContent>;
-            var errorResult = methodResult as ErrorResult;
-
-            if (methodResult.Status == ResultStatusCode.Created)
-                return CompletedAtAction<TContent>(methodResult, "Get");
-
-            if (contentResult != null)
-                return CreateObjectResult(contentResult.Status, contentResult.Content ?? new object());
-
-            if (errorResult != null)
+            // ---------------------------------------------------------
+            // HOOK DE EXTENSÃO (override se quiser enriquecer/logar)
+            // ---------------------------------------------------------
+            [NonAction]
+            protected virtual MethodResult BeforeReturn(MethodResult result)
             {
-                var error = errorResult.Errors?.FirstOrDefault();
-
-                if (error != null)
-                    return CreateObjectResult(errorResult.Status, error);
-
-                return CreateStatusCodeResult(errorResult.Status);
+                // Aqui você pode:
+                // - logar
+                // - auditar
+                // - enriquecer erros
+                // - mapear códigos customizados 600+ para HTTP padrão, etc.
+                return result;
             }
 
-            return CreateStatusCodeResult(methodResult.Status);
-        }
-
-        [NonAction]
-        protected IActionResult Completed(MethodResult methodResult)
-        {
-            var errorResult = methodResult as ErrorResult;
-
-            if (errorResult == null)
-                return CreateStatusCodeResult(methodResult.Status);
-
-            var error = errorResult.Errors?.FirstOrDefault();
-
-            if (error != null)
-                return CreateObjectResult(errorResult.Status, error);
-
-            return CreateStatusCodeResult(errorResult.Status);
-        }
-
-        private IActionResult CompletedAtAction<TContent>(MethodResult methodResult, string actionName)
-        {
-            var createdResult = methodResult as CreatedResult<TContent>;
-
-            var location = $"{Request.Scheme}://{Request.Host.ToUriComponent()}{Url.Action(actionName)}/{createdResult.Identifier}";
-
-            return Created(location, createdResult.Content);
-        }
-
-        private ObjectResult CreateObjectResult(ResultStatusCode statusCode, object content)
-        {
-            var objResult = new ObjectResult(content)
+            // ---------------------------------------------------------
+            // COMPLETED POR STATUS SIMPLES
+            // ---------------------------------------------------------
+            [NonAction]
+            protected IActionResult Completed(ResultStatusCode statusCode)
             {
-                StatusCode = (int)statusCode
-            };
+                return CreateStatusCodeResult(statusCode);
+            }
 
-            objResult.ContentTypes.Add(new MediaTypeHeaderValue("application/json"));
-
-            return objResult;
-        }
-
-        private StatusCodeResult CreateStatusCodeResult(ResultStatusCode statusCode)
-        {
-            return new StatusCodeResult((int)statusCode);
-        }
-
-        [NonAction]
-        protected IActionResult ReturnValue(MethodResult retorno, string instance)
-        {
-            var errorResult = retorno as ErrorResult;
-            var erro = "Ocorreu um erro. Favor acionar o suporte.";
-
-            if (errorResult != null)
+            // ---------------------------------------------------------
+            // COMPLETED GENÉRICO (para métodos que retornam TContent)
+            // ---------------------------------------------------------
+            [NonAction]
+            protected IActionResult Completed<TContent>(MethodResult result)
             {
-                var error = errorResult.Errors?.FirstOrDefault();
-                if (error != null)
+                result = BeforeReturn(result);
+
+                // 1) Se tiver conteúdo tipado (sucesso ou erro)
+                if (result is IContentResult<TContent> contentResult)
                 {
-                    erro = error.Message;
+                    // Se for Created<T>, gera Location
+                    if (contentResult.Status == ResultStatusCode.Created &&
+                        result is CreatedResult<TContent> createdResult)
+                    {
+                        return CompletedAtAction(createdResult, "Get");
+                    }
+
+                    return CreateObjectResult(contentResult.Status, contentResult.Content!);
                 }
+
+                // 2) Se for erro sem payload tipado
+                if (result is ErrorResult errorResult)
+                {
+                    return CreateErrorResponse(errorResult);
+                }
+
+                // 3) Só status (NoContent, etc.)
+                return CreateStatusCodeResult(result.Status);
             }
 
-            var retornoErro = new ProblemDetails
+            // ---------------------------------------------------------
+            // COMPLETED NÃO GENÉRICO (para quem não sabe o tipo)
+            // ---------------------------------------------------------
+            [NonAction]
+            protected IActionResult Completed(MethodResult result)
             {
-                Status = (int)retorno.Status,
-                Detail = erro,
-                Title = "Erro.",
-                Type = "Erro.",
-                Instance = instance
-            };
+                result = BeforeReturn(result);
 
-            if (retorno.Status == ResultStatusCode.Unauthorized)
-            {
-                retornoErro.Type = "Autorização";
-                return Unauthorized(retornoErro);
+                // 1) Conteúdo não tipado (IContentResult simples)
+                if (result is IContentResult contentResult)
+                {
+                    var content = contentResult.Content ?? new { };
+                    return CreateObjectResult(contentResult.Status, content);
+                }
+
+                // 2) Erro sem payload explícito
+                if (result is ErrorResult errorResult)
+                {
+                    return CreateErrorResponse(errorResult);
+                }
+
+                // 3) Apenas status
+                return CreateStatusCodeResult(result.Status);
             }
-            else if (retorno.Status == ResultStatusCode.NotFound)
+
+            // ---------------------------------------------------------
+            // CREATED AT ACTION (para CreatedResult<T>)
+            // ---------------------------------------------------------
+            private IActionResult CompletedAtAction<TContent>(CreatedResult<TContent> createdResult, string actionName)
             {
-                return NotFound(retornoErro);
+                var location = Url.Action(
+                    action: actionName,
+                    controller: null,                         // mesmo controller
+                    values: new { id = createdResult.Identifier },
+                    protocol: Request.Scheme);
+
+                return Created(location!, createdResult.Content);
             }
-            else
+
+            // ---------------------------------------------------------
+            // ERROS → PROBLEMDETAILS / VALIDATIONPROBLEMDETAILS
+            // ---------------------------------------------------------
+            private IActionResult CreateErrorResponse(ErrorResult errorResult)
             {
-                return BadRequest(retornoErro);
+                var errors = errorResult.Errors?.ToArray() ?? Array.Empty<ErrorValidation>();
+
+                // Se tiver mais de um erro, usamos ValidationProblemDetails
+                if (errors.Length > 1)
+                {
+                    var vpd = CreateValidationProblemDetails(errorResult);
+                    return new ObjectResult(vpd)
+                    {
+                        StatusCode = vpd.Status
+                    };
+                }
+
+                // Um erro só → ProblemDetails simples
+                var pd = CreateProblemDetails(errorResult);
+                return new ObjectResult(pd)
+                {
+                    StatusCode = pd.Status
+                };
+            }
+
+            [NonAction]
+            protected virtual ProblemDetails CreateProblemDetails(ErrorResult errorResult, string? instanceOverride = null)
+            {
+                var first = errorResult.Errors?.FirstOrDefault();
+                var message = first?.Message ?? "Ocorreu um erro. Favor acionar o suporte.";
+
+                var details = new ProblemDetails
+                {
+                    Status = (int)errorResult.Status,
+                    Detail = message,
+                    Title = GetTitleFromStatus(errorResult.Status),
+                    Type = GetTypeFromStatus(errorResult.Status),
+                    Instance = instanceOverride ?? HttpContext?.Request?.Path
+                };
+
+                // Enriquecimento padrão
+                details.Extensions["traceId"] = HttpContext?.TraceIdentifier ?? Guid.NewGuid().ToString();
+                details.Extensions["timestamp"] = DateTimeOffset.UtcNow;
+
+                return details;
+            }
+
+            [NonAction]
+            protected virtual ValidationProblemDetails CreateValidationProblemDetails(ErrorResult errorResult, string? instanceOverride = null)
+            {
+                var messages = errorResult.Errors?
+                    .Select(e => e.Message)
+                    .Where(m => !string.IsNullOrWhiteSpace(m))
+                    .ToArray() ?? Array.Empty<string>();
+
+                // Como não sabemos o campo de cada erro, agrupamos em uma categoria geral
+                var errorsDict = new System.Collections.Generic.Dictionary<string, string[]>
+                {
+                    ["General"] = messages.Length > 0 ? messages : new[] { "Erro de validação." }
+                };
+
+                var vpd = new ValidationProblemDetails(errorsDict)
+                {
+                    Status = (int)errorResult.Status,
+                    Title = GetTitleFromStatus(errorResult.Status),
+                    Type = GetTypeFromStatus(errorResult.Status),
+                    Detail = "Uma ou mais validações falharam.",
+                    Instance = instanceOverride ?? HttpContext?.Request?.Path
+                };
+
+                vpd.Extensions["traceId"] = HttpContext?.TraceIdentifier ?? Guid.NewGuid().ToString();
+                vpd.Extensions["timestamp"] = DateTimeOffset.UtcNow;
+
+                return vpd;
+            }
+
+            // ---------------------------------------------------------
+            // HELPERS DE TITLE/TYPE PARA PROBLEMDETAILS
+            // ---------------------------------------------------------
+            private static string GetTitleFromStatus(ResultStatusCode status)
+            {
+                return status switch
+                {
+                    ResultStatusCode.BadRequest => "Requisição inválida",
+                    ResultStatusCode.Unauthorized => "Não autorizado",
+                    ResultStatusCode.Forbidden => "Proibido",
+                    ResultStatusCode.NotFound => "Não encontrado",
+                    ResultStatusCode.NotAcceptable => "Não aceitável",
+                    ResultStatusCode.TimeOut => "Tempo excedido",
+                    ResultStatusCode.Conflict => "Conflito",
+                    ResultStatusCode.UnprocessableEntity => "Entidade não processável",
+                    ResultStatusCode.InternalServerError => "Erro interno no servidor",
+                    ResultStatusCode.ServiceUnavailable => "Serviço indisponível",
+                    _ => "Erro"
+                };
+            }
+
+            private static string GetTypeFromStatus(ResultStatusCode status)
+            {
+                // Se quiser, pode apontar para uma página de documentação por código
+                // Ex: https://httpstatuses.com/404
+                return $"https://httpstatuses.com/{(int)status}";
+            }
+
+            // ---------------------------------------------------------
+            // OBJECT / STATUS HELPERS
+            // ---------------------------------------------------------
+            private ObjectResult CreateObjectResult(ResultStatusCode statusCode, object content)
+            {
+                var objResult = new ObjectResult(content)
+                {
+                    StatusCode = (int)statusCode
+                };
+
+                objResult.ContentTypes.Add(new MediaTypeHeaderValue("application/json"));
+                return objResult;
+            }
+
+            private StatusCodeResult CreateStatusCodeResult(ResultStatusCode statusCode)
+                => new StatusCodeResult((int)statusCode);
+
+            // ---------------------------------------------------------
+            // ReturnValue (compatibilidade com código legado)
+            // ---------------------------------------------------------
+            [NonAction]
+            protected IActionResult ReturnValue(MethodResult retorno, string instance)
+            {
+                if (retorno is ErrorResult errorResult)
+                {
+                    // Reusa a lógica de ProblemDetails, mas com instance customizada
+                    var problem = CreateProblemDetails(errorResult, instance);
+
+                    return retorno.Status switch
+                    {
+                        ResultStatusCode.Unauthorized => Unauthorized(problem),
+                        ResultStatusCode.NotFound => NotFound(problem),
+                        ResultStatusCode.BadRequest => BadRequest(problem),
+                        _ => StatusCode(problem.Status ?? 500, problem)
+                    };
+                }
+
+                // Se não for erro, delega para Completed padrão
+                return Completed(retorno);
+            }
+
+            // ---------------------------------------------------------
+            // ProblemsDetails Returns (helper adicional)
+            // ---------------------------------------------------------
+            [NonAction]
+            protected ProblemDetails ObterErro(string title, int status, string detail, string instance)
+            {
+                var problem = new ProblemDetails
+                {
+                    Title = title,
+                    Status = status,
+                    Detail = detail,
+                    Instance = instance
+                };
+
+                problem.Extensions.Add("TraceId", Guid.NewGuid().ToString());
+
+                return problem;
             }
         }
-
-
-        #region ProblemsDetails Returns
-
-        [NonAction]
-        protected ProblemDetails ObterErro(string title, int status, string detail, string instance)
-        {
-            var problem = new ProblemDetails();
-
-            problem.Title = title;
-            problem.Status = status;
-            problem.Detail = detail;
-            problem.Instance = instance;
-            problem.Extensions.Add("TraceId", Guid.NewGuid().ToString());
-
-            return problem;
-        }
-
-        #endregion
     }
 }

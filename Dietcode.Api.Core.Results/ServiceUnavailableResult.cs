@@ -2,12 +2,9 @@
 {
     public class ServiceUnavailableResult : MethodResult
     {
-        public Exception Exception { get; set; }
-
-        public ServiceUnavailableResult(Exception exception)
+        public ServiceUnavailableResult()
             : base(ResultStatusCode.ServiceUnavailable)
         {
-            Exception = exception;
         }
     }
 }
