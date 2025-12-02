@@ -1,11 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZmF4Rd52pvI=",
+  "dgSpecHash": "MZzNyEkVNUw=",
   "success": true,
   "projectFilePath": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Core.Lib\\Dietcode.Core.Lib.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\humbe\\.nuget\\packages\\polly\\8.6.3\\polly.8.6.3.nupkg.sha512",
-    "C:\\Users\\humbe\\.nuget\\packages\\polly.core\\8.6.3\\polly.core.8.6.3.nupkg.sha512"
-  ],
+  "expectedPackageFiles": [],
   "logs": []
 }

@@ -1,13 +1,8 @@
 ﻿namespace Dietcode.Core.Lib
 {
-    public class PhoneValidatorData
+    public record class PhoneValidatorData
     {
-        public PhoneValidatorData()
-        {
-            Valid = true;
-            Message = "OK";
-        }
-        public bool Valid { get; set; }
-        public string Message { get; set; }
+        public bool Valid { get; set; } = true;
+        public string Message { get; set; } = "OK";
     }
 }

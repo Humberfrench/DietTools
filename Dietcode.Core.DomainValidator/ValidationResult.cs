@@ -1,55 +1,60 @@
 ﻿using Dietcode.Core.DomainValidator.Interfaces;
 using Dietcode.Core.DomainValidator.ObjectValue;
+using System.Text.Json;
 
 namespace Dietcode.Core.DomainValidator
 {
     [Serializable]
-    public class ValidationResult : ValidationResultBase, IValidationResult
+    public class ValidationResult : ValidationResult<object>
     {
-
-        public ValidationResult()
+        public ValidationResult() : base()
         {
-            Entries = new List<Entries>();
-            Mensagem = string.Empty;
-            Retorno = new object();
+        }
+    }
+
+    [Serializable]
+    public class ValidationResult<T> : ValidationResultBase where T : new()
+    {
+        public T Retorno { get; set; } = new();
+
+        public ValidationResult() : base()
+        {
         }
 
-        public void AddEntries(Entries entries)
+        public ValidationResult(T retorno) : base()
         {
-            Entries.Add(entries);
+            Retorno = retorno;
         }
 
-        public List<Entries> Entries { get; set; }
-
-
-        public object Retorno { get; set; }
-
-
-        //conversão
-        public ValidationResult<T> Converter<T>() where T : new()
+        /// <summary>
+        /// Converte este ValidationResult<T> para ValidationResult<U>,
+        /// mantendo erros, status e mensagens.
+        /// </summary>
+        public ValidationResult<U> Converter<U>() where U : new()
         {
-
-            var newValidationResult = new ValidationResult<T>
+            var novo = new ValidationResult<U>
             {
-                CodigoMessagem = CodigoMessagem,
+                CodigoMensagem = CodigoMensagem,
                 Mensagem = Mensagem,
-                StatusCode = StatusCode,
+                StatusCode = StatusCode
             };
 
-            newValidationResult.GetErros(errors);
+            // Copiar erros
+            novo.Add(this);
 
             try
             {
-                newValidationResult.Retorno = (T)Retorno;
+                // Conversão via JSON para manter compatibilidade
+                string json = JsonSerializer.Serialize(Retorno);
+                novo.Retorno = JsonSerializer.Deserialize<U>(json!)!;
             }
             catch
             {
-                newValidationResult.Add("Erro ao efetuar a conversão do retorno. É o mesmo tipo que deseja converter?");
+                novo.AddError("Erro ao efetuar a conversão do retorno. É o mesmo tipo que deseja converter?");
             }
-            return newValidationResult;
+
+            return novo;
         }
-
-
     }
 }
 

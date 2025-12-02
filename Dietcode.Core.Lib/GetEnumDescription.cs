@@ -7,15 +7,19 @@ namespace Dietcode.Core.Lib
     {
         public static string GetDescription(this Enum value)
         {
-            FieldInfo fi = value.GetType().GetField(value.ToString())!;
+            if (value == null)
+                return string.Empty;
 
-            DescriptionAttribute[] attributes =
-                (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            var enumType = value.GetType();
+            var member = enumType.GetMember(value.ToString());
 
-            if (attributes != null && attributes.Length > 0)
-                return attributes[0].Description;
-            else
+            if (member.Length == 0)
                 return value.ToString();
+
+            var attribute = member[0]
+                .GetCustomAttribute<DescriptionAttribute>(inherit: false);
+
+            return attribute?.Description ?? value.ToString();
         }
     }
 }

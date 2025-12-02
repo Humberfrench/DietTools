@@ -8,64 +8,62 @@ namespace Dietcode.Core.Lib.Cryptography
     {
         private AES() { }
 
-        /// <summary>
-        /// Encrypts a text value by a given 16 character key using AES.
-        /// </summary>
-        /// <param name="text">The text to encrypt.</param>
-        /// <param name="key">A string up to 16 characters.</param>
-        /// <returns></returns>
+        private static string NormalizeKey(string? key)
+        {
+            if (string.IsNullOrWhiteSpace(key))
+                return new string(' ', 16); // mantém compatibilidade
+
+            if (key.Length < 16)
+                return key.PadLeft(16, ' ');
+
+            if (key.Length > 16)
+                return key.Substring(0, 16);
+
+            return key;
+        }
+
+        // ==========================================================
+        // ENCRYPT
+        // ==========================================================
         public static string? Encrypt(string text, string? key)
         {
-            key = key?.Length < 16 ? key?.PadLeft(16, ' ') : key?.Length > 16 ? key?.Substring(0, 16) : key;
+            if (text == null) return null;
 
-            string? result = null;
-
-            byte[]? keyBytes = key != null ? Encoding.UTF8.GetBytes(key) : null;
+            key = NormalizeKey(key);
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
             byte[] messageBytes = Encoding.UTF8.GetBytes(text);
 
-            if (keyBytes == null) { return null; }
-
-            Aes aes = Aes.Create();
+            using var aes = Aes.Create();
             aes.Key = keyBytes;
             aes.Mode = CipherMode.ECB;
             aes.Padding = PaddingMode.PKCS7;
 
-            using (ICryptoTransform transform = aes.CreateEncryptor())
-            {
-                byte[] encryptedBytes = transform.TransformFinalBlock(messageBytes, 0, messageBytes.Length);
-                result = Convert.ToBase64String(encryptedBytes);
-            }
+            using ICryptoTransform transform = aes.CreateEncryptor();
+            byte[] encrypted = transform.TransformFinalBlock(messageBytes, 0, messageBytes.Length);
 
-            return result;
+            return Convert.ToBase64String(encrypted);
         }
 
+        // ==========================================================
+        // DECRYPT
+        // ==========================================================
         public static string? Decrypt(string? text, string? key)
         {
-            if (text == null || key == null) { return null; }
+            if (text == null) return null;
 
-            key = key?.Length < 16 ? key?.PadLeft(16, ' ') : key?.Length > 16 ? key?.Substring(0, 16) : key;
-
-            string? result = null;
-
-            byte[]? keyBytes = key != null ? System.Text.Encoding.UTF8.GetBytes(key) : null;
+            key = NormalizeKey(key);
+            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
             byte[] messageBytes = Convert.FromBase64String(text);
 
-            if (keyBytes == null) { return null; }
-
-            Aes aes = Aes.Create();
+            using var aes = Aes.Create();
             aes.Key = keyBytes;
             aes.Mode = CipherMode.ECB;
             aes.Padding = PaddingMode.PKCS7;
 
-            using (ICryptoTransform transform = aes.CreateDecryptor())
-            {
-                byte[] decryptedBytes = transform.TransformFinalBlock(messageBytes, 0, messageBytes.Length);
-                result = System.Text.Encoding.UTF8.GetString(decryptedBytes);
-            }
+            using ICryptoTransform transform = aes.CreateDecryptor();
+            byte[] decrypted = transform.TransformFinalBlock(messageBytes, 0, messageBytes.Length);
 
-            return result;
+            return Encoding.UTF8.GetString(decrypted);
         }
-
-
     }
 }

@@ -4,110 +4,50 @@ using System.Net;
 namespace Dietcode.Core.DomainValidator
 {
     [Serializable]
-    public abstract class ValidationResultBase : IValidationResult
+    public abstract class ValidationResultBase
     {
-        protected readonly List<ValidationError> errors = new List<ValidationError>();
-
-        public ValidationResultBase()
-        {
-            errors = new List<ValidationError>();
-            Mensagem = "";
-        }
+        protected readonly List<ValidationError> errors = new();
 
         public HttpStatusCode StatusCode { get; set; }
+        public int CodigoMensagem { get; set; }
+        public string Mensagem { get; set; } = string.Empty;
 
-        public IList<ValidationError> Erros => errors;
+        public IReadOnlyList<ValidationError> Erros => errors;
 
-        public int CodigoMessagem { get; set; }
+        // Agora não existe mais warning. Erro = erro.
+        public bool Valid => !errors.Any();
+        public bool Invalid => errors.Any();
 
-        public string Mensagem { get; set; }
+        // -------------------------------------------------------
+        // Métodos de adição de erros
+        // -------------------------------------------------------
 
-        public bool Valid => !errors.Any(vr => vr.Erro);
-
-        public bool Invalid => errors.Any(vr => vr.Erro);
-
-        public bool Warning
+        public void AddError(string message)
         {
-            get
-            {
-                return errors.Count(vr => vr.Erro) != Erros.Count;
-            }
+            errors.Add(new ValidationError(message));
         }
 
-        public void Add(ValidationError error)
+        public void AddError(string message, int codigo)
         {
-            errors.Add(error);
+            errors.Add(new ValidationError(codigo, message));
         }
 
-        public void Add(params ValidationResult[] validationResults)
+        public void AddError(string message, HttpStatusCode statusCode)
         {
-            if (validationResults != null)
-            {
-                foreach (var result in from result in validationResults
-                                       where result != null
-                                       select result)
-                {
-                    errors.AddRange(result.Erros);
-                }
-            }
-        }
-
-        public void Add(string error, bool erro = true)
-        {
-            var validationErro = new ValidationError(error, erro);
-            errors.Add(validationErro);
-
-        }
-        public void Add(string error, HttpStatusCode statusCode)
-        {
-            var validationErro = new ValidationError(error, true);
-            errors.Add(validationErro);
-            StatusCode = statusCode;
-
-        }
-
-        public void Add(int codigo, string error, bool erro = true)
-        {
-            var validationErro = new ValidationError(codigo, error, erro);
-            errors.Add(validationErro);
-        }
-
-        public void AddError(string error)
-        {
-            var validationErro = new ValidationError(error, true);
-            errors.Add(validationErro);
-        }
-
-        public void AddError(string error, HttpStatusCode statusCode)
-        {
-            var validationErro = new ValidationError(error, true);
-            errors.Add(validationErro);
+            errors.Add(new ValidationError(message));
             StatusCode = statusCode;
         }
 
-        public void AddWarning(string error)
+        // Recebe erros de outro ValidationResultBase
+        public void Add(string message)
         {
-            var validationErro = new ValidationError(error, false);
-            errors.Add(validationErro);
+            errors.Add(new ValidationError(message));
         }
 
-        public void Remove(ValidationError error)
+        public void Add(ValidationResultBase other)
         {
-            if (errors.Contains(error))
-            {
-                errors.Remove(error);
-            }
+            if (other != null)
+                errors.AddRange(other.errors);
         }
-
-        public void GetErros(IList<ValidationError> erros)
-        {
-            GetErros(erros.ToList());
-        }
-
-        public void GetErros(List<ValidationError> erros)
-        {
-            erros.ForEach(e => Add(e));
-        }
-
     }
 }

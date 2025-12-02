@@ -4,200 +4,166 @@ namespace Dietcode.Core.Lib
 {
     public static class Validacao
     {
+        private static readonly Regex DigitsOnly = new(@"^\d+$", RegexOptions.Compiled);
+
+        // -----------------------------
+        // DOCUMENTOS
+        // -----------------------------
+
         public static string CorrigirDocumento(string documento)
         {
-            if (string.IsNullOrEmpty(documento))
-                return documento;
+            if (string.IsNullOrWhiteSpace(documento))
+                return documento ?? string.Empty;
 
-            var cleaned = documento.Trim();
+            var cleaned = Limpar(documento);
 
-            if (cleaned.Length == 11 || cleaned.Length == 14)
-                return cleaned;
-
-            if (cleaned.Length < 11)
-                return cleaned.PadLeft(11, '0'); // CPF
-
-            if (cleaned.Length >= 12 && cleaned.Length < 14)
-                return cleaned.PadLeft(14, '0'); // CNPJ
-
-            return cleaned; // mantém como está se maior que 14
+            return cleaned.Length switch
+            {
+                11 or 14 => cleaned,
+                < 11 => cleaned.PadLeft(11, '0'), // CPF
+                < 14 => cleaned.PadLeft(14, '0'), // CNPJ
+                _ => cleaned
+            };
         }
 
         public static bool IsPis(string pis)
         {
-            int[] multiplicador = new int[10] { 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
-            int soma;
-            int resto;
-            if (pis.Trim().Length != 11)
-                return false;
-            pis = pis.Trim();
-            pis = pis.Replace("-", "").Replace(".", "").PadLeft(11, '0');
+            pis = Limpar(pis).PadLeft(11, '0');
 
-            soma = 0;
+            if (pis.Length != 11 || !DigitsOnly.IsMatch(pis))
+                return false;
+
+            int[] pesos = { 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
+
+            int soma = 0;
             for (int i = 0; i < 10; i++)
-                soma += int.Parse(pis[i].ToString()) * multiplicador[i];
-            resto = soma % 11;
-            if (resto < 2)
-                resto = 0;
-            else
-                resto = 11 - resto;
-            return pis.EndsWith(resto.ToString());
+                soma += (pis[i] - '0') * pesos[i];
+
+            int resto = soma % 11;
+            int digito = resto < 2 ? 0 : 11 - resto;
+
+            return pis.EndsWith(digito.ToString());
         }
 
         public static bool IsCpf(string cpf)
         {
-            int[] multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-            int[] multiplicador2 = new int[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-            string tempCpf;
-            string digito;
-            int soma;
-            int resto;
-            cpf = cpf.Trim();
-            cpf = cpf.Replace(".", "").Replace("-", "");
-            if (cpf.Length != 11)
-                return false;
-            tempCpf = cpf.Substring(0, 9);
-            soma = 0;
+            cpf = Limpar(cpf);
 
-            for (int i = 0; i < 9; i++)
-                soma += int.Parse(tempCpf[i].ToString()) * multiplicador1[i];
-            resto = soma % 11;
-            if (resto < 2)
-                resto = 0;
-            else
-                resto = 11 - resto;
-            digito = resto.ToString();
-            tempCpf = tempCpf + digito;
-            soma = 0;
-            for (int i = 0; i < 10; i++)
-                soma += int.Parse(tempCpf[i].ToString()) * multiplicador2[i];
-            resto = soma % 11;
-            if (resto < 2)
-                resto = 0;
-            else
-                resto = 11 - resto;
-            digito = digito + resto.ToString();
-            return cpf.EndsWith(digito);
+            if (cpf.Length != 11 || !DigitsOnly.IsMatch(cpf))
+                return false;
+
+            if (TodosDigitosIguais(cpf))
+                return false;
+
+            string temp = cpf[..9];
+
+            int dig1 = CalcularDigitoCpf(temp, new[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 });
+            temp += dig1;
+
+            int dig2 = CalcularDigitoCpf(temp, new[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 });
+
+            return cpf.EndsWith($"{dig1}{dig2}");
         }
 
         public static bool IsCnpj(string cnpj)
         {
-            int[] multiplicador1 = new int[12] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
-            int[] multiplicador2 = new int[13] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 };
-            int soma;
-            int resto;
-            string digito;
-            string tempCnpj;
-            cnpj = cnpj.Trim();
-            cnpj = cnpj.Replace(".", "").Replace("-", "").Replace("/", "");
-            if (cnpj.Length != 14)
+            cnpj = Limpar(cnpj);
+
+            if (cnpj.Length != 14 || !DigitsOnly.IsMatch(cnpj))
                 return false;
-            tempCnpj = cnpj.Substring(0, 12);
-            soma = 0;
-            for (int i = 0; i < 12; i++)
-                soma += int.Parse(tempCnpj[i].ToString()) * multiplicador1[i];
-            resto = (soma % 11);
-            if (resto < 2)
-                resto = 0;
-            else
-                resto = 11 - resto;
-            digito = resto.ToString();
-            tempCnpj = tempCnpj + digito;
-            soma = 0;
-            for (int i = 0; i < 13; i++)
-                soma += int.Parse(tempCnpj[i].ToString()) * multiplicador2[i];
-            resto = (soma % 11);
-            if (resto < 2)
-                resto = 0;
-            else
-                resto = 11 - resto;
-            digito = digito + resto.ToString();
-            return cnpj.EndsWith(digito);
+
+            if (TodosDigitosIguais(cnpj))
+                return false;
+
+            string temp = cnpj[..12];
+
+            int dig1 = CalcularDigitoCnpj(temp, new[] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 });
+            temp += dig1;
+
+            int dig2 = CalcularDigitoCnpj(temp, new[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 });
+
+            return cnpj.EndsWith($"{dig1}{dig2}");
         }
+
+        // -----------------------------
+        // DATAS
+        // -----------------------------
 
         public static string DataRangeValido(string dataValidar)
         {
-            var min = DateTime.Now.AddYears(-18);
-            var max = DateTime.Now.AddYears(-100);
-            var msg = $"Data Inválida, entrar com uma data entre {max:dd/MM/yyyy} e {min:dd/MM/yyyy}";
+            if (!DateTime.TryParse(dataValidar, out var data))
+                return RangeMsg(DateTime.Now.AddYears(-100), DateTime.Now.AddYears(-18));
 
-            try
-            {
-                var date = DateTime.Parse(dataValidar);
-
-                if (date > min || date < max)
-                {
-                    return msg;
-                }
-                return "true";
-            }
-            catch (Exception)
-            {
-                return msg;
-            }
+            return DataRangeValido(data);
         }
 
         public static string DataRangeValido(DateTime dataValidar)
         {
-            var min = DateTime.Now.AddYears(-18);
-            var max = DateTime.Now.AddYears(-100);
-            var msg = $"Data Inválida, entrar com uma data entre {max:dd/MM/yyyy} e {min:dd/MM/yyyy}";
+            var min = DateTime.Now.AddYears(-18); // pessoa mais jovem
+            var max = DateTime.Now.AddYears(-100); // pessoa mais velha
 
-            try
-            {
-                if (dataValidar > min || dataValidar < max)
-                {
-                    return msg;
-                }
-                return "true";
-            }
-            catch (Exception)
-            {
-                return msg;
-            }
+            return (dataValidar >= max && dataValidar <= min)
+                ? "true"
+                : RangeMsg(max, min);
         }
 
         public static string DataDocumentoRangeValido(string dataValidar, string dataNascimento)
         {
-            var hoje = DateTime.Now;
-            var msg = String.Empty;
-            try
-            {
-                var date = DateTime.Parse(dataValidar);
-                var dateNasc = DateTime.Parse(dataNascimento);
-                msg = $"Data Inválida, entrar com uma data entre {dateNasc:dd/MM/yyyy} e {hoje:dd/MM/yyyy}";
+            if (!DateTime.TryParse(dataValidar, out var dv))
+                return "Data inválida";
 
-                if (date > hoje || date < dateNasc)
-                {
-                    return msg;
-                }
-                return "true";
-            }
-            catch (Exception)
-            {
-                return msg;
-            }
+            if (!DateTime.TryParse(dataNascimento, out var dn))
+                return "Data de nascimento inválida";
+
+            return DataDocumentoRangeValido(dv, dn);
         }
 
         public static string DataDocumentoRangeValido(DateTime dataValidar, DateTime dataNascimento)
         {
             var hoje = DateTime.Now;
-            var msg = String.Empty;
-            try
-            {
-                msg = $"Data Inválida, entrar com uma data entre {dataNascimento:dd/MM/yyyy} e {hoje:dd/MM/yyyy}";
 
-                if (dataValidar > hoje || dataValidar < dataNascimento)
-                {
-                    return msg;
-                }
-                return "true";
-            }
-            catch (Exception)
-            {
-                return msg;
-            }
+            if (dataValidar < dataNascimento || dataValidar > hoje)
+                return RangeMsg(dataNascimento, hoje);
+
+            return "true";
         }
 
+        // -----------------------------
+        // HELPERS
+        // -----------------------------
+
+        private static string Limpar(string s) =>
+            s?.Replace(".", "")
+              .Replace("-", "")
+              .Replace("/", "")
+              .Replace(" ", "") ?? string.Empty;
+
+        private static bool TodosDigitosIguais(string s) =>
+            s.Distinct().Count() == 1;
+
+        private static int CalcularDigitoCpf(string baseCpf, int[] pesos)
+        {
+            int soma = 0;
+
+            for (int i = 0; i < pesos.Length; i++)
+                soma += (baseCpf[i] - '0') * pesos[i];
+
+            int resto = soma % 11;
+            return resto < 2 ? 0 : 11 - resto;
+        }
+
+        private static int CalcularDigitoCnpj(string baseCnpj, int[] pesos)
+        {
+            int soma = 0;
+
+            for (int i = 0; i < pesos.Length; i++)
+                soma += (baseCnpj[i] - '0') * pesos[i];
+
+            int resto = soma % 11;
+            return resto < 2 ? 0 : 11 - resto;
+        }
+
+        private static string RangeMsg(DateTime min, DateTime max) =>
+            $"Data Inválida, entrar com uma data entre {min:dd/MM/yyyy} e {max:dd/MM/yyyy}";
     }
 }

@@ -8,7 +8,7 @@
     <projectUrl>http://www.dietcode.com.br/</projectUrl>
     <description>Dietcode Entity ORM Classic - Repositorio Classic</description>
     <copyright>Dietcode Web</copyright>
-    <repository type="git" commit="66c11c481e00a9bba53b902b27a9228fd01c6656" />
+    <repository type="git" commit="bb86ff23bc3daa24d4d4734ff64311090b278409" />
     <dependencies>
       <group targetFramework="net9.0">
         <dependency id="Dapper" version="2.1.66" exclude="Build,Analyzers" />

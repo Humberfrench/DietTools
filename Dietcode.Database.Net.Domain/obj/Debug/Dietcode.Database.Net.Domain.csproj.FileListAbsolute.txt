@@ -2,9 +2,7 @@ C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Net.Domain\bin\Debug\Dietcode.Database.Net.Domain.pdb
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Net.Domain\bin\Debug\Credpay.Tools.DomainValidator.dll
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Net.Domain\bin\Debug\Newtonsoft.Json.dll
-C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Net.Domain\bin\Debug\System.ValueTuple.dll
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Net.Domain\bin\Debug\Newtonsoft.Json.xml
-C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Net.Domain\bin\Debug\System.ValueTuple.xml
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Net.Domain\obj\Debug\Dietcode.Database.Net.Domain.csproj.AssemblyReference.cache
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Net.Domain\obj\Debug\Dietcode.Database.Net.Domain.csproj.CoreCompileInputs.cache
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database.Net.Domain\obj\Debug\Dietcode.BF03EEFC.Up2Date

@@ -10,4 +10,3 @@ C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib\
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib\obj\Debug\net9.0\refint\Dietcode.Core.Lib.dll
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib\obj\Debug\net9.0\Dietcode.Core.Lib.pdb
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib\obj\Debug\net9.0\ref\Dietcode.Core.Lib.dll
-C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib\obj\Debug\net9.0\Dietcode.Core.Lib.csproj.AssemblyReference.cache

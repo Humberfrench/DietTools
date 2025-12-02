@@ -1,0 +1,12 @@
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Criptography\bin\Debug\net9.0\Dietcode.Core.Criptography.deps.json
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Criptography\bin\Debug\net9.0\Dietcode.Core.Criptography.dll
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Criptography\bin\Debug\net9.0\Dietcode.Core.Criptography.pdb
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Criptography\obj\Debug\net9.0\Dietcode.Core.Criptography.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Criptography\obj\Debug\net9.0\Dietcode.Core.Criptography.AssemblyInfoInputs.cache
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Criptography\obj\Debug\net9.0\Dietcode.Core.Criptography.AssemblyInfo.cs
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Criptography\obj\Debug\net9.0\Dietcode.Core.Criptography.csproj.CoreCompileInputs.cache
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Criptography\obj\Debug\net9.0\Dietcode.Core.Criptography.sourcelink.json
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Criptography\obj\Debug\net9.0\Dietcode.Core.Criptography.dll
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Criptography\obj\Debug\net9.0\refint\Dietcode.Core.Criptography.dll
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Criptography\obj\Debug\net9.0\Dietcode.Core.Criptography.pdb
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Criptography\obj\Debug\net9.0\ref\Dietcode.Core.Criptography.dll

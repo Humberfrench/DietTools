@@ -23,8 +23,11 @@ namespace Dietcode.Core.DomainValidator
             foreach (var x in validations.Keys)
             {
                 var rule = validations[x];
+
                 if (!rule.Validar(entity))
-                    result.Add(new ValidationError(rule.MensagemErro));
+                {
+                    result.AddError(rule.MensagemErro);
+                }
             }
 
             return result;
@@ -32,12 +35,8 @@ namespace Dietcode.Core.DomainValidator
 
         protected IRule<TEntity> ObterRegra(string nomeRegra)
         {
-            IRule<TEntity> rule;
-            validations.TryGetValue(nomeRegra, out rule);
-            return rule;
+            validations.TryGetValue(nomeRegra, out var rule);
+            return rule!;
         }
-
-
-
     }
 }

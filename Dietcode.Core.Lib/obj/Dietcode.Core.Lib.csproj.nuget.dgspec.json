@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Core.Lib\\Dietcode.Core.Lib.csproj": {
-      "version": "2.7.0",
+      "version": "3.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Core.Lib\\Dietcode.Core.Lib.csproj",
         "projectName": "Dietcode.Core.Lib",
@@ -46,17 +46,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
-          "dependencies": {
-            "Polly": {
-              "target": "Package",
-              "version": "[8.6.3, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",
@@ -73,7 +67,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

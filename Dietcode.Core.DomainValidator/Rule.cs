@@ -2,7 +2,7 @@
 
 namespace Dietcode.Core.DomainValidator
 {
-    public class Rule<TEntity> : IRule<TEntity>
+    public class Rule<TEntity> : IRule<TEntity> where TEntity : class, new()
     {
         private readonly ISpecification<TEntity> _specificationRule;
 

@@ -8,3 +8,4 @@ namespace Dietcode.Database.Domain
         ValidationResult<T> SaveChanges();
     }
 }
+

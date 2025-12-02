@@ -8,7 +8,7 @@
     <projectUrl>http://www.dietcode.com.br/</projectUrl>
     <description>Api Core Tools - Extensoes e ferramentas auxiliares</description>
     <copyright>Dietcode Web</copyright>
-    <repository type="git" commit="3d45008389964702331ae9294b24fc7276fcccd1" />
+    <repository type="git" commit="bb86ff23bc3daa24d4d4734ff64311090b278409" />
     <dependencies>
       <group targetFramework="net9.0">
         <dependency id="Polly" version="8.6.3" exclude="Build,Analyzers" />

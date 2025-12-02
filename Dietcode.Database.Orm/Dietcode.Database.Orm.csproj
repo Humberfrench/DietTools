@@ -12,14 +12,14 @@
 		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 		<Title>Dietcode Entity ORM Generic</Title>
 		<Description>Dietcode Entity ORM Generic - Repositorio patterns and unit of work patterns</Description>
-		<Version>1.9.0.0</Version>
-		<AssemblyVersion>1.9.0.0</AssemblyVersion>
-		<FileVersion>1.9.0.0</FileVersion>
+		<Version>2.5.1.0</Version>
+		<AssemblyVersion>2.5.1.0</AssemblyVersion>
+		<FileVersion>2.5.1.0</FileVersion>
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Dietcode.Core.DomainValidator" Version="2.3.0" />
+		<PackageReference Include="Dietcode.Core.DomainValidator" Version="2.5.1" />
 		<PackageReference Include="Dietcode.Core.Lib" Version="2.7.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
@@ -32,6 +32,14 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.4" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.4" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.4" />
+		<PackageReference Include="Serilog" Version="4.3.0" />
+		<PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+		<PackageReference Include="Serilog.Enrichers.Process" Version="3.0.0" />
+		<PackageReference Include="Serilog.Enrichers.Thread" Version="4.0.0" />
+		<PackageReference Include="Serilog.Extensions.Logging" Version="9.0.2" />
+		<PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
+		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
 
 	</ItemGroup>
 

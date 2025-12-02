@@ -2,351 +2,166 @@
 {
     public static class CreditCardValidator
     {
-        // About the Algorithm
-        /**
-            @See https://en.wikipedia.org/wiki/Luhn_algorithm
-            Steps:
-            1 - From the rightmost Digit of a Numeric String, Double the value of every digit on odd positions
-            2 - If the obtained value is greather than 9, subtract 9 from it
-            3 - Sum all values
-            4 - Calculate the Modulus of the value on 10 basis, if is zero so the String has a Luhnn Check Valid
-        **/
-
+        // ============================================================
+        //                    LUHN VALIDATOR
+        // ============================================================
         public static bool IsValidLuhnn(string value)
         {
-            int valSum = 0;
+            if (string.IsNullOrWhiteSpace(value))
+                return false;
 
-            for (var i = value.Length - 1; i >= 0; i--)
+            int sum = 0;
+
+            for (int i = value.Length - 1; i >= 0; i--)
             {
-                //parse to int the current rightmost digit, if fail return false (not-valid id)
-
-                if (!int.TryParse(value.Substring(i, 1), out var currentDigit))
+                if (!int.TryParse(value[i].ToString(), out int digit))
                     return false;
 
-                var currentProcNum = currentDigit << (1 + i & 1);
-                //summarize the processed digits
-                valSum += currentProcNum > 9 ? currentProcNum - 9 : currentProcNum;
+                // dobra dígitos em posição alternada
+                int calc = (i % 2 == value.Length % 2) ? digit * 2 : digit;
 
+                sum += calc > 9 ? calc - 9 : calc;
             }
 
-            // if digits sum is exactly divisible by 10, return true (valid), else false (not-valid)
-            // valSum must be greater than zero to avoid validate 0000000...00 value
-            return valSum > 0 && valSum % 10 == 0;
+            return sum > 0 && sum % 10 == 0;
         }
 
         public static bool IsValidCreditCardNumber(string creditCardNumber)
         {
-            // rule #1, must be only numbers
-            if (creditCardNumber.All(char.IsDigit) == false)
-            {
+            if (string.IsNullOrWhiteSpace(creditCardNumber))
                 return false;
-            }
-            // rule #2, must have at least 12 and max of 19 digits
-            if (12 > creditCardNumber.Length || creditCardNumber.Length > 19)
-            {
-                return false;
-            }
-            // rule #3, must pass Luhnn Algorithm
-            return IsValidLuhnn(creditCardNumber);
 
+            if (!creditCardNumber.All(char.IsDigit))
+                return false;
+
+            if (creditCardNumber.Length is < 12 or > 19)
+                return false;
+
+            return IsValidLuhnn(creditCardNumber);
         }
 
-        #region Validar Bandeira
-
+        // ============================================================
+        //                     FLAG / BANDEIRA
+        // ============================================================
         public static string ValidaBandeira(string card)
         {
             try
             {
-                var first = Int16.Parse(card.Substring(0, 1));
-                var second = Int16.Parse(card.Substring(0, 2));
-                var third = Int16.Parse(card.Substring(0, 3));
-                var forth = Int16.Parse(card.Substring(0, 4));
-                var bin = Int32.Parse(card.Substring(0, 6));
-
-                if (first == 0) //teste braspag
-                {
-                    return "VISA";
-                }
-                if (first == 4)
-                {
-                    if (BinElo(bin))
-                    {
-                        return "ELO";
-                    }
-                    if (BinElo(forth))
-                    {
-                        return "ELO";
-                    }
-                    return "VISA";
-                }
-
-                if (first == 5)
-                {
-                    if (second != 50)
-                    {
-                        return "MASTERCARD";
-                    }
-                    else
-                    {
-                        if (forth == 5067)
-                        {
-                            return "ELO";
-                        }
-                        else
-                        {
-                            if (BinElo(bin))
-                            {
-                                return "ELO";
-                            }
-                        }
-                    }
-                    return "MASTERCARD";
-                }
-
-                if (first == 2)
-                {
-                    if (Between(bin, 222100, 272099))
-                    {
-                        return "MASTERCARD";
-                    }
+                if (string.IsNullOrWhiteSpace(card) || card.Length < 6)
                     return "ND";
-                }
 
-                if (first == 3)
+                int first = int.Parse(card[..1]);
+                int second = int.Parse(card[..2]);
+                int third = int.Parse(card[..3]);
+                int forth = int.Parse(card[..4]);
+                int bin6 = int.Parse(card[..6]);
+
+                return first switch
                 {
-                    if (BinAmex(second))
-                    {
-                        return "AMEX";
-                    }
-                    if (BinHipercard(forth))
-                    {
-                        return "HIPERCARD";
-                    }
-                    if (BinDinners(second))
-                    {
-                        return "DINERS";
-                    }
-                    if (BinDinners(third))
-                    {
-                        return "DINERS";
-                    }
-                    if (BinJcb(second))
-                    {
-                        return "JCB";
-                    }
+                    0 => "VISA",  // teste braspag
 
-                }
+                    4 => BinElo(bin6) || BinElo(forth) ? "ELO" : "VISA",
 
-                if (first == 6)
-                {
-                    if (BinElo(bin))
-                    {
-                        return "ELO";
-                    }
-                    if (BinDiscover(second))
-                    {
-                        return "DISCOVER";
-                    }
-                    if (BinDiscover(third))
-                    {
-                        return "DISCOVER";
-                    }
-                    if (BinDiscover(forth))
-                    {
-                        return "DISCOVER";
-                    }
-                    if (BinHipercard(bin))
-                    {
-                        return "HIPERCARD";
-                    }
-                    return "ND";
-                }
+                    5 => second != 50 ? "MASTERCARD"
+                                      : forth == 5067 || BinElo(bin6)
+                                      ? "ELO"
+                                      : "MASTERCARD",
 
+                    2 => Between(bin6, 222100, 272099) ? "MASTERCARD" : "ND",
 
+                    3 => ValidateRange3(second, third, forth),
+
+                    6 => ValidateRange6(second, third, forth, bin6),
+
+                    _ => "ND"
+                };
             }
-            catch (Exception)
+            catch
             {
                 return "ND";
             }
+        }
+
+        private static string ValidateRange3(int second, int third, int forth)
+        {
+            if (BinAmex(second)) return "AMEX";
+            if (BinHipercard(forth)) return "HIPERCARD";
+            if (BinDinners(second) || BinDinners(third)) return "DINERS";
+            if (BinJcb(second)) return "JCB";
 
             return "ND";
-
         }
 
+        private static string ValidateRange6(int second, int third, int forth, int bin6)
+        {
+            if (BinElo(bin6)) return "ELO";
+            if (BinDiscover(second) || BinDiscover(third) || BinDiscover(forth)) return "DISCOVER";
+            if (BinHipercard(bin6)) return "HIPERCARD";
+
+            return "ND";
+        }
+
+        // ============================================================
+        //                         BIN RULES
+        // ============================================================
         private static bool BinElo(int bin)
         {
-            switch (bin)
+            return bin switch
             {
-                case 4011: return true;
-                case 431274: return true;
-                case 438935: return true;
-                case 451416: return true;
-                case 457393: return true;
-                case 4576: return true;
-                case 457631: return true;
-                case 457632: return true;
-                case 504175: return true;
-                case 627780: return true;
-                case 636297: return true;
-                case 636368: return true;
-                case 636369: return true;
-                default: return BinEloInRange(bin);
-            }
+                4011 or 431274 or 438935 or 451416 or 457393 or 4576 or
+                457631 or 457632 or 504175 or 627780 or 636297 or 636368 or 636369
+                    => true,
 
-            bool BinEloInRange(int binValue)
+                _ => BinEloInRange(bin)
+            };
+
+            static bool BinEloInRange(int b)
             {
-                var retorno = Between(binValue, 506699, 506778);
-                if (retorno)
-                {
-                    return true;
-                }
-
-                retorno = Between(binValue, 509000, 509999);
-                if (retorno)
-                {
-                    return true;
-                }
-
-                retorno = Between(binValue, 650031, 650033);
-                if (retorno)
-                {
-                    return true;
-                }
-
-                retorno = Between(binValue, 650035, 650051);
-                if (retorno)
-                {
-                    return true;
-                }
-
-                retorno = Between(binValue, 650405, 650439);
-                if (retorno)
-                {
-                    return true;
-                }
-
-                retorno = Between(binValue, 650485, 650538);
-                if (retorno)
-                {
-                    return true;
-                }
-
-                retorno = Between(binValue, 650541, 650598);
-                if (retorno)
-                {
-                    return true;
-                }
-
-                retorno = Between(binValue, 650700, 650718);
-                if (retorno)
-                {
-                    return true;
-                }
-
-                retorno = Between(binValue, 650720, 650727);
-                if (retorno)
-                {
-                    return true;
-                }
-
-                retorno = Between(binValue, 650901, 650920);
-                if (retorno)
-                {
-                    return true;
-                }
-
-                retorno = Between(binValue, 651652, 651679);
-                if (retorno)
-                {
-                    return true;
-                }
-
-                retorno = Between(binValue, 655000, 655019);
-                if (retorno)
-                {
-                    return true;
-                }
-
-                retorno = Between(binValue, 655021, 655058);
-                return retorno;
+                return
+                    Between(b, 506699, 506778) ||
+                    Between(b, 509000, 509999) ||
+                    Between(b, 650031, 650033) ||
+                    Between(b, 650035, 650051) ||
+                    Between(b, 650405, 650439) ||
+                    Between(b, 650485, 650538) ||
+                    Between(b, 650541, 650598) ||
+                    Between(b, 650700, 650718) ||
+                    Between(b, 650720, 650727) ||
+                    Between(b, 650901, 650920) ||
+                    Between(b, 651652, 651679) ||
+                    Between(b, 655000, 655019) ||
+                    Between(b, 655021, 655058);
             }
         }
 
-        private static bool BinHipercard(int bin)
-        {
-            switch (bin)
-            {
-                case 384100: return true;
-                case 384140: return true;
-                case 384160: return true;
-                case 606282: return true;
-                case 637095: return true;
-                case 637568: return true;
-                case 637599: return true;
-                case 637609: return true;
-                case 637612: return true;
-            }
+        private static bool BinHipercard(int bin) =>
+            bin is 384100 or 384140 or 384160 or 606282 or
+                   637095 or 637568 or 637599 or 637609 or 637612;
 
-            return false;
-        }
+        private static bool BinDinners(int bin) =>
+            bin is 301 or 305 or 36 or 38;
 
-        private static bool BinDinners(int bin)
-        {
-            switch (bin)
-            {
-                case 301: return true;
-                case 305: return true;
-                case 36: return true;
-                case 38: return true;
-            }
+        private static bool BinJcb(int bin) =>
+            bin is 35;
 
-            return false;
-        }
+        private static bool BinDiscover(int bin) =>
+            bin is 6011 or 622 or 64 or 65;
 
-        private static bool BinJcb(int bin)
-        {
-            switch (bin)
-            {
-                case 35: return true;
-            }
+        private static bool BinAmex(int bin) =>
+            bin is 34 or 37;
 
-            return false;
-        }
+        private static bool Between(int value, int menor, int maior) =>
+            value >= menor && value <= maior;
 
-        private static bool BinDiscover(int bin)
-        {
-            switch (bin)
-            {
-                case 6011: return true;
-                case 622: return true;
-                case 64: return true;
-                case 65: return true;
-            }
-
-            return false;
-        }
-
-        private static bool BinAmex(int bin)
-        {
-            switch (bin)
-            {
-                case 34: return true;
-                case 37: return true;
-            }
-
-            return false;
-        }
-
-        private static bool Between(int value, int menor, int maior)
-        {
-            return (value >= menor) && (value <= maior);
-        }
-
-        #endregion
-
+        // ============================================================
+        //                     BIN ÚNICO
+        // ============================================================
         public static string ObterBinUnico(string cardNumber)
         {
-            return $"{cardNumber.Substring(0, 6)}{cardNumber.Substring(cardNumber.Length - 4, 4)}";
+            if (string.IsNullOrWhiteSpace(cardNumber) || cardNumber.Length < 10)
+                return string.Empty;
+
+            return $"{cardNumber[..6]}{cardNumber[^4..]}";
         }
     }
 }

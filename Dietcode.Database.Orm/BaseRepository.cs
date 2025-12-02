@@ -4,101 +4,113 @@ using Dietcode.Database.Orm.Context;
 using Dietcode.Database.Orm.UnitOfWork;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Linq.Expressions;
-
-////MUST Add
-//{
-//    services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-//    services.AddScoped(typeof(IMyContextManager<>), typeof(MyContextManager<>));
-
-//}
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Dietcode.Database.Orm.Logging;
 
 namespace Dietcode.Database.Orm
 {
     public class BaseRepository<Table, Tipo> : IBaseRepository<Table, Tipo> where Table : class, new()
     {
-        protected DbSet<Table> DbSet;
-        protected readonly ThisDatabase<Table> Context ;
+        protected readonly ThisDatabase<Table> Context;
+        protected readonly DbSet<Table> DbSet;
         private readonly IMyContextManager<ThisDatabase<Table>> contextManager;
         private readonly IMyUnitOfWork<Table> myUnitOfWork;
+        private ILogger Logger => InternalOrmLoggerFactory.Instance.CreateLogger<BaseRepository<Table, Tipo>>();
 
         public BaseRepository(IMyContextManager<ThisDatabase<Table>> contextManager)
         {
             this.contextManager = contextManager;
             Context = contextManager.GetContext();
-            this.myUnitOfWork = new MyUnitOfWork<Table>(Context);
+            myUnitOfWork = new MyUnitOfWork<Table>(Context);
             DbSet = Context.Set<Table>();
         }
 
         #region Dapper
 
-        //for dapper
         public IDbConnection Connection => new SqlConnection(Context.ConnectionString);
 
         #endregion
 
         #region Crud
 
-        public async virtual Task<bool> Adicionar(Table obj)
+        public virtual async Task<bool> Adicionar(Table obj)
         {
-            var entry = Context.Entry(obj);
             await DbSet.AddAsync(obj);
-            entry.State = EntityState.Added;
+            Logger.LogInformation("Inserindo entidade {Entity}", typeof(Table).Name);
+            Logger.LogDebug("Inserindo entidade {Entity}", typeof(Table).Name);
 
-            var entries = Context.ChangeTracker.Entries().Where(e => e.State == EntityState.Added).ToList();
+            var entries = Context.ChangeTracker.Entries()
+                .Where(e => e.Entity == obj && e.State == EntityState.Added)
+                .ToList();
 
             return entries.Count > 0;
         }
 
-        public async virtual Task<bool> Atualizar(Table obj)
+        public virtual Task<bool> Atualizar(Table obj)
         {
             var entry = Context.Entry(obj);
-            await Task.Run(() => DbSet.Attach(obj));
-            //await Task.Run(() => DbSet.Update(obj));
             entry.State = EntityState.Modified;
+            Logger.LogInformation("Atualizando entidade {Entity}", typeof(Table).Name);
+            Logger.LogDebug("Atualizando entidade {Entity}", typeof(Table).Name);
 
-            var entries = Context.ChangeTracker.Entries().Where(e => e.State == EntityState.Modified).ToList();
+            var entries = Context.ChangeTracker.Entries()
+                .Where(e => e.Entity == obj && e.State == EntityState.Modified)
+                .ToList();
 
-            return entries.Count > 0;
-
+            return Task.FromResult(entries.Count > 0);
         }
 
-        public async virtual Task<bool> Remover(Table obj)
+        public virtual Task<bool> Remover(Table obj)
         {
             var entry = Context.Entry(obj);
-            await Task.Run(() => DbSet.Remove(obj));
-            //DbSet.Remove(obj);
             entry.State = EntityState.Deleted;
+            Logger.LogInformation("Removendo entidade {Entity}", typeof(Table).Name);
+            Logger.LogDebug("Removendo entidade {Entity}", typeof(Table).Name);
 
-            var entries = Context.ChangeTracker.Entries().Where(e => e.State == EntityState.Deleted).ToList();
+            var entries = Context.ChangeTracker.Entries()
+                .Where(e => e.Entity == obj && e.State == EntityState.Deleted)
+                .ToList();
 
-            return entries.Count > 0;
+            return Task.FromResult(entries.Count > 0);
         }
 
-        public async virtual Task<Table> ObterPorId(Tipo id)
+        public virtual async Task<Table> ObterPorId(Tipo id)
         {
             var resultado = await DbSet.FindAsync(id);
             return resultado ?? new Table();
         }
 
-        public async virtual Task<IEnumerable<Table>> ObterTodos()
+        public virtual async Task<IEnumerable<Table>> ObterTodos()
         {
-            return await Task.Run(() => DbSet.ToList());
+            return await DbSet.ToListAsync();
         }
 
-        public async virtual Task<IEnumerable<Table>> ObterTodosPaginado(int pagina, int registros)
+        public virtual async Task<IEnumerable<Table>> ObterTodosPaginado(int pagina, int registros)
         {
-            return await Task.Run(() => DbSet.Take(pagina).Skip(registros));
+            if (pagina <= 0) pagina = 1;
+            if (registros <= 0) registros = 10;
+
+            return await DbSet
+                .Skip((pagina - 1) * registros)
+                .Take(registros)
+                .ToListAsync();
         }
 
-        public async virtual Task<IEnumerable<Table>> Pesquisar(Expression<Func<Table, bool>> predicate)
+        public virtual async Task<IEnumerable<Table>> Pesquisar(Expression<Func<Table, bool>> predicate)
         {
-            return await Task.Run(() => DbSet.Where(predicate));
+            return await DbSet.Where(predicate).ToListAsync();
         }
+
         #endregion
 
         #region Uow
+
         public void BeginTransaction()
         {
             myUnitOfWork.BeginTransaction();
@@ -112,12 +124,13 @@ namespace Dietcode.Database.Orm
         #endregion
 
         #region Dispose
+
         public void Dispose()
         {
+            // Context é gerenciado via DI (Scoped), então não damos Dispose aqui.
             GC.SuppressFinalize(this);
         }
-        #endregion
 
+        #endregion
     }
 }
-

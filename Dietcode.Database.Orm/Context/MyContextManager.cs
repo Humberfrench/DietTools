@@ -1,6 +1,5 @@
 ﻿using Dietcode.Database.Domain;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 
 namespace Dietcode.Database.Orm.Context
 {
@@ -8,28 +7,22 @@ namespace Dietcode.Database.Orm.Context
     {
         private const string CONTEXT_KEY = "ContextManager.Context";
         private readonly IHttpContextAccessor context;
-        private readonly IConfiguration configuration;
 
-        public MyContextManager(IHttpContextAccessor context,
-                              IConfiguration configuration)
+        public MyContextManager(IHttpContextAccessor context)
         {
             this.context = context;
-            this.configuration = configuration;
         }
-
 
         public T GetContext()
         {
-            if (context.HttpContext.Items[CONTEXT_KEY] == null)
-                return new T();
+            var items = context.HttpContext.Items;
 
-            if (context.HttpContext.Items[CONTEXT_KEY] == null)
-            {
-                context.HttpContext.Items[CONTEXT_KEY] = new T();
-            }
+            if (items[CONTEXT_KEY] is T ctx)
+                return ctx;
 
-            return (context.HttpContext.Items[CONTEXT_KEY] as T)!;
+            var novo = new T();
+            items[CONTEXT_KEY] = novo;
+            return novo;
         }
-
     }
 }

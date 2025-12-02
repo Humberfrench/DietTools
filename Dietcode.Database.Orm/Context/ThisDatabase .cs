@@ -1,10 +1,34 @@
 ﻿using Dietcode.Core.Lib;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-
+using System;
+using System.IO;
+using Dietcode.Database.Orm.Logging;
+using System.Diagnostics;
 
 namespace Dietcode.Database.Orm.Context
 {
+    public class ThisDatabase<T1> : ThisDatabase where T1 : class
+    {
+        public ThisDatabase() : base()
+        {
+        }
+
+        public ThisDatabase(DbContextOptions<ThisDatabase> options)
+            : base(options)
+        {
+        }
+
+        public virtual DbSet<T1> TableData { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<T1>();
+            base.OnModelCreating(modelBuilder);
+        }
+
+    }
+
     public abstract class ThisDatabase : DbContext
     {
         protected ThisDatabase()
@@ -12,23 +36,26 @@ namespace Dietcode.Database.Orm.Context
             ConnectionString = GetConnString();
         }
 
-        public ThisDatabase(DbContextOptions<ThisDatabase> options)
+        protected ThisDatabase(DbContextOptions<ThisDatabase> options)
             : base(options)
         {
             ConnectionString = GetConnString();
         }
 
-        string GetConnString()
-        {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                                       .SetBasePath(Directory.GetCurrentDirectory())
-                                       .AddJsonFile("appsettings.json")
-                                       .Build();
-            return configuration.GetConnectionString("DbContextConnString")!;
-
-        }
+        private readonly DiagnosticListener listener = new DiagnosticListener("ORM.Database.Listener");
 
         public string ConnectionString { get; private set; }
+
+        private string GetConnString()
+        {
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            return configuration.GetConnectionString("DbContextConnString")
+                   ?? throw new ArgumentException("Connection String Inválida");
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -36,17 +63,22 @@ namespace Dietcode.Database.Orm.Context
             {
                 throw new ArgumentException("Connection String Inválida");
             }
+
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder
                     .UseSqlServer(ConnectionString)
-                    .EnableSensitiveDataLogging()     // mostra parâmetros do SQL
-                    .EnableDetailedErrors()           // mostra erros detalhados
-                    .LogTo(Console.WriteLine,         // envia para console e debug
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors()
+                    .EnableServiceProviderCaching()
+                    .UseLoggerFactory(InternalOrmLoggerFactory.Instance)
+                    .LogTo(Console.WriteLine,
                            Microsoft.Extensions.Logging.LogLevel.Information,
-                           Microsoft.EntityFrameworkCore.Diagnostics.DbContextLoggerOptions.Category |
-                           Microsoft.EntityFrameworkCore.Diagnostics.DbContextLoggerOptions.SingleLine |
-                           Microsoft.EntityFrameworkCore.Diagnostics.DbContextLoggerOptions.UtcTime);
+                           Microsoft.EntityFrameworkCore.Diagnostics.DbContextLoggerOptions.Category
+                           | Microsoft.EntityFrameworkCore.Diagnostics.DbContextLoggerOptions.SingleLine
+                           | Microsoft.EntityFrameworkCore.Diagnostics.DbContextLoggerOptions.UtcTime);
+                
+                listener.Subscribe(new EfPerformanceObserver());
             }
         }
 
@@ -54,6 +86,6 @@ namespace Dietcode.Database.Orm.Context
         {
             base.OnModelCreating(modelBuilder);
         }
-
     }
 }
+
