@@ -15,6 +15,7 @@ Em Repositorio
 add o ```using Dietcode.Database;
 Herde : BaseRepository ```csharp'
 
+```using Dietcode.Database;
 public class LogApiEntradaRepository : BaseRepository
     {
         private Repository<LogApiEntrada> repositoryLogApiEntrada;
