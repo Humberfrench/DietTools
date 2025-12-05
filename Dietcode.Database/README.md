@@ -10,7 +10,22 @@ Na classe =>  [TableName("Nome_Da_Tabela")]
 
 No campoID => [KeyId]
 
+Projeto => app settings => "DataBase": "SqlServer", (ou o que desejar)
+
+Database Enuns
+```csharp
+    public enum EnumBancos
+    {
+        SqlServer,
+        MySql,
+        PostgreSql,
+        Oracle
+    }
+
+
 Em Repositorio 
+
+
 
 add o ```using Dietcode.Database;
 Herde : BaseRepository ```csharp'

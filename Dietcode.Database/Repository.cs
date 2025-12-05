@@ -1,4 +1,7 @@
 ﻿using Dapper.Contrib.Extensions;
+using Dietcode.Database.DatabaseProviders;
+using Dietcode.Database.Enums;
+using Dietcode.Database.Interfaces;
 using System.Data;
 
 namespace Dietcode.Database
@@ -68,7 +71,7 @@ namespace Dietcode.Database
 
         public virtual async Task<IEnumerable<T>> CustomQueryAsync(Func<T, bool> predicate)
         {
-            return (await this.Connection.GetAllAsync<T>()).Where(predicate);
+            return (await Connection.GetAllAsync<T>()).Where(predicate);
         }
 
         #endregion    
@@ -106,7 +109,7 @@ namespace Dietcode.Database
 
         public virtual IEnumerable<T> QueryCustom(Func<T, bool> predicate)
         {
-            return this.Connection.GetAll<T>().Where(predicate);
+            return Connection.GetAll<T>().Where(predicate);
         }
 
         #endregion
