@@ -67,6 +67,11 @@
         /// UnprocessableEntity
         /// </summary>
         UnprocessableEntity = 422,
+
+        /// <summary>
+        /// TooManyRequestsResult
+        /// </summary>
+        TooManyRequests = 429,
         #endregion
 
         #region 5xx Codes (Error, server fault)

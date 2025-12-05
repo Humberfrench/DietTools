@@ -1,6 +1,10 @@
-﻿using Dietcode.Api.Core.Results;
+﻿using Dietcode.Api.Core.Attributes;
+using Dietcode.Api.Core.Middleware;
+using Dietcode.Api.Core.Results;
 using Dietcode.Api.Core.Results.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 
 namespace Dietcode.Api.Core
@@ -266,5 +270,36 @@ namespace Dietcode.Api.Core
 
             return problem;
         }
+
+        protected bool CheckRateLimit(out IActionResult? rateLimitResult)
+        {
+            rateLimitResult = null;
+
+            // Pegamos o endpoint atual
+            var endpoint = HttpContext.GetEndpoint();
+            var attribute = endpoint?.Metadata.GetMetadata<RateLimitAttribute>();
+
+            // Não tem RateLimit → OK
+            if (attribute == null)
+                return false;
+
+            // Aplicar RateLimit
+            var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+
+            var cacheKey = $"rl:{endpoint!.DisplayName}:{ip}";
+            var rateLimiter = HttpContext.RequestServices.GetRequiredService<IRateLimiter>();
+
+            bool estourou = rateLimiter.IsLimited(cacheKey, attribute.Limit, TimeSpan.FromSeconds(attribute.Seconds));
+
+            if (estourou)
+            {
+                var result = new TooManyRequestsResult(new ErrorValidation("429", "Muitas solicitações. Aguarde alguns instantes."));
+                rateLimitResult = Completed(result);
+                return true;
+            }
+
+            return false;
+        }
+
     }
 }

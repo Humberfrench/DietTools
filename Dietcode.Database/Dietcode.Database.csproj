@@ -13,9 +13,17 @@
 	  <PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 	  <!--<PackageOutputPath>D:\Nuget\\</PackageOutputPath>-->
 	  <NeutralLanguage>pt-BR</NeutralLanguage>
+	  <PackageIcon>C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode.png</PackageIcon>
   </PropertyGroup>
+	<ItemGroup>
+		<None Include="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode.png" Pack="true" PackagePath="" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
 
-  <ItemGroup>
+
+	<ItemGroup>
 	<PackageReference Include="Dapper" Version="2.1.66" />
 	<PackageReference Include="Dapper.Contrib" Version="2.0.78" />
 	<PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />

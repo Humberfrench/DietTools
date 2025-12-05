@@ -11,11 +11,19 @@
 		<Copyright>Dietcode Web</Copyright>
 		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 		<Title>Dietcode Domain Validator</Title>
-		<Version>2.5.1</Version>
-		<AssemblyVersion>2.5.1.0</AssemblyVersion>
-		<FileVersion>2.5.1.0</FileVersion>
+		<Version>2.5.2</Version>
+		<AssemblyVersion>2.5.2.0</AssemblyVersion>
+		<FileVersion>2.5.2.0</FileVersion>
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 		<!--<PackageOutputPath>D:\Nuget\\</PackageOutputPath>-->
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode.png</PackageIcon>
 	</PropertyGroup>
-
+	<ItemGroup>
+		<None Include="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode.png" Pack="true" PackagePath="" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
 </Project>

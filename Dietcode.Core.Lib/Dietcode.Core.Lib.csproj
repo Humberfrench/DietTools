@@ -7,16 +7,27 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Owner>Dietcode</Owner>
 		<Authors>Humberto Almeida</Authors>
-		<Description>Api Core Tools - Extensoes e ferramentas auxiliares</Description>
+		<Description>Dietcode Core Lib - Extensoes e ferramentas auxiliares</Description>
 		<Copyright>Dietcode Web</Copyright>
 		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
-		<Title>Dietcode Api Core Tools</Title>
-		<Version>3.0.0</Version>
-		<AssemblyVersion>3.0.0.0</AssemblyVersion>
-		<FileVersion>3.0.0.0</FileVersion>
+		<Title>Dietcode Core Lib</Title>
+		<Version>3.1.0</Version>
+		<AssemblyVersion>3.1.0.0</AssemblyVersion>
+		<FileVersion>3.1.0.0</FileVersion>
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode.png</PackageIcon>
+
 		<!--<PackageOutputPath>D:\Nuget\\</PackageOutputPath>-->
 		<NeutralLanguage>pt-BR</NeutralLanguage>
 	</PropertyGroup>
+	
+	<ItemGroup>
+		<None Include="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode.png" Pack="true" PackagePath="" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
 
 </Project>

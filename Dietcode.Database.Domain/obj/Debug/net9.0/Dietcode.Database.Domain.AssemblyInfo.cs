@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyrightAttribute("Dietcode Web")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Dietcode Entity ORM Domain - Repositorio patterns and unit of work patterns")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("2.5.1.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.5.1.0+bb86ff23bc3daa24d4d4734ff64311090b278409")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.5.1.0+d436935aead3cf48c3ef222feb29adf75f5575ad")]
 [assembly: System.Reflection.AssemblyProductAttribute("Dietcode.Database.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Dietcode.Database.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("2.5.1.0")]

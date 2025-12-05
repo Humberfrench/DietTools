@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "ToolsTester/1.0.0": {
+        "dependencies": {
+          "Dietcode.Core.Lib": "3.1.0"
+        },
+        "runtime": {
+          "ToolsTester.dll": {}
+        }
+      },
+      "Dietcode.Core.Lib/3.1.0": {
+        "runtime": {
+          "Dietcode.Core.Lib.dll": {
+            "assemblyVersion": "3.1.0.0",
+            "fileVersion": "3.1.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ToolsTester/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Dietcode.Core.Lib/3.1.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

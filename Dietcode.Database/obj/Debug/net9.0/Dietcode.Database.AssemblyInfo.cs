@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Dietcode.Database")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("2.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.0.0+bb86ff23bc3daa24d4d4734ff64311090b278409")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("2.0.0+d436935aead3cf48c3ef222feb29adf75f5575ad")]
 [assembly: System.Reflection.AssemblyProductAttribute("Dietcode.Database")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Dietcode.Database")]
 [assembly: System.Reflection.AssemblyVersionAttribute("2.0.0.0")]

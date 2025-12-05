@@ -16,7 +16,8 @@
 		<AssemblyVersion>2.5.1.0</AssemblyVersion>
 		<FileVersion>2.5.1.0</FileVersion>
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
-	</PropertyGroup>
+			<PackageIcon>C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode.png</PackageIcon>
+</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Dietcode.Core.DomainValidator" Version="2.5.1" />
 		<PackageReference Include="Dietcode.Core.Lib" Version="2.7.0" />

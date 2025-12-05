@@ -16,6 +16,7 @@
 		<AssemblyVersion>2.5.1.0</AssemblyVersion>
 		<FileVersion>2.5.1.0</FileVersion>
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
+		<PackageIcon>C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode.png</PackageIcon>
 	</PropertyGroup>
 
 	<ItemGroup>
