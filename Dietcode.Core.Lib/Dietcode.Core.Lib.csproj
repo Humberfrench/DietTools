@@ -11,20 +11,18 @@
 		<Copyright>Dietcode Web</Copyright>
 		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 		<Title>Dietcode Core Lib</Title>
-		<Version>3.1.0</Version>
-		<AssemblyVersion>3.1.0.0</AssemblyVersion>
-		<FileVersion>3.1.0.0</FileVersion>
+		<Version>3.2.0</Version>
+		<AssemblyVersion>3.2.0.0</AssemblyVersion>
+		<FileVersion>3.2.0.0</FileVersion>
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageIcon>C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode.png</PackageIcon>
-
-		<!--<PackageOutputPath>D:\Nuget\\</PackageOutputPath>-->
+		<PackageIcon>dietcode128.png</PackageIcon>
 		<NeutralLanguage>pt-BR</NeutralLanguage>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
-		<None Include="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode.png" Pack="true" PackagePath="" />
+		<None Include="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode128.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="README.md" Pack="true" PackagePath="" />

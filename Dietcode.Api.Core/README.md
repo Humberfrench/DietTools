@@ -12,3 +12,14 @@ Via **.NET CLI**:
 
 ```bash
 dotnet add package Dietcode.Api.Core --version 2.6.0
+
+
+##USO =>
+Se for usar o [AllowDebugAuthAttribute] , é preciso adicionar o código abaixo no Program.cs:
+```csharp
+#if DEBUG
+builder.Services.AddAuthentication("DebugAuth")
+    .AddScheme<AuthenticationSchemeOptions, DebugAuthenticationHandler>("DebugAuth", null);
+
+builder.Services.AddSingleton<IAuthorizationPolicyProvider, DebugAuthorizationPolicyProvider>();
+#endif

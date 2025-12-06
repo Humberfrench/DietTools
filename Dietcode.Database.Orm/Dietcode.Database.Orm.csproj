@@ -12,11 +12,12 @@
 		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 		<Title>Dietcode Entity ORM Generic</Title>
 		<Description>Dietcode Entity ORM Generic - Repositorio patterns and unit of work patterns</Description>
-		<Version>2.5.1.0</Version>
-		<AssemblyVersion>2.5.1.0</AssemblyVersion>
-		<FileVersion>2.5.1.0</FileVersion>
+		<Version>2.5.2.0</Version>
+		<AssemblyVersion>2.5.2.0</AssemblyVersion>
+		<FileVersion>2.5.2.0</FileVersion>
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
-		<PackageIcon>C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode.png</PackageIcon>
+		<PackageIcon>dietcode128.png</PackageIcon>
+		<NeutralLanguage>pt-BR</NeutralLanguage>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -47,4 +48,8 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Dietcode.Database.Domain\Dietcode.Database.Domain.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+		<None Include="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode128.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
 </Project>

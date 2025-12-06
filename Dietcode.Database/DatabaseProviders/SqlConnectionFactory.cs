@@ -4,11 +4,11 @@ using System.Data;
 
 namespace Dietcode.Database.DatabaseProviders
 {
-    public class DefaultOracleConnectionFactory : IConnectionFactory
+    public class SqlConnectionFactory : IConnectionFactory
     {
         protected readonly string ConnectionString;
 
-        public DefaultOracleConnectionFactory(string connectionString)
+        public SqlConnectionFactory(string connectionString)
         {
             ConnectionString = connectionString;
         }

@@ -7,16 +7,19 @@
 	  
 	  <PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 	  <Title>Dietcode Api Database</Title>
-	  <Version>2.1.0</Version>
-	  <AssemblyVersion>2.1.0.0</AssemblyVersion>
-	  <FileVersion>2.1.0.0</FileVersion>
+	  <Version>2.5.1</Version>
+	  <AssemblyVersion>2.5.1.0</AssemblyVersion>
+	  <FileVersion>2.5.1.0</FileVersion>
 	  <PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 	  <!--<PackageOutputPath>D:\Nuget\\</PackageOutputPath>-->
 	  <NeutralLanguage>pt-BR</NeutralLanguage>
-	  <PackageIcon>C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode.png</PackageIcon>
+	  <PackageIcon>dietcode128.png</PackageIcon>
+	  <NeutralLanguage>pt-BR</NeutralLanguage>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 	<ItemGroup>
-		<None Include="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode.png" Pack="true" PackagePath="" />
+		<None Include="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode128.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="README.md" Pack="true" PackagePath="" />
@@ -27,6 +30,9 @@
 	<PackageReference Include="Dapper" Version="2.1.66" />
 	<PackageReference Include="Dapper.Contrib" Version="2.0.78" />
 	<PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
+	<PackageReference Include="MySqlConnector" Version="2.5.0" />
+	<PackageReference Include="Npgsql" Version="10.0.0" />
+	<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.26.0" />
   </ItemGroup>
 
 </Project>

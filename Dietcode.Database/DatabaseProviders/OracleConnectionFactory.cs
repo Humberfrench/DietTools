@@ -1,20 +1,20 @@
 ﻿using Dietcode.Database.Interfaces;
-using Microsoft.Data.SqlClient;
+using Oracle.ManagedDataAccess.Client;
 using System.Data;
 
 namespace Dietcode.Database.DatabaseProviders
 {
-    public class DefaultSqlConnectionFactory : IConnectionFactory
+    public class OracleConnectionFactory : IConnectionFactory
     {
         protected readonly string ConnectionString;
 
-        public DefaultSqlConnectionFactory(string connectionString)
+        public OracleConnectionFactory(string connectionString)
         {
             ConnectionString = connectionString;
         }
         public IDbConnection Connection()
         {
-            return new SqlConnection(ConnectionString);
+            return new OracleConnection(ConnectionString);
         }
     }
 }

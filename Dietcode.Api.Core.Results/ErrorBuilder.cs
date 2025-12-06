@@ -9,12 +9,12 @@ namespace Dietcode.Api.Core.Results
 
         public IReadOnlyList<ErrorValidation> Errors { get { return _errors; } }
 
-        public bool HasErrors { get { return _errors.Any(); } }
+        public bool HasErrors { get { return _errors.Count != 0; } }
 
         public ErrorBuilder()
         {
-            _errors = new List<ErrorValidation>();
-            //_resourceManager = new ResourceManager(resourceType);
+            _errors = [];
+            _resourceManager = new ResourceManager("ErrorMessages", typeof(ErrorBuilder).Assembly);
         }
 
         public ErrorBuilder AddError(ErrorValidation error)
@@ -34,7 +34,7 @@ namespace Dietcode.Api.Core.Results
 
         public ErrorValidation GetError(Enum @enum)
         {
-            var errorMessage = _resourceManager.GetString(@enum.ToString());
+            var errorMessage = _resourceManager.GetString(@enum.ToString()) ?? "Unknown Error";
 
             var err = new ErrorValidation((Convert.ToInt32(@enum)).ToString("000"), errorMessage);
 

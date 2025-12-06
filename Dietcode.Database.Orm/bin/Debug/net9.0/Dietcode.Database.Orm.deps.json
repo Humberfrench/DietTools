@@ -6,11 +6,11 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
-      "Dietcode.Database.Orm/2.5.1.0": {
+      "Dietcode.Database.Orm/2.5.2.0": {
         "dependencies": {
           "Dietcode.Core.DomainValidator": "2.5.1",
           "Dietcode.Core.Lib": "2.7.0",
-          "Dietcode.Database.Domain": "2.5.1",
+          "Dietcode.Database.Domain": "2.5.2",
           "Microsoft.AspNetCore.Http.Abstractions": "2.3.0",
           "Microsoft.EntityFrameworkCore": "9.0.4",
           "Microsoft.EntityFrameworkCore.Proxies": "9.0.4",
@@ -1181,22 +1181,22 @@
           }
         }
       },
-      "Dietcode.Database.Domain/2.5.1": {
+      "Dietcode.Database.Domain/2.5.2": {
         "dependencies": {
           "Dietcode.Core.DomainValidator": "2.5.1",
           "Dietcode.Core.Lib": "2.7.0"
         },
         "runtime": {
           "Dietcode.Database.Domain.dll": {
-            "assemblyVersion": "2.5.1.0",
-            "fileVersion": "2.5.1.0"
+            "assemblyVersion": "2.5.2.0",
+            "fileVersion": "2.5.2.0"
           }
         }
       }
     }
   },
   "libraries": {
-    "Dietcode.Database.Orm/2.5.1.0": {
+    "Dietcode.Database.Orm/2.5.2.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -1747,7 +1747,7 @@
       "path": "system.windows.extensions/6.0.0",
       "hashPath": "system.windows.extensions.6.0.0.nupkg.sha512"
     },
-    "Dietcode.Database.Domain/2.5.1": {
+    "Dietcode.Database.Domain/2.5.2": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

@@ -12,14 +12,19 @@
 		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 		<Title>Dietcode Entity ORM Domain</Title>
 		<Description>Dietcode Entity ORM Domain - Repositorio patterns and unit of work patterns</Description>
-		<Version>2.5.1.0</Version>
-		<AssemblyVersion>2.5.1.0</AssemblyVersion>
-		<FileVersion>2.5.1.0</FileVersion>
+		<Version>2.5.2.0</Version>
+		<AssemblyVersion>2.5.2.0</AssemblyVersion>
+		<FileVersion>2.5.2.0</FileVersion>
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
-			<PackageIcon>C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode.png</PackageIcon>
-</PropertyGroup>
+		<PackageIcon>dietcode128.png</PackageIcon>
+		<NeutralLanguage>pt-BR</NeutralLanguage>
+	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Dietcode.Core.DomainValidator" Version="2.5.1" />
 		<PackageReference Include="Dietcode.Core.Lib" Version="2.7.0" />
 	</ItemGroup>
+	<ItemGroup>
+		<None Include="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode128.png" Pack="true" PackagePath="\" />
+	</ItemGroup>
+
 </Project>

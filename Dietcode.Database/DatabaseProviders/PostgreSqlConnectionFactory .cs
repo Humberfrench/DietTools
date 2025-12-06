@@ -1,20 +1,20 @@
 ﻿using Dietcode.Database.Interfaces;
-using Microsoft.Data.SqlClient;
+using Npgsql;
 using System.Data;
 
 namespace Dietcode.Database.DatabaseProviders
 {
-    public class DefaultPostgreSqlConnectionFactory : IConnectionFactory
+    public class PostgreSqlConnectionFactory : IConnectionFactory
     {
         protected readonly string ConnectionString;
 
-        public DefaultPostgreSqlConnectionFactory(string connectionString)
+        public PostgreSqlConnectionFactory(string connectionString)
         {
             ConnectionString = connectionString;
         }
         public IDbConnection Connection()
         {
-            return new SqlConnection(ConnectionString);
+            return new NpgsqlConnection(ConnectionString);
         }
     }
 }
