@@ -10,4 +10,4 @@ Biblioteca  Domain Validator para validação de entidades e objetos de valor em
 Via **.NET CLI**:
 
 ```bash
-dotnet add package Dietcode.Core.DomainValidator --version 2.5.2
+dotnet add package Dietcode.Core.DomainValidator --version 2.7.1

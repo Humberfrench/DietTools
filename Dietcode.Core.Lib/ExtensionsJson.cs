@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Dietcode.Core.Lib.JsonConverting;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Dietcode.Core.Lib
 {
@@ -8,18 +7,7 @@ namespace Dietcode.Core.Lib
     {
         // Mantém o mesmo valor, só deixei como const + readonly por segurança (não quebra nada)
         private const int maxDepth = 128;
-
-        private static readonly JsonSerializerOptions defaultJsonOptions = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            DictionaryKeyPolicy = JsonNamingPolicy.CamelCase,
-            ReferenceHandler = ReferenceHandler.IgnoreCycles,
-            NumberHandling = JsonNumberHandling.AllowReadingFromString,
-            MaxDepth = maxDepth,
-            WriteIndented = true,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        };
+        private static readonly JsonSerializerOptions defaultJsonOptions = JsonOptionsFactory.CreateDefault();
 
         // ============================
         // SERIALIZE

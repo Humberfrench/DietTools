@@ -1,19 +1,13 @@
-﻿using System.Net.Http.Headers;
+﻿using Dietcode.Core.Lib.JsonConverting;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace Dietcode.Core.Lib.Rest
 {
     public static class HttpService
     {
-        private static readonly JsonSerializerOptions jsonOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            WriteIndented = false,
-            MaxDepth = 256,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        };
+        private static readonly JsonSerializerOptions jsonOptions = JsonOptionsFactory.CreateDefault();
 
         public static async Task<ApiResult<TResponse>> Post<TRequest, TResponse>(string url, TRequest payload,
                                                                                  EnumApiRest enumApiRest = EnumApiRest.None,

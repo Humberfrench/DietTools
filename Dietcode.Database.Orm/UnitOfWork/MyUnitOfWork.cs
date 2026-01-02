@@ -5,9 +5,6 @@ using Dietcode.Database.Orm.Context;
 using Dietcode.Database.Orm.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Dietcode.Database.Orm.UnitOfWork
 {
@@ -16,7 +13,7 @@ namespace Dietcode.Database.Orm.UnitOfWork
         private readonly ThisDatabase<T> dbContext;
         private readonly ValidationResult<T> validationResult;
         private bool _disposed;
-        private ILogger logger =>InternalOrmLoggerFactory.Instance.CreateLogger<MyUnitOfWork<T>>();
+        private ILogger logger => InternalOrmLoggerFactory.Instance.CreateLogger<MyUnitOfWork<T>>();
 
         public MyUnitOfWork(ThisDatabase<T> dbContext)
         {
@@ -32,22 +29,29 @@ namespace Dietcode.Database.Orm.UnitOfWork
 
         public ValidationResult<T> SaveChanges()
         {
-           logger.LogInformation("UoW SaveChanges for {Entity} at {TimeUtc}",typeof(T).Name,DateTime.UtcNow);
-           try
+            logger.LogInformation("UoW SaveChanges for {Entity} at {TimeUtc}", typeof(T).Name, DateTime.UtcNow);
+            try
             {
                 var affected = dbContext.SaveChanges();
                 var entries = dbContext.ChangeTracker.Entries().ToList();
                 var keys = GetPrimaryKeyValues();
-                
+                keys.ForEach(e =>
+                {
+                    validationResult.Entries.Add(new Core.DomainValidator.ObjectValue.Entries
+                    {
+                        EntryKeyValue = e.EntryKeyValue,
+                        EntryName = e.EntryName,
+                    });
+                });
 
-                validationResult.Mensagem = $"Dados salvos com sucesso. Total: {entries.Count}";
+                validationResult.AddMensagem($"Dados salvos com sucesso. Total: {entries.Count}");
                 logger.LogInformation("Dados salvos com sucesso. Total: {count}", affected);
             }
             catch (Exception ex)
             {
                 var mensagens = ColetarMensagens(ex);
-                validationResult.Mensagem = string.Join(" | ", mensagens);
-                logger.LogInformation("UoW Error SaveChanges for {Entity} at {TimeUtc}, {mensagem}", 
+                validationResult.AddMensagem(string.Join(" | ", mensagens));
+                logger.LogInformation("UoW Error SaveChanges for {Entity} at {TimeUtc}, {mensagem}",
                                        typeof(T).Name, DateTime.UtcNow, mensagens.ToJson());
 
                 foreach (var msg in mensagens)

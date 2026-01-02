@@ -24,5 +24,19 @@ namespace Dietcode.Core.Lib
                 return string.Empty;
             }
         }
+        /// <summary>
+        /// Trunca a string para no máximo o número de caracteres especificado.
+        /// </summary>
+        /// <param name="value">Texto de entrada</param>
+        /// <param name="maxLength">Comprimento máximo permitido</param>
+        /// <returns>Texto truncado ou original</returns>
+        public static string Truncate(this string? value, int maxLength)
+        {
+            if (string.IsNullOrEmpty(value)) return string.Empty;
+
+            return value.Length <= maxLength
+                ? value
+                : value.Substring(0, maxLength);
+        }
     }
 }

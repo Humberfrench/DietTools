@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "uzeMw/AhHFI=",
+  "dgSpecHash": "tyN+p+hatvM=",
   "success": true,
   "projectFilePath": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\ToolsTester\\ToolsTester.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\humbe\\.nuget\\packages\\dietcode.core.lib\\3.6.0\\dietcode.core.lib.3.6.0.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Dietcode.Core.Lib</id>
+    <version>3.5.5</version>
+    <title>Dietcode Core Lib</title>
+    <authors>Humberto Almeida</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>dietcode128.png</icon>
+    <readme>README.md</readme>
+    <projectUrl>http://www.dietcode.com.br/</projectUrl>
+    <description>Dietcode Core Lib - Extensoes e ferramentas auxiliares</description>
+    <copyright>Dietcode Web</copyright>
+    <repository type="git" commit="3ac5904978b05eee7fc908e0b7e3303be9d43d62" />
+    <dependencies>
+      <group targetFramework="net9.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib\bin\Debug\net9.0\Dietcode.Core.Lib.dll" target="lib\net9.0\Dietcode.Core.Lib.dll" />
+    <file src="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode128.png" target="\dietcode128.png" />
+    <file src="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib\README.md" target="README.md" />
+  </files>
+</package>

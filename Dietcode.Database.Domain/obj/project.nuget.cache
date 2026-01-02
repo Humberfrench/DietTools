@@ -1,13 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "zNMlPqGuZWA=",
+  "dgSpecHash": "2MLOLZmdzb4=",
   "success": true,
   "projectFilePath": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Database.Domain\\Dietcode.Database.Domain.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\humbe\\.nuget\\packages\\dietcode.core.domainvalidator\\2.5.1\\dietcode.core.domainvalidator.2.5.1.nupkg.sha512",
-    "C:\\Users\\humbe\\.nuget\\packages\\dietcode.core.lib\\2.7.0\\dietcode.core.lib.2.7.0.nupkg.sha512",
-    "C:\\Users\\humbe\\.nuget\\packages\\polly\\8.6.3\\polly.8.6.3.nupkg.sha512",
-    "C:\\Users\\humbe\\.nuget\\packages\\polly.core\\8.6.3\\polly.core.8.6.3.nupkg.sha512"
+    "C:\\Users\\humbe\\.nuget\\packages\\dietcode.core.domainvalidator\\2.7.1\\dietcode.core.domainvalidator.2.7.1.nupkg.sha512",
+    "C:\\Users\\humbe\\.nuget\\packages\\dietcode.core.lib\\3.2.0\\dietcode.core.lib.3.2.0.nupkg.sha512"
   ],
   "logs": []
 }

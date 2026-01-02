@@ -1,4 +1,5 @@
 ﻿using Dietcode.Core.Lib;
+using Dietcode.Core.Lib.Rest;
 using static Dietcode.Core.Lib.Rest.HttpService;
 
 // See https://aka.ms/new-console-template for more information
@@ -15,8 +16,91 @@ var request = new SimulatorRequest
     UsuarioId = 1695
 };
 
-var url = "https://api-pagamento.credpay.com.br/Simulator";
-var result = await Post<SimulatorRequest, RootSimulacaoResponse>(url, request);
+var payload = @"{
+  ""objective"": ""NEW_UNIFIED_TRANSACTION"",
+  ""data"": {
+    ""originId"": 16,
+    ""companyId"": 1,
+    ""organizationId"": 22007,
+    ""clientId"": 22289,
+    ""sellType"": 1,
+    ""serviceTypeId"": 14,
+    ""honorariumFeeValue"": 0,
+    ""returnPercentage"": 0,
+    ""status"": 0,
+    ""client"": {
+      ""name"": ""renilson  a de souza "",
+      ""identifier"": ""523.440.938-42"",
+      ""email"": ""vcarolyne37.vc@gmail.com""
+    },
+    ""payments"": [
+      {
+        ""identifier"": ""624280"",
+        ""type"": 1,
+        ""value"": 29999.00000,
+        ""datetime"": ""09/12/2025 10:44:05"",
+        ""debtValue"": 29999.00000,
+        ""originalValue"": 0,
+        ""refundedValue"": 0,
+        ""installments"": 1,
+        ""installmentsValue"": 29999.00000,
+        ""merchantId"": ""1331"",
+        ""chargeStatus"": ""CHARGED"",
+        ""hash"": ""693827a403580f1215688c4f"",
+        ""has3ds"": false,
+        ""hasFraudPrevention"": false,
+        ""status"": 0,
+        ""acquirer"": {
+          ""name"": ""GETNET"",
+          ""brand"": ""MASTERCARD"",
+          ""nsu"": """",
+          ""authorization"": """",
+          ""authorizationResponseCode"": ""00"",
+          ""terminal"": """",
+          ""softDescriptor"": ""CP *estopimdafiel"",
+          ""taxRate"": 0,
+          ""costValue"": 0,
+          ""taxValue"": 0,
+          ""anticipationTax"": 0,
+          ""automaticTransfer"": false
+        },
+        ""card"": {
+          ""brand"": ""MASTERCARD"",
+          ""holderName"": ""renilson  a de souza"",
+          ""internationalCard"": false
+        }
+      }
+    ],
+    ""products"": [
+      {
+        ""operationId"": ""659294"",
+        ""subDomainId"": 1331,
+        ""merchantId"": 28,
+        ""merchantDescription"": ""estopimdafiel"",
+        ""contract"": """",
+        ""creditor"": ""P80011444710"",
+        ""payerEmail"": ""vcarolyne37.vc@gmail.com"",
+        ""operator"": ""5582"",
+        ""reference"": ""CP-vYaMJyGG0g"",
+        ""value"": 100.00,
+        ""description"": ""estopimdafiel"",
+        ""honorariumValue"": 0,
+        ""commissionValue"": 0,
+        ""dueDateTime"": ""2025-12-09T10:57:13"",
+        ""status"": ""ACTIVE"",
+        ""detran"": {
+          ""digitalAuthentication"": """",
+          ""carPlate"": """",
+          ""renavam"": """"
+        },
+        ""barCode"": """",
+        ""detranRenavam"": """"
+      }
+    ]
+  }
+}";
+var url = "https://cloudfleet-homolog.credpay.com.br/transactions/new";
+var result = await Post<object, object>(url, payload, EnumApiRest.Bearer, "Kj7pQ2sR8tZxY3wV6uAb9cDe5fGhNm4kL1pT7rS2zX3yW8vU5bA6cD9eF2gH3jK4");
 
 Console.WriteLine("Processei!");
 
@@ -64,3 +148,4 @@ public class SimulacaoParcela
     public decimal? TaxaMensal { get; set; }
     public decimal TaxaCobrada { get; set; }
 }
+

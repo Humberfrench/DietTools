@@ -6,11 +6,11 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v9.0": {
-      "Dietcode.Database.Orm/2.5.2.0": {
+      "Dietcode.Database.Orm/2.5.3.0": {
         "dependencies": {
-          "Dietcode.Core.DomainValidator": "2.5.1",
-          "Dietcode.Core.Lib": "2.7.0",
-          "Dietcode.Database.Domain": "2.5.2",
+          "Dietcode.Core.DomainValidator": "2.7.1",
+          "Dietcode.Core.Lib": "3.2.0",
+          "Dietcode.Database.Domain": "2.5.3",
           "Microsoft.AspNetCore.Http.Abstractions": "2.3.0",
           "Microsoft.EntityFrameworkCore": "9.0.4",
           "Microsoft.EntityFrameworkCore.Proxies": "9.0.4",
@@ -70,22 +70,19 @@
           }
         }
       },
-      "Dietcode.Core.DomainValidator/2.5.1": {
+      "Dietcode.Core.DomainValidator/2.7.1": {
         "runtime": {
           "lib/net9.0/Dietcode.Core.DomainValidator.dll": {
-            "assemblyVersion": "2.5.1.0",
-            "fileVersion": "2.5.1.0"
+            "assemblyVersion": "2.7.1.0",
+            "fileVersion": "2.7.1.0"
           }
         }
       },
-      "Dietcode.Core.Lib/2.7.0": {
-        "dependencies": {
-          "Polly": "8.6.3"
-        },
+      "Dietcode.Core.Lib/3.2.0": {
         "runtime": {
           "lib/net9.0/Dietcode.Core.Lib.dll": {
-            "assemblyVersion": "2.7.0.0",
-            "fileVersion": "2.7.0.0"
+            "assemblyVersion": "3.2.0.0",
+            "fileVersion": "3.2.0.0"
           }
         }
       },
@@ -853,25 +850,6 @@
           }
         }
       },
-      "Polly/8.6.3": {
-        "dependencies": {
-          "Polly.Core": "8.6.3"
-        },
-        "runtime": {
-          "lib/net6.0/Polly.dll": {
-            "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.6.3.4893"
-          }
-        }
-      },
-      "Polly.Core/8.6.3": {
-        "runtime": {
-          "lib/net8.0/Polly.Core.dll": {
-            "assemblyVersion": "8.0.0.0",
-            "fileVersion": "8.6.3.4893"
-          }
-        }
-      },
       "Serilog/4.3.0": {
         "runtime": {
           "lib/net9.0/Serilog.dll": {
@@ -1181,22 +1159,22 @@
           }
         }
       },
-      "Dietcode.Database.Domain/2.5.2": {
+      "Dietcode.Database.Domain/2.5.3": {
         "dependencies": {
-          "Dietcode.Core.DomainValidator": "2.5.1",
-          "Dietcode.Core.Lib": "2.7.0"
+          "Dietcode.Core.DomainValidator": "2.7.1",
+          "Dietcode.Core.Lib": "3.2.0"
         },
         "runtime": {
           "Dietcode.Database.Domain.dll": {
-            "assemblyVersion": "2.5.2.0",
-            "fileVersion": "2.5.2.0"
+            "assemblyVersion": "2.5.3.0",
+            "fileVersion": "2.5.3.0"
           }
         }
       }
     }
   },
   "libraries": {
-    "Dietcode.Database.Orm/2.5.2.0": {
+    "Dietcode.Database.Orm/2.5.3.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -1222,19 +1200,19 @@
       "path": "castle.core/5.1.1",
       "hashPath": "castle.core.5.1.1.nupkg.sha512"
     },
-    "Dietcode.Core.DomainValidator/2.5.1": {
+    "Dietcode.Core.DomainValidator/2.7.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-8MQYwRFGgGy4zXMs7dsBTrai0W3lvCd/R/GXM4m5S2RMv4XuF+/28bAy/D5cIuShxpT8Ew/tBo6l3CeoUbI5AQ==",
-      "path": "dietcode.core.domainvalidator/2.5.1",
-      "hashPath": "dietcode.core.domainvalidator.2.5.1.nupkg.sha512"
+      "sha512": "sha512-3qZGSBYPm8X0KjH9QEXg8/VEiduQKY29u56gabOnwRtjspgml/Ziw2K4wI3punrYfaSv8TG8gR6nGPzEclza2w==",
+      "path": "dietcode.core.domainvalidator/2.7.1",
+      "hashPath": "dietcode.core.domainvalidator.2.7.1.nupkg.sha512"
     },
-    "Dietcode.Core.Lib/2.7.0": {
+    "Dietcode.Core.Lib/3.2.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-B0wV9mJi9L85vL2XS6D+LRfpXWEfTPLcKG24DTcsN5Uz5fnBVNPSQWGMIMFWJ7V91cnkMc02UUXEy7rR747rmg==",
-      "path": "dietcode.core.lib/2.7.0",
-      "hashPath": "dietcode.core.lib.2.7.0.nupkg.sha512"
+      "sha512": "sha512-Lc5ZVMOCjUvyn6xDvkigatgrws4de+Bg7ngv1+76/rsgEIHWDwp4S2vERDv+UJlceNELyR/6eu+1oJ1dx6w3iw==",
+      "path": "dietcode.core.lib/3.2.0",
+      "hashPath": "dietcode.core.lib.3.2.0.nupkg.sha512"
     },
     "Humanizer.Core/2.14.1": {
       "type": "package",
@@ -1558,20 +1536,6 @@
       "path": "mono.texttemplating/3.0.0",
       "hashPath": "mono.texttemplating.3.0.0.nupkg.sha512"
     },
-    "Polly/8.6.3": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-8X6mWAGDrgTHyqDthifiv9QGR+FgnRe13/sPhSR4ZbhXCqUDJuLrVqunB39LLbf87TXZ+06dMdopd6LpY4oK0w==",
-      "path": "polly/8.6.3",
-      "hashPath": "polly.8.6.3.nupkg.sha512"
-    },
-    "Polly.Core/8.6.3": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-xRlcE+1FidqIfZ7zxBT6klSblJ/7MAJq1x5yvYoLnwNhs8Xc2gp3Srf8wHG2NpFxVBqrldc3svhkMPJjSzTmzw==",
-      "path": "polly.core/8.6.3",
-      "hashPath": "polly.core.8.6.3.nupkg.sha512"
-    },
     "Serilog/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -1747,7 +1711,7 @@
       "path": "system.windows.extensions/6.0.0",
       "hashPath": "system.windows.extensions.6.0.0.nupkg.sha512"
     },
-    "Dietcode.Database.Domain/2.5.2": {
+    "Dietcode.Database.Domain/2.5.3": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

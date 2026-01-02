@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Database.Domain\\Dietcode.Database.Domain.csproj": {
-      "version": "2.5.2",
+      "version": "2.5.3",
       "restore": {
         "projectUniqueName": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Database.Domain\\Dietcode.Database.Domain.csproj",
         "projectName": "Dietcode.Database.Domain",
@@ -54,11 +54,11 @@
           "dependencies": {
             "Dietcode.Core.DomainValidator": {
               "target": "Package",
-              "version": "[2.5.1, )"
+              "version": "[2.7.1, )"
             },
             "Dietcode.Core.Lib": {
               "target": "Package",
-              "version": "[2.7.0, )"
+              "version": "[3.2.0, )"
             }
           },
           "imports": [
@@ -77,7 +77,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

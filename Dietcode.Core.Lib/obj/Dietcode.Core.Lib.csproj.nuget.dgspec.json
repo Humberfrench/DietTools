@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Core.Lib\\Dietcode.Core.Lib.csproj": {
-      "version": "3.2.0",
+      "version": "3.6.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Core.Lib\\Dietcode.Core.Lib.csproj",
         "projectName": "Dietcode.Core.Lib",
@@ -67,7 +67,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

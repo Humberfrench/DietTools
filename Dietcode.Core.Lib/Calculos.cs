@@ -12,7 +12,7 @@ namespace Dietcode.Core.Lib
                 return (valorPresente + valorFuturo) / parcelas;
 
             var i = taxa;
-            return (i * (valorPresente + valorFuturo)) / (1 - Maths.Pow(1 + i, -parcelas));
+            return (i * (valorPresente + valorFuturo)) / (1 - Math.Pow(1 + i, -parcelas));
         }
 
         // ============================

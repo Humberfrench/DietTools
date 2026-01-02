@@ -15,6 +15,17 @@ namespace Dietcode.Core.DomainValidator
         public ValidationResult() : base()
         {
         }
+        public T? TryReturnAs<T>()
+        {
+            if (Retorno is T value)
+                return value;
+
+            if (!errors.Any(e => e.Message.Contains(typeof(T).Name)))
+                AddError($"Conversão inválida: o retorno não é do tipo {typeof(T).Name}.");
+
+            return default;
+        }
+
     }
 
     /// <summary>
@@ -55,8 +66,6 @@ namespace Dietcode.Core.DomainValidator
         {
             var novo = new ValidationResult<U>
             {
-                CodigoMensagem = CodigoMensagem,
-                Mensagem = Mensagem,
                 StatusCode = StatusCode
             };
 
