@@ -75,10 +75,6 @@ namespace Dietcode.Core.DomainValidator
         public void AddMensagem(int codigo, string mensagem)
             => Mensagens.Add(new MensagemData(codigo, mensagem));
 
-        public void AddMensagem(List<string> mensagemLista)
-            => mensagemLista.ForEach(m => Mensagens.Add(new MensagemData(m)));
-
-
 
         // -------------------------------------------------------
         // Métodos de adição de erros
@@ -141,6 +137,10 @@ namespace Dietcode.Core.DomainValidator
             if (other != null)
                 errors.AddRange(other.errors);
         }
+
+        public void Add(List<string> mensagemLista)
+            => mensagemLista.ForEach(m => Add(m));
+
 
         // ------------------------
         // Métodos Retornos de Erros e ou Mensagens Aglutinadas
