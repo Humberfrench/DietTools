@@ -17,5 +17,16 @@
             Code = code;
             Message = message;
         }
+        public ErrorValidation(int code, string message)
+        {
+            Code = code.ToString();
+            Message = message;
+        }
+        public ErrorValidation(ResultStatusCode code, string message)
+        {
+            Code = code.ToString();
+            Message = message;
+        }
+
     }
 }

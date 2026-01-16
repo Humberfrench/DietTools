@@ -1,4 +1,6 @@
-﻿namespace Dietcode.Api.Core.Results
+﻿using Dietcode.Core.Lib.Interfaces;
+
+namespace Dietcode.Core.Lib.Pagging
 {
     public class PageParameter : IPageParameter
     {

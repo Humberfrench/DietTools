@@ -32,7 +32,6 @@ C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingDb\bin\Debu
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingDb\bin\Debug\net9.0-windows7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingDb\bin\Debug\net9.0-windows7.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingDb\bin\Debug\net9.0-windows7.0\Microsoft.SqlServer.Server.dll
-C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingDb\bin\Debug\net9.0-windows7.0\Newtonsoft.Json.dll
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingDb\bin\Debug\net9.0-windows7.0\System.ClientModel.dll
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingDb\bin\Debug\net9.0-windows7.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\TestingDb\bin\Debug\net9.0-windows7.0\System.Memory.Data.dll

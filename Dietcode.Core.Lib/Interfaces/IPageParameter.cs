@@ -1,4 +1,4 @@
-﻿namespace Dietcode.Api.Core.Results
+﻿namespace Dietcode.Core.Lib.Interfaces
 {
     public interface IPageParameter
     {

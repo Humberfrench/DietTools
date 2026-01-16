@@ -1,0 +1,5 @@
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib.Codes\obj\Debug\net9.0\Dietcode.Core.Lib.Codes.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib.Codes\obj\Debug\net9.0\Dietcode.Core.Lib.Codes.AssemblyInfoInputs.cache
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib.Codes\obj\Debug\net9.0\Dietcode.Core.Lib.Codes.AssemblyInfo.cs
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib.Codes\obj\Debug\net9.0\Dietcode.Core.Lib.Codes.csproj.CoreCompileInputs.cache
+C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Core.Lib.Codes\obj\Debug\net9.0\Dietcode.Core.Lib.Codes.sourcelink.json

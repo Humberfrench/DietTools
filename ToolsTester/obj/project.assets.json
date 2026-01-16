@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     "net9.0": {
-      "Dietcode.Core.Lib/3.6.0": {
+      "Dietcode.Core.Lib/4.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "compile": {
@@ -10,12 +10,15 @@
         },
         "runtime": {
           "bin/placeholder/Dietcode.Core.Lib.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       }
     }
   },
   "libraries": {
-    "Dietcode.Core.Lib/3.6.0": {
+    "Dietcode.Core.Lib/4.0.0": {
       "type": "project",
       "path": "../Dietcode.Core.Lib/Dietcode.Core.Lib.csproj",
       "msbuildProject": "../Dietcode.Core.Lib/Dietcode.Core.Lib.csproj"
@@ -23,7 +26,7 @@
   },
   "projectFileDependencyGroups": {
     "net9.0": [
-      "Dietcode.Core.Lib >= 3.6.0"
+      "Dietcode.Core.Lib >= 4.0.0"
     ]
   },
   "packageFolders": {
@@ -31,7 +34,7 @@
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
-    "version": "1.0.0",
+    "version": "4.0.0",
     "restore": {
       "projectUniqueName": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\ToolsTester\\ToolsTester.csproj",
       "projectName": "ToolsTester",
@@ -97,7 +100,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

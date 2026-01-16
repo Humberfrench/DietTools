@@ -2,8 +2,8 @@
 {
     public static class Month
     {
-        private static readonly List<string> _months = new()
-        {
+        private static readonly List<string> _months =
+        [
             "Janeiro",
             "Fevereiro",
             "Março",
@@ -16,7 +16,7 @@
             "Outubro",
             "Novembro",
             "Dezembro"
-        };
+        ];
 
         /// <summary>
         /// Retorna o nome completo do mês.

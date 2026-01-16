@@ -38,5 +38,6 @@ namespace Dietcode.Core.Lib
                 ? value
                 : value.Substring(0, maxLength);
         }
+
     }
 }

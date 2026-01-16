@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace Dietcode.Api.Core.Results
+﻿namespace Dietcode.Api.Core.Results
 {
     public abstract partial class AppServiceBase
     {
@@ -68,6 +66,9 @@ namespace Dietcode.Api.Core.Results
 
         public BadRequestResult BadRequest(IEnumerable<ErrorValidation> errors)
             => Failure(new BadRequestResult(errors));
+
+        public BadRequestResult<TContent> BadRequest<TContent>(ErrorValidation error)
+            => Failure(new BadRequestResult<TContent>(default!, error));
 
         // ---------------------------
         // NotFound

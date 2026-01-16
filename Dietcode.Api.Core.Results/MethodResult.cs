@@ -7,6 +7,8 @@
             Status = status;
         }
 
+        public bool IsError => (int)Status >= 400;
+
         public ResultStatusCode Status { get; set; }
     }
 

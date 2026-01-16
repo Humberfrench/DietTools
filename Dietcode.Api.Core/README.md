@@ -4,6 +4,8 @@ Biblioteca auxiliar para padronização de APIs na Dietcode, oferecendo componen
 
 > _“APIs consistentes produzem sistemas mais previsíveis, mais seguros e mais fáceis de manter.”_
 
+*MElhorias do RateLimiter => por tempo que falta
+
 ---
 
 ## 🚀 Instalação

@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Dietcode.Core.Lib
@@ -34,7 +36,6 @@ namespace Dietcode.Core.Lib
         {
             if (string.IsNullOrWhiteSpace(name))
                 return string.Empty;
-
             return name.Split(' ', StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? string.Empty;
         }
         public static string ToSnakeCase(this string value)
@@ -133,6 +134,7 @@ namespace Dietcode.Core.Lib
         //  STRINGS (Validações)
         // --------------------------------------------------
 
+
         public static bool HasLetters(this string input)
         {
             if (string.IsNullOrEmpty(input))
@@ -145,10 +147,39 @@ namespace Dietcode.Core.Lib
             }
             return false;
         }
+        public static bool HasValue([NotNullWhen(true)] this string? value) => !string.IsNullOrWhiteSpace(value);
 
-        public static bool IsNullOrEmptyOrWhiteSpace(this string value)
+        public static bool IsNullOrEmptyOrWhiteSpace([NotNullWhen(false)] this string? value) => string.IsNullOrWhiteSpace(value);
+
+        public static bool HasLength([NotNullWhen(true)] this string? value, int min) => !string.IsNullOrWhiteSpace(value) && value.Length >= min;
+
+        public static bool EqualsIgnoreCase([NotNullWhen(true)] this string? value, string? other) => string.Equals(value, other, StringComparison.OrdinalIgnoreCase);
+
+        public static bool ContainsIgnoreCase([NotNullWhen(true)] this string? value, string other)
         {
-            return string.IsNullOrWhiteSpace(value);
+            if (value is null) return false;
+            return value.Contains(other, StringComparison.OrdinalIgnoreCase);
+        }
+        public static string OnlyNumbers([NotNullWhen(true)] this string? value)
+        {
+            if (string.IsNullOrEmpty(value)) return string.Empty;
+            return new string(value.Where(char.IsDigit).ToArray());
+        }
+
+        public static string RemoveAccents(this string value)
+        {
+            if (string.IsNullOrWhiteSpace(value)) return string.Empty;
+
+            var normalized = value.Normalize(NormalizationForm.FormD);
+            var sb = new StringBuilder();
+
+            foreach (var c in normalized)
+            {
+                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                    sb.Append(c);
+            }
+
+            return sb.ToString().Normalize(NormalizationForm.FormC);
         }
 
         // --------------------------------------------------
@@ -164,17 +195,23 @@ namespace Dietcode.Core.Lib
         //  STRINGS - Normalização
         // --------------------------------------------------
 
+        [Obsolete("Use OrEmpty()", true)]
         public static string TratarStringNull(this string value)
         {
             return string.IsNullOrWhiteSpace(value) ? "" : value;
         }
 
+        [Obsolete("Use ToStringOrEmpty()", true)]
         public static string TratarStringNull(this int? value)
         {
             return (!value.HasValue || value.Value == 0)
                 ? ""
                 : value.Value.ToString();
         }
+
+        public static string OrEmpty(this string? value) => string.IsNullOrWhiteSpace(value) ? string.Empty : value;
+
+        public static string ToStringOrEmpty(this int? value) => value is > 0 ? value.Value.ToString() : string.Empty;
 
         // --------------------------------------------------
         //  EMAIL

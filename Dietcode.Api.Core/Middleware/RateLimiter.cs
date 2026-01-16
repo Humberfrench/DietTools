@@ -4,26 +4,55 @@ namespace Dietcode.Api.Core.Middleware
 {
     public interface IRateLimiter
     {
-        bool IsLimited(string key, int limit, TimeSpan window);
+        RateLimitResult Check(string key, int limit, TimeSpan window);
     }
 
-    public class RateLimiter(IMemoryCache cache) : IRateLimiter
+    public class RateLimiter : IRateLimiter
     {
-        private readonly IMemoryCache _cache = cache;
+        private readonly IMemoryCache _cache;
 
-        public bool IsLimited(string key, int limit, TimeSpan window)
+        public RateLimiter(IMemoryCache cache)
         {
-            var count = _cache.GetOrCreate(key, e =>
+            _cache = cache;
+        }
+
+        private sealed class Counter
+        {
+            public int Count { get; set; }
+            public DateTime WindowStart { get; set; }
+        }
+
+        public RateLimitResult Check(string key, int limit, TimeSpan window)
+        {
+            var counter = _cache.GetOrCreate(key, entry =>
             {
-                e.AbsoluteExpirationRelativeToNow = window;
-                return 0;
+                entry.AbsoluteExpirationRelativeToNow = window;
+                return new Counter
+                {
+                    Count = 0,
+                    WindowStart = DateTime.UtcNow
+                };
             });
 
-            count++;
+            // fallback defensivo (não deveria acontecer)
+            counter ??= new Counter
+            {
+                Count = 0,
+                WindowStart = DateTime.UtcNow
+            };
+            counter.Count++;
 
-            _cache.Set(key, count, window);
+            var elapsed = DateTime.UtcNow - counter.WindowStart;
+            var retryAfter = window - elapsed;
+            if (retryAfter < TimeSpan.Zero)
+                retryAfter = TimeSpan.Zero;
 
-            return count > limit;
+            return new RateLimitResult
+            {
+                IsLimited = counter.Count > limit,
+                Remaining = Math.Max(0, limit - counter.Count),
+                RetryAfter = retryAfter
+            };
         }
     }
 }

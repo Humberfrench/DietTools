@@ -45,7 +45,21 @@ namespace Dietcode.Api.Core
         {
             result = BeforeReturn(result);
 
-            // 1) Se tiver conteúdo tipado (sucesso ou erro)
+            // 🔴 1) Status de erro SEMPRE ganha
+            if ((int)result.Status >= StatusCodes.Status400BadRequest)
+            {
+                if (result is ErrorResult errorResult)
+                {
+                    return CreateErrorResponse(errorResult);
+                }
+
+                // fallback defensivo
+                return CreateErrorResponse(
+                    new ErrorResult(result.Status, new ErrorValidation(result.Status.ToString(),
+                                                                        "Erro não especificado.")));
+            }
+
+            // 2) Se tiver conteúdo tipado (sucesso ou erro)
             if (result is IContentResult<TContent> contentResult)
             {
                 // Se for Created<T>, gera Location
@@ -56,12 +70,6 @@ namespace Dietcode.Api.Core
                 }
 
                 return CreateObjectResult(contentResult.Status, contentResult.Content!);
-            }
-
-            // 2) Se for erro sem payload tipado
-            if (result is ErrorResult errorResult)
-            {
-                return CreateErrorResponse(errorResult);
             }
 
             // 3) Só status (NoContent, etc.)
@@ -76,17 +84,26 @@ namespace Dietcode.Api.Core
         {
             result = BeforeReturn(result);
 
-            // 1) Conteúdo não tipado (IContentResult simples)
+
+            // 🔴 1) Status de erro SEMPRE ganha
+            if ((int)result.Status >= StatusCodes.Status400BadRequest)
+            {
+                if (result is ErrorResult errorResult)
+                {
+                    return CreateErrorResponse(errorResult);
+                }
+
+                // fallback defensivo
+                return CreateErrorResponse(
+                    new ErrorResult(result.Status, new ErrorValidation(result.Status.ToString(),
+                                                                        "Erro não especificado.")));
+            }
+
+            // 2) Conteúdo não tipado (IContentResult simples)
             if (result is IContentResult contentResult)
             {
                 var content = contentResult.Content ?? new { };
                 return CreateObjectResult(contentResult.Status, content);
-            }
-
-            // 2) Erro sem payload explícito
-            if (result is ErrorResult errorResult)
-            {
-                return CreateErrorResponse(errorResult);
             }
 
             // 3) Apenas status
@@ -275,7 +292,7 @@ namespace Dietcode.Api.Core
         {
             rateLimitResult = null;
 
-            // Pegamos o endpoint atual
+            // Endpoint atual
             var endpoint = HttpContext.GetEndpoint();
             var attribute = endpoint?.Metadata.GetMetadata<RateLimitAttribute>();
 
@@ -283,18 +300,28 @@ namespace Dietcode.Api.Core
             if (attribute == null)
                 return false;
 
-            // Aplicar RateLimit
             var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
-
             var cacheKey = $"rl:{endpoint!.DisplayName}:{ip}";
-            var rateLimiter = HttpContext.RequestServices.GetRequiredService<IRateLimiter>();
 
-            bool estourou = rateLimiter.IsLimited(cacheKey, attribute.Limit, TimeSpan.FromSeconds(attribute.Seconds));
+            var rateLimiter =
+                HttpContext.RequestServices.GetRequiredService<IRateLimiter>();
 
-            if (estourou)
+            var result = rateLimiter.Check(
+                cacheKey,
+                attribute.Limit,
+                TimeSpan.FromSeconds(attribute.Seconds));
+
+            if (result.IsLimited)
             {
-                var result = new TooManyRequestsResult(new ErrorValidation("429", "Muitas solicitações. Aguarde alguns instantes."));
-                rateLimitResult = Completed(result);
+                // Header padrão HTTP
+                HttpContext.Response.Headers["Retry-After"] =
+                    ((int)result.RetryAfter.TotalSeconds).ToString();
+
+                var payload = new ErrorValidation(
+                    "429",
+                    $"Muitas solicitações. Tente novamente em {Math.Ceiling(result.RetryAfter.TotalSeconds)} segundos.");
+
+                rateLimitResult = Completed(new TooManyRequestsResult(payload));
                 return true;
             }
 

@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Core.Lib\\Dietcode.Core.Lib.csproj": {
-      "version": "3.6.0",
+      "version": "4.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Core.Lib\\Dietcode.Core.Lib.csproj",
         "projectName": "Dietcode.Core.Lib",
@@ -63,16 +63,19 @@
           "assetTargetFallback": true,
           "warn": true,
           "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
     "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\ToolsTester\\ToolsTester.csproj": {
-      "version": "1.0.0",
+      "version": "4.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\ToolsTester\\ToolsTester.csproj",
         "projectName": "ToolsTester",
@@ -138,7 +141,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
