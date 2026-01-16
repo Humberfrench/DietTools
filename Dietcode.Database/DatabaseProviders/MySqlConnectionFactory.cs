@@ -1,20 +1,22 @@
-﻿using Dietcode.Database.Interfaces;
+﻿using Dietcode.Database.Abstractions;
 using MySqlConnector;
 using System.Data;
 
 namespace Dietcode.Database.DatabaseProviders
 {
-    public class MySqlConnectionFactory : IConnectionFactory
+    public sealed class MySqlConnectionFactory : IConnectionFactory
     {
-        protected readonly string ConnectionString;
+        private readonly string _connectionString;
 
         public MySqlConnectionFactory(string connectionString)
         {
-            ConnectionString = connectionString;
+            _connectionString = connectionString
+                ?? throw new ArgumentNullException(nameof(connectionString));
         }
-        public IDbConnection Connection()
+
+        public IDbConnection Create()
         {
-            return new MySqlConnection(ConnectionString);
+            return new MySqlConnection(_connectionString);
         }
     }
 }

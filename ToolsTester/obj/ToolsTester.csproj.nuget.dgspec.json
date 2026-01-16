@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Core.Lib\\Dietcode.Core.Lib.csproj": {
-      "version": "4.0.0",
+      "version": "9.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Core.Lib\\Dietcode.Core.Lib.csproj",
         "projectName": "Dietcode.Core.Lib",
@@ -75,7 +75,7 @@
       }
     },
     "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\ToolsTester\\ToolsTester.csproj": {
-      "version": "4.0.0",
+      "version": "9.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\ToolsTester\\ToolsTester.csproj",
         "projectName": "ToolsTester",

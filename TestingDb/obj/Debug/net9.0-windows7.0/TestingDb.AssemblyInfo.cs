@@ -13,11 +13,11 @@ using System.Reflection;
 
 [assembly: System.Reflection.AssemblyCompanyAttribute("TestingDb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyFileVersionAttribute("4.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("4.0.0.0+337382b8b8646fdc8474021c21924a2800fb590b")]
+[assembly: System.Reflection.AssemblyFileVersionAttribute("9.0.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("9.0.0.0+99fabf8d36be54c2821e28e00b6577e1a1b9b840")]
 [assembly: System.Reflection.AssemblyProductAttribute("TestingDb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TestingDb")]
-[assembly: System.Reflection.AssemblyVersionAttribute("4.0.0.0")]
+[assembly: System.Reflection.AssemblyVersionAttribute("9.0.0.0")]
 [assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows7.0")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")]
 

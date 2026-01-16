@@ -76,6 +76,18 @@
           }
         }
       },
+      "Dietcode.Core.Lib/9.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/net9.0/Dietcode.Core.Lib.dll": {}
+        },
+        "runtime": {
+          "lib/net9.0/Dietcode.Core.Lib.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
         "type": "package",
         "compile": {
@@ -867,6 +879,19 @@
         "lib/net5.0/Dapper.Contrib.xml",
         "lib/netstandard2.0/Dapper.Contrib.dll",
         "lib/netstandard2.0/Dapper.Contrib.xml"
+      ]
+    },
+    "Dietcode.Core.Lib/9.0.0": {
+      "sha512": "5C7LsnjdBCodfpJq8GXk1Ttv5sS+wsB7iEq1vjGfFvlNAVfgskpMWA3FSNY4bttTMISZH0xOTh9l6pQeodepnA==",
+      "type": "package",
+      "path": "dietcode.core.lib/9.0.0",
+      "files": [
+        ".nupkg.metadata",
+        "README.md",
+        "dietcode.core.lib.9.0.0.nupkg.sha512",
+        "dietcode.core.lib.nuspec",
+        "dietcode128.png",
+        "lib/net9.0/Dietcode.Core.Lib.dll"
       ]
     },
     "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
@@ -2002,6 +2027,7 @@
     "net9.0": [
       "Dapper >= 2.1.66",
       "Dapper.Contrib >= 2.0.78",
+      "Dietcode.Core.Lib >= 9.0.0",
       "Microsoft.Data.SqlClient >= 6.0.1",
       "MySqlConnector >= 2.5.0",
       "Npgsql >= 10.0.0",
@@ -2013,7 +2039,7 @@
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
-    "version": "2.5.1",
+    "version": "9.0.0",
     "restore": {
       "projectUniqueName": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Database\\Dietcode.Database.csproj",
       "projectName": "Dietcode.Database",
@@ -2067,6 +2093,10 @@
           "Dapper.Contrib": {
             "target": "Package",
             "version": "[2.0.78, )"
+          },
+          "Dietcode.Core.Lib": {
+            "target": "Package",
+            "version": "[9.0.0, )"
           },
           "Microsoft.Data.SqlClient": {
             "target": "Package",

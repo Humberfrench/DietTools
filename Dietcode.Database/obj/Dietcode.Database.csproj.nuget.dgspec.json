@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Database\\Dietcode.Database.csproj": {
-      "version": "2.5.1",
+      "version": "9.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Database\\Dietcode.Database.csproj",
         "projectName": "Dietcode.Database",
@@ -59,6 +59,10 @@
             "Dapper.Contrib": {
               "target": "Package",
               "version": "[2.0.78, )"
+            },
+            "Dietcode.Core.Lib": {
+              "target": "Package",
+              "version": "[9.0.0, )"
             },
             "Microsoft.Data.SqlClient": {
               "target": "Package",

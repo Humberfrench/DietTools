@@ -1,9 +1,7 @@
 ﻿using Dietcode.Core.Lib;
+using Dietcode.Database.Orm.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.IO;
-using Dietcode.Database.Orm.Logging;
 using System.Diagnostics;
 
 namespace Dietcode.Database.Orm.Context
@@ -42,11 +40,11 @@ namespace Dietcode.Database.Orm.Context
             ConnectionString = GetConnString();
         }
 
-        private readonly DiagnosticListener listener = new DiagnosticListener("ORM.Database.Listener");
+        private readonly DiagnosticListener listener = new("ORM.Database.Listener");
 
         public string ConnectionString { get; private set; }
 
-        private string GetConnString()
+        private static string GetConnString()
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -77,7 +75,7 @@ namespace Dietcode.Database.Orm.Context
                            Microsoft.EntityFrameworkCore.Diagnostics.DbContextLoggerOptions.Category
                            | Microsoft.EntityFrameworkCore.Diagnostics.DbContextLoggerOptions.SingleLine
                            | Microsoft.EntityFrameworkCore.Diagnostics.DbContextLoggerOptions.UtcTime);
-                
+
                 listener.Subscribe(new EfPerformanceObserver());
             }
         }

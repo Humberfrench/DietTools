@@ -1,23 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	<TargetFramework>net9.0</TargetFramework>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<Nullable>enable</Nullable>
-	  
-	  <PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
-	  <Title>Dietcode Api Database</Title>
-	  <Version>2.5.1</Version>
-	  <AssemblyVersion>2.5.1.0</AssemblyVersion>
-	  <FileVersion>2.5.1.0</FileVersion>
-	  <PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
-	  <!--<PackageOutputPath>D:\Nuget\\</PackageOutputPath>-->
-	  <NeutralLanguage>pt-BR</NeutralLanguage>
-	  <PackageIcon>dietcode128.png</PackageIcon>
-	  <NeutralLanguage>pt-BR</NeutralLanguage>
-	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	  <PackageReadmeFile>README.md</PackageReadmeFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+
+		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
+		<Title>Dietcode Api Database</Title>
+		<Version>9.0.0.0</Version>
+		<AssemblyVersion>9.0.0.0</AssemblyVersion>
+		<FileVersion>9.0.0.0</FileVersion>
+		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
+		<!--<PackageOutputPath>D:\Nuget\\</PackageOutputPath>-->
+		<NeutralLanguage>pt-BR</NeutralLanguage>
+		<PackageIcon>dietcode128.png</PackageIcon>
+		<NeutralLanguage>pt-BR</NeutralLanguage>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
 	<ItemGroup>
 		<None Include="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode128.png" Pack="true" PackagePath="\" />
 	</ItemGroup>
@@ -27,12 +27,13 @@
 
 
 	<ItemGroup>
-	<PackageReference Include="Dapper" Version="2.1.66" />
-	<PackageReference Include="Dapper.Contrib" Version="2.0.78" />
-	<PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
-	<PackageReference Include="MySqlConnector" Version="2.5.0" />
-	<PackageReference Include="Npgsql" Version="10.0.0" />
-	<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.26.0" />
-  </ItemGroup>
+		<PackageReference Include="Dapper" Version="2.1.66" />
+		<PackageReference Include="Dapper.Contrib" Version="2.0.78" />
+		<PackageReference Include="Dietcode.Core.Lib" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.1" />
+		<PackageReference Include="MySqlConnector" Version="2.5.0" />
+		<PackageReference Include="Npgsql" Version="10.0.0" />
+		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.26.0" />
+	</ItemGroup>
 
 </Project>

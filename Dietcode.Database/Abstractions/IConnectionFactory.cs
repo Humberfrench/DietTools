@@ -1,9 +1,9 @@
 ﻿using System.Data;
 
-namespace Dietcode.Database.Interfaces
+namespace Dietcode.Database.Abstractions
 {
     public interface IConnectionFactory
     {
-        IDbConnection Connection();
+        IDbConnection Create();
     }
 }

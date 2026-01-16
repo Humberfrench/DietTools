@@ -1,20 +1,22 @@
-﻿using Dietcode.Database.Interfaces;
+﻿using Dietcode.Database.Abstractions;
 using Npgsql;
 using System.Data;
 
 namespace Dietcode.Database.DatabaseProviders
 {
-    public class PostgreSqlConnectionFactory : IConnectionFactory
+    public sealed class PostgreSqlConnectionFactory : IConnectionFactory
     {
-        protected readonly string ConnectionString;
+        private readonly string _connectionString;
 
         public PostgreSqlConnectionFactory(string connectionString)
         {
-            ConnectionString = connectionString;
+            _connectionString = connectionString
+                ?? throw new ArgumentNullException(nameof(connectionString));
         }
-        public IDbConnection Connection()
+
+        public IDbConnection Create()
         {
-            return new NpgsqlConnection(ConnectionString);
+            return new NpgsqlConnection(_connectionString);
         }
     }
 }

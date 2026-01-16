@@ -1,14 +1,16 @@
 ﻿using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Dietcode.Database.Orm.Logging
 {
-    internal class EfPerformanceObserver : IObserver<KeyValuePair<string, object>>
+    internal class EfPerformanceObserver : IObserver<KeyValuePair<string, object?>>
     {
-        public void OnNext(KeyValuePair<string, object> ev)
+        public void OnNext(KeyValuePair<string, object?> ev)
         {
+            if (ev.Value == null)
+            {
+                return;
+            }
+
             if (ev.Key == "Microsoft.EntityFrameworkCore.Database.Command.CommandExecuted")
             {
                 dynamic data = ev.Value;
@@ -16,9 +18,9 @@ namespace Dietcode.Database.Orm.Logging
                 Log.Information("EF Query Executed {@QueryInfo}",
                     new
                     {
-                        CommandText = data.Command.CommandText,
+                        data.Command.CommandText,
                         Duration = data.Duration.TotalMilliseconds,
-                        Parameters = data.Command.Parameters,
+                        data.Command.Parameters,
                         Method = data.ExecuteMethod.ToString()
                     });
             }

@@ -1,19 +1,24 @@
-﻿using System.Text;
+﻿using Dietcode.Api.Core.MiddleObjects;
+using Dietcode.Core.Lib.Masking;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
+using System.Text;
+using System.Text.Json;
 
 namespace Dietcode.Api.Core.Middleware
 {
-    public sealed class ApiLoggingMiddleware
+    public sealed class ApiLoggingMiddleware(
+        RequestDelegate next,
+        IOptions<ApiLoggingOptions> options)
     {
-        private readonly RequestDelegate _next;
-        private readonly ApiLoggingOptions _options;
+        private readonly RequestDelegate _next = next;
+        private readonly ApiLoggingOptions _options = options.Value;
 
-        public ApiLoggingMiddleware(
-            RequestDelegate next,
-            IOptions<ApiLoggingOptions> options)
+        private static readonly JsonSerializerOptions _jsonOptions = new()
         {
-            _next = next;
-            _options = options.Value;
-        }
+            WriteIndented = false,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
 
         public async Task Invoke(HttpContext context)
         {
@@ -71,8 +76,7 @@ namespace Dietcode.Api.Core.Middleware
                 _options.Directory,
                 $"api-log-{DateTime.UtcNow:yyyyMMdd}.jsonl");
 
-            var json = JsonSerializer.Serialize(entry,
-                new JsonSerializerOptions { WriteIndented = false });
+            var json = JsonSerializer.Serialize(entry, _jsonOptions);
 
             await File.AppendAllTextAsync(file, json + Environment.NewLine);
         }

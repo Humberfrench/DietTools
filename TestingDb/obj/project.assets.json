@@ -60,7 +60,7 @@
           }
         }
       },
-      "Dietcode.Core.DomainValidator/2.8.2": {
+      "Dietcode.Core.DomainValidator/9.0.0": {
         "type": "package",
         "compile": {
           "lib/net9.0/Dietcode.Core.DomainValidator.dll": {}
@@ -69,14 +69,17 @@
           "lib/net9.0/Dietcode.Core.DomainValidator.dll": {}
         }
       },
-      "Dietcode.Core.Lib/3.7.0": {
+      "Dietcode.Core.Lib/9.0.0": {
         "type": "package",
         "compile": {
           "lib/net9.0/Dietcode.Core.Lib.dll": {}
         },
         "runtime": {
           "lib/net9.0/Dietcode.Core.Lib.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Microsoft.Bcl.AsyncInterfaces/1.1.1": {
         "type": "package",
@@ -1020,13 +1023,13 @@
           }
         }
       },
-      "Dietcode.Database.Classic/4.0.0": {
+      "Dietcode.Database.Classic/9.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v9.0",
         "dependencies": {
           "Dapper": "2.1.66",
-          "Dietcode.Core.DomainValidator": "2.8.2",
-          "Dietcode.Core.Lib": "3.7.0",
+          "Dietcode.Core.DomainValidator": "9.0.0",
+          "Dietcode.Core.Lib": "9.0.0",
           "Microsoft.EntityFrameworkCore": "9.0.4",
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.4"
         },
@@ -1100,27 +1103,27 @@
         "readme.md"
       ]
     },
-    "Dietcode.Core.DomainValidator/2.8.2": {
-      "sha512": "awd5sDQRHjogsjLswLd5Xx4tmc6TtDitS71+uQVFqsI9eq758vycJimSXL1PZWxrvFOCXC+BvTRwzVLG/Y8SmA==",
+    "Dietcode.Core.DomainValidator/9.0.0": {
+      "sha512": "ZdZtj3LZgDImfKlUMgydhKLMNTZ0h3yENlzg0KUB0OGDj0AXgjn5n6m5Wv5fKMT2l2tcB6LJnxblzp0uH3bQ3g==",
       "type": "package",
-      "path": "dietcode.core.domainvalidator/2.8.2",
+      "path": "dietcode.core.domainvalidator/9.0.0",
       "files": [
         ".nupkg.metadata",
         "README.md",
-        "dietcode.core.domainvalidator.2.8.2.nupkg.sha512",
+        "dietcode.core.domainvalidator.9.0.0.nupkg.sha512",
         "dietcode.core.domainvalidator.nuspec",
         "dietcode128.png",
         "lib/net9.0/Dietcode.Core.DomainValidator.dll"
       ]
     },
-    "Dietcode.Core.Lib/3.7.0": {
-      "sha512": "A4LVo1KzMcsbNJRo3TEIVywJu4m0PBRXnjWyX9YTm7dBSRaTPehah+o7VRy5npG+BB3aprhWo+SnxS9jVeFP3A==",
+    "Dietcode.Core.Lib/9.0.0": {
+      "sha512": "5C7LsnjdBCodfpJq8GXk1Ttv5sS+wsB7iEq1vjGfFvlNAVfgskpMWA3FSNY4bttTMISZH0xOTh9l6pQeodepnA==",
       "type": "package",
-      "path": "dietcode.core.lib/3.7.0",
+      "path": "dietcode.core.lib/9.0.0",
       "files": [
         ".nupkg.metadata",
         "README.md",
-        "dietcode.core.lib.3.7.0.nupkg.sha512",
+        "dietcode.core.lib.9.0.0.nupkg.sha512",
         "dietcode.core.lib.nuspec",
         "dietcode128.png",
         "lib/net9.0/Dietcode.Core.Lib.dll"
@@ -2835,7 +2838,7 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "Dietcode.Database.Classic/4.0.0": {
+    "Dietcode.Database.Classic/9.0.0": {
       "type": "project",
       "path": "../Dietcode.Database.Classic/Dietcode.Database.Classic.csproj",
       "msbuildProject": "../Dietcode.Database.Classic/Dietcode.Database.Classic.csproj"
@@ -2843,7 +2846,7 @@
   },
   "projectFileDependencyGroups": {
     "net9.0-windows7.0": [
-      "Dietcode.Database.Classic >= 4.0.0"
+      "Dietcode.Database.Classic >= 9.0.0"
     ]
   },
   "packageFolders": {
@@ -2851,7 +2854,7 @@
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
-    "version": "4.0.0",
+    "version": "9.0.0",
     "restore": {
       "projectUniqueName": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\TestingDb\\TestingDb.csproj",
       "projectName": "TestingDb",

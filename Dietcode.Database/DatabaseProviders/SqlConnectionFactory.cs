@@ -1,20 +1,22 @@
-﻿using Dietcode.Database.Interfaces;
+﻿using Dietcode.Database.Abstractions;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace Dietcode.Database.DatabaseProviders
 {
-    public class SqlConnectionFactory : IConnectionFactory
+    public sealed class SqlServerConnectionFactory : IConnectionFactory
     {
-        protected readonly string ConnectionString;
+        private readonly string _connectionString;
 
-        public SqlConnectionFactory(string connectionString)
+        public SqlServerConnectionFactory(string connectionString)
         {
-            ConnectionString = connectionString;
+            _connectionString = connectionString
+                ?? throw new ArgumentNullException(nameof(connectionString));
         }
-        public IDbConnection Connection()
+
+        public IDbConnection Create()
         {
-            return new SqlConnection(ConnectionString);
+            return new SqlConnection(_connectionString);
         }
     }
 }

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Dietcode.Database</id>
+    <version>9.0.0</version>
+    <title>Dietcode Api Database</title>
+    <authors>Dietcode.Database</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <icon>dietcode128.png</icon>
+    <readme>README.md</readme>
+    <projectUrl>http://www.dietcode.com.br/</projectUrl>
+    <description>Package Description</description>
+    <repository type="git" commit="99fabf8d36be54c2821e28e00b6577e1a1b9b840" />
+    <dependencies>
+      <group targetFramework="net9.0">
+        <dependency id="Dapper" version="2.1.66" exclude="Build,Analyzers" />
+        <dependency id="Dapper.Contrib" version="2.0.78" exclude="Build,Analyzers" />
+        <dependency id="Microsoft.Data.SqlClient" version="6.0.1" exclude="Build,Analyzers" />
+        <dependency id="MySqlConnector" version="2.5.0" exclude="Build,Analyzers" />
+        <dependency id="Npgsql" version="10.0.0" exclude="Build,Analyzers" />
+        <dependency id="Oracle.ManagedDataAccess.Core" version="23.26.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database\bin\Debug\net9.0\Dietcode.Database.dll" target="lib\net9.0\Dietcode.Database.dll" />
+    <file src="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode128.png" target="\dietcode128.png" />
+    <file src="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Dietcode.Database\README.md" target="README.md" />
+  </files>
+</package>

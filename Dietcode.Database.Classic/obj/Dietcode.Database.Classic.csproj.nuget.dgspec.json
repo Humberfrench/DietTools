@@ -5,7 +5,7 @@
   },
   "projects": {
     "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Database.Classic\\Dietcode.Database.Classic.csproj": {
-      "version": "4.0.0",
+      "version": "9.0.0",
       "restore": {
         "projectUniqueName": "C:\\Users\\humbe\\OneDrive\\Desenvolvimento\\DevDietcode\\DietTools\\Dietcode.Database.Classic\\Dietcode.Database.Classic.csproj",
         "projectName": "Dietcode.Database.Classic",
@@ -58,11 +58,11 @@
             },
             "Dietcode.Core.DomainValidator": {
               "target": "Package",
-              "version": "[2.8.2, )"
+              "version": "[9.0.0, )"
             },
             "Dietcode.Core.Lib": {
               "target": "Package",
-              "version": "[3.7.0, )"
+              "version": "[9.0.0, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
