@@ -1,17 +1,13 @@
-﻿using Dietcode.Core.DomainValidator;
+﻿using System.Data;
+using System.Linq.Expressions;
+using Dietcode.Core.DomainValidator;
 using Dietcode.Database.Domain;
 using Dietcode.Database.Orm.Context;
+using Dietcode.Database.Orm.Logging;
 using Dietcode.Database.Orm.UnitOfWork;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Dietcode.Database.Orm.Logging;
 
 namespace Dietcode.Database.Orm
 {
@@ -39,8 +35,10 @@ namespace Dietcode.Database.Orm
 
         #region Crud
 
-        public virtual async Task<bool> Adicionar(Table obj)
+        public virtual async Task<bool> Adicionar(Table obj, CancellationToken ct)
         {
+            ct.ThrowIfCancellationRequested();
+
             await DbSet.AddAsync(obj);
             Logger.LogInformation("Inserindo entidade {Entity}", typeof(Table).Name);
             Logger.LogDebug("Inserindo entidade {Entity}", typeof(Table).Name);
@@ -52,8 +50,10 @@ namespace Dietcode.Database.Orm
             return entries.Count > 0;
         }
 
-        public virtual Task<bool> Atualizar(Table obj)
+        public virtual Task<bool> Atualizar(Table obj, CancellationToken ct)
         {
+            ct.ThrowIfCancellationRequested();
+
             var entry = Context.Entry(obj);
             entry.State = EntityState.Modified;
             Logger.LogInformation("Atualizando entidade {Entity}", typeof(Table).Name);
@@ -66,8 +66,10 @@ namespace Dietcode.Database.Orm
             return Task.FromResult(entries.Count > 0);
         }
 
-        public virtual Task<bool> Remover(Table obj)
+        public virtual Task<bool> Remover(Table obj, CancellationToken ct)
         {
+            ct.ThrowIfCancellationRequested();
+
             var entry = Context.Entry(obj);
             entry.State = EntityState.Deleted;
             Logger.LogInformation("Removendo entidade {Entity}", typeof(Table).Name);
@@ -80,31 +82,38 @@ namespace Dietcode.Database.Orm
             return Task.FromResult(entries.Count > 0);
         }
 
-        public virtual async Task<Table> ObterPorId(Tipo id)
+        public virtual async Task<Table> ObterPorId(Tipo id, CancellationToken ct)
         {
-            var resultado = await DbSet.FindAsync(id);
+            ct.ThrowIfCancellationRequested();
+
+            // FindAsync com ct: usar overload com object[]
+            var resultado = await DbSet.FindAsync(new object[] { id! }, ct);
             return resultado ?? new Table();
         }
 
-        public virtual async Task<IEnumerable<Table>> ObterTodos()
+        public virtual async Task<IEnumerable<Table>> ObterTodos(CancellationToken ct)
         {
-            return await DbSet.ToListAsync();
+            ct.ThrowIfCancellationRequested();
+            return await DbSet.ToListAsync(ct);
         }
 
-        public virtual async Task<IEnumerable<Table>> ObterTodosPaginado(int pagina, int registros)
+        public virtual async Task<IEnumerable<Table>> ObterTodos(int pagina, int registros, CancellationToken ct = default)
         {
+            ct.ThrowIfCancellationRequested();
+
             if (pagina <= 0) pagina = 1;
             if (registros <= 0) registros = 10;
 
-            return await DbSet
-                .Skip((pagina - 1) * registros)
-                .Take(registros)
-                .ToListAsync();
-        }
 
-        public virtual async Task<IEnumerable<Table>> Pesquisar(Expression<Func<Table, bool>> predicate)
+            return await DbSet
+            .Skip((pagina - 1) * registros)
+            .Take(registros)
+            .ToListAsync(ct);
+        }
+        public virtual async Task<IEnumerable<Table>> Pesquisar(Expression<Func<Table, bool>> predicate, CancellationToken ct = default)
         {
-            return await DbSet.Where(predicate).ToListAsync();
+            ct.ThrowIfCancellationRequested();
+            return await DbSet.Where(predicate).ToListAsync(ct);
         }
 
         #endregion
@@ -116,9 +125,9 @@ namespace Dietcode.Database.Orm
             myUnitOfWork.BeginTransaction();
         }
 
-        public ValidationResult<Table> Commit()
+        public async Task<ValidationResult<Table>> Commit(CancellationToken ct = default)
         {
-            return myUnitOfWork.SaveChanges();
+            return await myUnitOfWork.SaveChanges(ct);
         }
 
         #endregion

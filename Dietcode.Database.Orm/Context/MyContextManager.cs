@@ -15,9 +15,16 @@ namespace Dietcode.Database.Orm.Context
 
         public T GetContext()
         {
-            var items = context.HttpContext.Items;
+            var http = context.HttpContext;
 
-            if (items[CONTEXT_KEY] is T ctx)
+            // Jobs/serviços: não existe HttpContext
+            if (http is null)
+                return new T();
+
+            // Web: 1 contexto por request via Items
+            var items = http.Items;
+
+            if (items.TryGetValue(CONTEXT_KEY, out var existing) && existing is T ctx)
                 return ctx;
 
             var novo = new T();

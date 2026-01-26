@@ -27,13 +27,15 @@ namespace Dietcode.Database.Orm.UnitOfWork
             _disposed = false;
         }
 
-        public ValidationResult<T> SaveChanges()
+        public async Task<ValidationResult<T>> SaveChanges(CancellationToken ct = default)
         {
             logger.LogInformation("UoW SaveChanges for {Entity} at {TimeUtc}", typeof(T).Name, DateTime.UtcNow);
             try
             {
-                var affected = dbContext.SaveChanges();
-                var entries = dbContext.ChangeTracker.Entries().ToList();
+                ct.ThrowIfCancellationRequested();
+
+                var affected = await dbContext.SaveChangesAsync(ct);
+
                 var keys = GetPrimaryKeyValues();
                 keys.ForEach(e =>
                 {
@@ -44,8 +46,14 @@ namespace Dietcode.Database.Orm.UnitOfWork
                     });
                 });
 
-                validationResult.AddMensagem($"Dados salvos com sucesso. Total: {entries.Count}");
-                logger.LogInformation("Dados salvos com sucesso. Total: {count}", affected);
+                validationResult.AddMensagem($"Dados salvos com sucesso. Total: {affected}");
+                logger.LogInformation("Dados salvos com sucesso. Total affected: {count}", affected);
+            }
+            catch (OperationCanceledException)
+            {
+                // opcional: logar como warning e rethrow ou retornar ValidationResult com erro
+                logger.LogWarning("UoW SaveChangesAsync cancelado para {Entity} em {TimeUtc}", typeof(T).Name, DateTime.UtcNow);
+                throw;
             }
             catch (Exception ex)
             {

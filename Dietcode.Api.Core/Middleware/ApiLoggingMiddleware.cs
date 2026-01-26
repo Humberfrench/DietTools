@@ -1,4 +1,5 @@
 ﻿using Dietcode.Api.Core.MiddleObjects;
+using Dietcode.Core.Lib;
 using Dietcode.Core.Lib.Masking;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
@@ -55,17 +56,30 @@ namespace Dietcode.Api.Core.Middleware
                 Url = context.Request.Path,
                 StatusCode = context.Response.StatusCode,
                 TraceId = context.TraceIdentifier,
-                Request = SensitiveDataMasker.Mask(
-                    string.IsNullOrWhiteSpace(requestBody)
-                        ? null
-                        : JsonSerializer.Deserialize<object>(requestBody)),
-                Response = SensitiveDataMasker.Mask(
-                    string.IsNullOrWhiteSpace(responseText)
-                        ? null
-                        : JsonSerializer.Deserialize<object>(responseText))
+                Request = AdjustRequestOrResponse(requestBody),
+                Response = AdjustRequestOrResponse(responseText)
             };
 
             await WriteLogAsync(logEntry);
+        }
+        private string AdjustRequestOrResponse(string? dataValue)
+        {
+            try
+            {
+                if (!dataValue.IsNullOrEmptyOrWhiteSpace())
+                {
+                    dataValue = SensitiveDataMasker.Mask(dataValue)?.ToString().OrEmpty();
+                }
+                else
+                {
+                    dataValue = "";
+                }
+            }
+            catch
+            {
+                // Ignore any exceptions when restoring the original body stream
+            }
+            return dataValue.OrEmpty();
         }
 
         private async Task WriteLogAsync(ApiLogEntry entry)

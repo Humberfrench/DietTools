@@ -247,54 +247,6 @@ namespace Dietcode.Core.Lib
             => valor.ToString("C");
 
         // --------------------------------------------------
-        //  DATAS E HORAS
-        // --------------------------------------------------
-
-        public static string ToDateFormated(this DateTime dateValue)
-            => dateValue.ToString("dd/MM/yyyy");
-
-        public static string ToTimeFormated(this DateTime dateValue)
-            => dateValue.ToString("HH:mm");
-
-        public static string ToDateTimeFormated(this DateTime dateValue)
-            => $"{dateValue:dd/MM/yyyy} | {dateValue:HH:mm}";
-
-        public static string ToDateTimeWithSecondsFormated(this DateTime dateValue)
-            => $"{dateValue:dd/MM/yyyy} | {dateValue:HH:mm:ss}";
-
-        public static string ToDateFormated(this DateTime? dateValue)
-            => dateValue?.ToString("dd/MM/yyyy") ?? "";
-
-        public static string ToTimeFormated(this DateTime? dateValue)
-            => dateValue?.ToString("HH:mm") ?? "";
-
-        public static string ToDateTimeFormated(this DateTime? dateValue)
-            => dateValue.HasValue
-                ? $"{dateValue.Value:dd/MM/yyyy} | {dateValue.Value:HH:mm}"
-                : "";
-
-        public static string ToDateTimeWithSecondsFormated(this DateTime? dateValue)
-            => dateValue.HasValue
-                ? $"{dateValue.Value:dd/MM/yyyy} | {dateValue.Value:HH:mm:ss}"
-                : "";
-
-        public static string ToDateTimeFormated(this DateTime dateValue, string separador)
-            => $"{dateValue:dd/MM/yyyy} {separador} {dateValue:HH:mm}";
-
-        public static string ToDateTimeWithSecondsFormated(this DateTime dateValue, string separador)
-            => $"{dateValue:dd/MM/yyyy} {separador} {dateValue:HH:mm:ss}";
-
-        public static string ToDateTimeFormated(this DateTime? dateValue, string separador)
-            => dateValue.HasValue
-                ? $"{dateValue.Value:dd/MM/yyyy} {separador} {dateValue.Value:HH:mm}"
-                : "";
-
-        public static string ToDateTimeWithSecondsFormated(this DateTime? dateValue, string separador)
-            => dateValue.HasValue
-                ? $"{dateValue.Value:dd/MM/yyyy} {separador} {dateValue.Value:HH:mm:ss}"
-                : "";
-
-        // --------------------------------------------------
         //  SIM / NÃO
         // --------------------------------------------------
 

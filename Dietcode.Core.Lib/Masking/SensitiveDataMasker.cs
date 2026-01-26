@@ -21,13 +21,47 @@ namespace Dietcode.Core.Lib.Masking
             if (data == null)
                 return null;
 
-            var json = JsonSerializer.Serialize(data);
-            using var doc = JsonDocument.Parse(json);
+            // 🛑 CASO 1: string
+            if (data is string str)
+            {
+                if (string.IsNullOrWhiteSpace(str))
+                    return str;
 
-            var masked = MaskElement(doc.RootElement);
+                str = str.TrimStart();
 
-            return JsonSerializer.Deserialize<object>(
-                masked.GetRawText());
+                // Não parece JSON → retorna como texto cru
+                if (!(str.StartsWith("{") || str.StartsWith("[")))
+                    return str;
+
+                // Parece JSON → tenta mascarar
+                try
+                {
+                    using var doc = JsonDocument.Parse(str);
+                    var masked = MaskElement(doc.RootElement);
+                    return JsonSerializer.Deserialize<object>(masked.GetRawText());
+                }
+                catch
+                {
+                    return str; // fallback total
+                }
+            }
+
+            // 🛑 CASO 2: objeto normal
+            try
+            {
+                var json = JsonSerializer.Serialize(data);
+                using var doc = JsonDocument.Parse(json);
+
+                var masked = MaskElement(doc.RootElement);
+
+                return JsonSerializer.Deserialize<object>(
+                    masked.GetRawText());
+            }
+            catch
+            {
+                // Nunca quebrar o pipeline
+                return data;
+            }
         }
 
         private static JsonElement MaskElement(JsonElement element)
