@@ -12,6 +12,16 @@
         public ResultStatusCode Status { get; set; }
     }
 
+    public class MethodResult<TContent> : MethodResult
+    {
+        public TContent Content { get; set; }
+
+        public MethodResult(TContent content, ResultStatusCode status)
+            : base(status)
+        {
+            Content = content;
+        }
+    }
 
 
 }

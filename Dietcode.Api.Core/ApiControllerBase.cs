@@ -48,9 +48,9 @@ namespace Dietcode.Api.Core
             // 🔴 1) Status de erro SEMPRE ganha
             if ((int)result.Status >= StatusCodes.Status400BadRequest)
             {
-                if (result is ErrorResult errorResult)
+                if (result is IErrorResult errorResult)
                 {
-                    return CreateErrorResponse(errorResult);
+                    return CreateErrorResponse(result.Status, errorResult.Errors);
                 }
 
                 // fallback defensivo
@@ -88,9 +88,9 @@ namespace Dietcode.Api.Core
             // 🔴 1) Status de erro SEMPRE ganha
             if ((int)result.Status >= StatusCodes.Status400BadRequest)
             {
-                if (result is ErrorResult errorResult)
+                if (result is IErrorResult errorResult)
                 {
-                    return CreateErrorResponse(errorResult);
+                    return CreateErrorResponse(result.Status, errorResult.Errors);
                 }
 
                 // fallback defensivo
@@ -108,6 +108,20 @@ namespace Dietcode.Api.Core
 
             // 3) Apenas status
             return CreateStatusCodeResult(result.Status);
+        }
+
+        [NonAction]
+        protected IActionResult Canceled(string? message = null)
+        {
+            var error = new ErrorValidation("499", message ?? "Requisição cancelada pelo cliente.");
+            return Completed(new ClientClosedResult(error));
+        }
+
+        [NonAction]
+        protected IActionResult Canceled<TContent>(TContent content, string? message = null)
+        {
+            var error = new ErrorValidation("499", message ?? "Requisição cancelada pelo cliente.");
+            return Completed(new ClientClosedResult<TContent>(content, error));
         }
 
         // ---------------------------------------------------------
@@ -148,6 +162,20 @@ namespace Dietcode.Api.Core
                 StatusCode = pd.Status
             };
         }
+        private IActionResult CreateErrorResponse(ResultStatusCode status, IEnumerable<ErrorValidation> errors)
+        {
+            var list = errors?.ToArray() ?? Array.Empty<ErrorValidation>();
+
+            if (list.Length > 1)
+            {
+                var vpd = CreateValidationProblemDetails(new ErrorResult(status, list));
+                return new ObjectResult(vpd) { StatusCode = vpd.Status };
+            }
+
+            var pd = CreateProblemDetails(new ErrorResult(status, list.Length == 1 ? list[0] : new ErrorValidation(status.ToString(), "Erro não especificado.")));
+            return new ObjectResult(pd) { StatusCode = pd.Status };
+        }
+
 
         [NonAction]
         protected virtual ProblemDetails CreateProblemDetails(ErrorResult errorResult, string? instanceOverride = null)

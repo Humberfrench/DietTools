@@ -72,6 +72,11 @@
         /// TooManyRequestsResult
         /// </summary>
         TooManyRequests = 429,
+
+        /// <summary>
+        /// Requisição cancelada pelo cliente (ex: conexão encerrada)
+        /// </summary>
+        ClientClosedRequest = 499,
         #endregion
 
         #region 5xx Codes (Error, server fault)

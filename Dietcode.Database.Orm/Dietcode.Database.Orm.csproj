@@ -12,17 +12,18 @@
 		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 		<Title>Dietcode Entity ORM Generic</Title>
 		<Description>Dietcode Entity ORM Generic - Repositorio patterns and unit of work patterns</Description>
-		<Version>9.1.0.0</Version>
-		<AssemblyVersion>9.1.0.0</AssemblyVersion>
-		<FileVersion>9.1.0.0</FileVersion>
+		<Version>9.1.6</Version>
+		<AssemblyVersion>9.1.6</AssemblyVersion>
+		<FileVersion>9.1.6.0</FileVersion>
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 		<PackageIcon>dietcode128.png</PackageIcon>
 		<NeutralLanguage>pt-BR</NeutralLanguage>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Dapper" Version="2.1.66" />
 		<PackageReference Include="Dietcode.Core.DomainValidator" Version="9.0.0" />
-		<PackageReference Include="Dietcode.Core.Lib" Version="9.0.1" />
+		<PackageReference Include="Dietcode.Core.Lib" Version="9.0.3.2026" />
 		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.3.9" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="9.0.4" />

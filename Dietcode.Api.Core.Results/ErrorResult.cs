@@ -2,7 +2,7 @@
 
 namespace Dietcode.Api.Core.Results
 {
-    public class ErrorResult : MethodResult
+    public class ErrorResult : MethodResult, IErrorResult
     {
         public IEnumerable<ErrorValidation> Errors { get; set; }
 
@@ -17,7 +17,7 @@ namespace Dietcode.Api.Core.Results
         }
     }
 
-    public class ErrorResult<TContent> : MethodResult<TContent>, IContentResult<TContent>
+    public class ErrorResult<TContent> : MethodResult<TContent>, IContentResult<TContent>, IErrorResult
     {
         public IEnumerable<ErrorValidation> Errors { get; }
 
