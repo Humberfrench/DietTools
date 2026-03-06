@@ -1,8 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
+	  <TargetFramework>net10.0</TargetFramework>
+	  <!--<TargetFrameworks>net9.0;net10.0</TargetFrameworks>-->
+	  <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	  <TargetFramework>net9.0</TargetFramework>
 	  <ImplicitUsings>enable</ImplicitUsings>
@@ -15,9 +16,9 @@
 	  <PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 	  <Title>Dietcode Entity ORM Generic</Title>
 	  <Description>Dietcode Entity ORM Classic - Repositorio Classic</Description>
-	  <Version>9.0.0.0</Version>
-	  <AssemblyVersion>9.0.0.0</AssemblyVersion>
-	  <FileVersion>9.0.0.0</FileVersion>
+	  <Version>10.0.0</Version>
+	  <AssemblyVersion>10.0.0</AssemblyVersion>
+	  <FileVersion>10.0.0.0</FileVersion>
 	  <PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 
   </PropertyGroup>

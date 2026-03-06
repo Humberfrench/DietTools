@@ -122,12 +122,14 @@ namespace Dietcode.Database.Orm
                               .Take(perPage)
                               .ToListAsync(ct);
         }
+
         public virtual async Task<IEnumerable<Table>> Pesquisar(Expression<Func<Table, bool>> predicate, CancellationToken ct = default)
         {
             ct.ThrowIfCancellationRequested();
 
             return await DbSet.AsNoTracking().Where(predicate).ToListAsync(ct);
         }
+
         public virtual async Task<List<Table>> Pesquisar(Expression<Func<Table, bool>> predicate, CancellationToken ct = default,
                                                  params Expression<Func<Table, object>>[] includes)
         {

@@ -2,11 +2,6 @@
 using Dietcode.Database.Orm.Context;
 using Dietcode.Database.Orm.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dietcode.Database.Orm
 {
@@ -18,6 +13,8 @@ namespace Dietcode.Database.Orm
             services.AddScoped(typeof(IMyContextManager<>), typeof(MyContextManager<>));
             services.AddScoped(typeof(IMyUnitOfWork<>), typeof(MyUnitOfWork<>));
 
+            // novo: store agnóstico
+            services.AddSingleton<IAmbientContextStore, AmbientContextStore>();
         }
     }
 }
