@@ -1,4 +1,6 @@
-﻿namespace Dietcode.Core.Jobs
+﻿using Dietcode.Core.Jobs.Interfaces;
+
+namespace Dietcode.Core.Jobs
 {
     public sealed class GenericJob : IJob
     {

@@ -17,7 +17,6 @@
 	  <PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 	  <!--<PackageOutputPath>D:\Nuget\\</PackageOutputPath>-->
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <PackageIcon>dietcode128.png</PackageIcon>
 	  <NeutralLanguage>pt-BR</NeutralLanguage>
   </PropertyGroup>

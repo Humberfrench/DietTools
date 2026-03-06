@@ -84,24 +84,47 @@ namespace Dietcode.Core.Jobs
         public async Task<MethodResult<TResult>> GetResultAsync(string idempotencyKey, CancellationToken ct)
         {
             var job = await _store.GetAsync(idempotencyKey, ct);
+
             if (job is null)
-                return BadRequest("Não encontrado", default!);
+            {
+                return new ErrorResult<TResult>(
+                    default!,
+                    ResultStatusCode.NotFound,
+                    new ErrorValidation { Code = "404", Message = "Não encontrado" });
+            }
 
             if (job.Status == JobStatus.Processing)
-                return Accepted(default!, idempotencyKey);
+            {
+                // Sem conteúdo, só status
+                return new ErrorResult<TResult>(
+                    default!,
+                    ResultStatusCode.Accepted,
+                    new ErrorValidation { Code = "202", Message = "Processando" });
+            }
 
             if (job.Status == JobStatus.Failed)
+            {
                 return new ErrorResult<TResult>(
                     default!,
                     ResultStatusCode.InternalServerError,
                     new ErrorValidation { Code = "500", Message = job.Error ?? "Falha no job." });
+            }
 
             // Completed
             if (string.IsNullOrWhiteSpace(job.ResultJson))
-                return Ok(default!);
+            {
+                // Completed, mas sem payload
+                // Decide: OK com default, ou erro de consistência?
+                return new ErrorResult<TResult>(
+                    default!,
+                    ResultStatusCode.OK,
+                    new ErrorValidation { Code = "200", Message = "Concluído (sem payload)" });
+            }
 
-            var result = JsonSerializer.Deserialize<TResult>(job.ResultJson, JsonOpts);
-            return Ok(result!);
+            TResult result = JsonSerializer.Deserialize<TResult>(job.ResultJson, JsonOpts)!;
+
+            // Aqui sim: retorno OK com conteúdo
+            return Ok(result);
         }
     }
 }
