@@ -5,18 +5,12 @@ using Dietcode.Core.Jobs.Interfaces.Domain;
 namespace Dietcode.Core.Jobs
 {
 
-    public sealed class JobAsyncService<TRequest, TResult> : AppServiceBase, IJobAsyncService<TRequest, TResult>
+    public sealed class JobAsyncService<TRequest, TResult>(IAsyncJobStoreGeneric store, IJobQueue queue) : AppServiceBase, IJobAsyncService<TRequest, TResult>
     {
-        private readonly IAsyncJobStoreGeneric _store;
-        private readonly IJobQueue _queue;
+        private readonly IAsyncJobStoreGeneric _store = store;
+        private readonly IJobQueue _queue = queue;
 
         private static readonly JsonSerializerOptions JsonOpts = new(JsonSerializerDefaults.Web);
-
-        public JobAsyncService(IAsyncJobStoreGeneric store, IJobQueue queue)
-        {
-            _store = store;
-            _queue = queue;
-        }
 
         public async Task<MethodResult<AsyncReturn>> StartAsync(AsyncStartRequest<TRequest> request, CancellationToken ct)
         {

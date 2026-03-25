@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
+using ResultStatus = Dietcode.Api.Core.Results;
 
 namespace Dietcode.Api.Core
 {
@@ -37,15 +38,22 @@ namespace Dietcode.Api.Core
             return CreateStatusCodeResult(statusCode);
         }
 
+
         // ---------------------------------------------------------
         // COMPLETED GENÉRICO (para métodos que retornam TContent)
         // ---------------------------------------------------------
+
+        [NonAction]
+        protected IActionResult Completed<TContent>(MethodResult<TContent> result)
+        {
+            return Completed<TContent>((MethodResult)result);
+        }
+
         [NonAction]
         protected IActionResult Completed<TContent>(MethodResult result)
         {
             result = BeforeReturn(result);
 
-            // 🔴 1) Status de erro SEMPRE ganha
             if ((int)result.Status >= StatusCodes.Status400BadRequest)
             {
                 if (result is IErrorResult errorResult)
@@ -53,29 +61,30 @@ namespace Dietcode.Api.Core
                     return CreateErrorResponse(result.Status, errorResult.Errors);
                 }
 
-                // fallback defensivo
                 return CreateErrorResponse(
                     new ErrorResult(result.Status, new ErrorValidation(result.Status.ToString(),
                                                                         "Erro não especificado.")));
             }
 
-            // 2) Se tiver conteúdo tipado (sucesso ou erro)
             if (result is IContentResult<TContent> contentResult)
             {
-                // Se for Created<T>, gera Location
                 if (contentResult.Status == ResultStatusCode.Created &&
                     result is CreatedResult<TContent> createdResult)
                 {
                     return CompletedAtAction(createdResult, "Get");
                 }
 
+                if (contentResult.Status == ResultStatusCode.OK && ShouldReturnNotFound(contentResult.Content))
+                {
+                    return Completed(new ResultStatus.NotFoundResult(
+                        new ErrorValidation("404", "Nenhum registro encontrado.")));
+                }
+
                 return CreateObjectResult(contentResult.Status, contentResult.Content!);
             }
 
-            // 3) Só status (NoContent, etc.)
             return CreateStatusCodeResult(result.Status);
         }
-
         // ---------------------------------------------------------
         // COMPLETED NÃO GENÉRICO (para quem não sabe o tipo)
         // ---------------------------------------------------------
@@ -84,8 +93,6 @@ namespace Dietcode.Api.Core
         {
             result = BeforeReturn(result);
 
-
-            // 🔴 1) Status de erro SEMPRE ganha
             if ((int)result.Status >= StatusCodes.Status400BadRequest)
             {
                 if (result is IErrorResult errorResult)
@@ -93,20 +100,23 @@ namespace Dietcode.Api.Core
                     return CreateErrorResponse(result.Status, errorResult.Errors);
                 }
 
-                // fallback defensivo
                 return CreateErrorResponse(
                     new ErrorResult(result.Status, new ErrorValidation(result.Status.ToString(),
                                                                         "Erro não especificado.")));
             }
 
-            // 2) Conteúdo não tipado (IContentResult simples)
             if (result is IContentResult contentResult)
             {
+                if (contentResult.Status == ResultStatusCode.OK && ShouldReturnNotFound(contentResult.Content))
+                {
+                    return Completed(new ResultStatus.NotFoundResult(
+                        new ErrorValidation("404", "Nenhum registro encontrado.")));
+                }
+
                 var content = contentResult.Content ?? new { };
                 return CreateObjectResult(contentResult.Status, content);
             }
 
-            // 3) Apenas status
             return CreateStatusCodeResult(result.Status);
         }
 
@@ -351,6 +361,29 @@ namespace Dietcode.Api.Core
 
                 rateLimitResult = Completed(new TooManyRequestsResult(payload));
                 return true;
+            }
+
+            return false;
+        }
+        private static bool ShouldReturnNotFound(object? content)
+        {
+            if (content is null)
+                return true;
+
+            if (content is string)
+                return false;
+
+            if (content is System.Collections.IEnumerable enumerable)
+            {
+                var enumerator = enumerable.GetEnumerator();
+                try
+                {
+                    return !enumerator.MoveNext();
+                }
+                finally
+                {
+                    (enumerator as IDisposable)?.Dispose();
+                }
             }
 
             return false;

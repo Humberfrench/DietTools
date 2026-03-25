@@ -71,5 +71,66 @@
         {
             return $"{date.Year}{date.DayOfYear:D3}";
         }
+
+        //DIAS UTEIS
+        #region Final De Semana e Feriado
+        private static readonly HashSet<(int Month, int Day)> FeriadosFixos =
+        [
+            (1, 1),   // Confraternização Universal
+            (4, 21),  // Tiradentes
+            (5, 1),   // Dia do Trabalho
+            (9, 7),   // Independência
+            (10, 12), // Nossa Sra Aparecida
+            (11, 2),  // Finados
+            (11, 15), // Proclamação da República
+            (12, 25), // Natal
+        ];
+
+        public static bool IsDiaNaoUtil(this DateTime date)
+            => date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday
+               || IsFeriadoFixo(date);
+
+        private static bool IsFeriadoFixo(DateTime date)
+            => FeriadosFixos.Contains((date.Month, date.Day));
+
+        public static bool IsDiaNaoUtil(this DateOnly date)
+       => date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday
+          || date.IsFeriadoFixo();
+
+        public static bool IsDiaUtil(this DateOnly date)
+            => !date.IsDiaNaoUtil();
+
+        public static bool IsFeriadoFixo(this DateOnly date)
+            => FeriadosFixos.Contains((date.Month, date.Day));
+
+        public static DateTime ProximoDiaUtil(this DateTime date)
+        {
+            // se você quiser sempre retornar só a data (00:00:00), use: var d = date.Date;
+            var d = date;
+
+            do
+            {
+                d = d.AddDays(1);
+            }
+            while (d.IsDiaNaoUtil());
+
+            return d;
+        }
+
+        public static DateOnly ProximoDiaUtil(this DateOnly date)
+        {
+            var d = date;
+
+            do
+            {
+                d = d.AddDays(1);
+            }
+            while (d.IsDiaNaoUtil());
+
+            return d;
+        }
+
+        #endregion
+
     }
 }

@@ -89,6 +89,26 @@
         public NotFoundResult NotFound(IEnumerable<ErrorValidation> errors)
             => Failure(new NotFoundResult(errors));
 
+        public NotFoundResult<TContent> NotFound<TContent>(string msg)
+        {
+            return Failure(new NotFoundResult<TContent>(default!, new ErrorValidation(null, msg)));
+        }
+
+        public NotFoundResult<TContent> NotFound<TContent>(ErrorValidation error)
+        {
+            return Failure(new NotFoundResult<TContent>(default!, error));
+        }
+
+        public NotFoundResult<TContent> NotFound<TContent>(IEnumerable<ErrorValidation> errors)
+        {
+            return Failure(new NotFoundResult<TContent>(default!, errors));
+        }
+
+        public NotFoundResult<TContent> NotFound<TContent>(string msg, TContent content)
+        {
+            return Failure(new NotFoundResult<TContent>(content, new ErrorValidation(null, msg)));
+        }
+
         // ---------------------------
         // TimeOut
         // ---------------------------

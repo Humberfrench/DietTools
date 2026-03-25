@@ -11,30 +11,43 @@ namespace Dietcode.Core.Lib.Pagging
             Items = Array.Empty<T>();
         }
 
+        public PagedCollection(IReadOnlyList<T> items, int totalItems, int pageNumber, int pageSize)
+        {
+            Items = items ?? Array.Empty<T>();
+            TotalItems = totalItems;
+            PageNumber = pageNumber;
+            PageSize = pageSize;
+        }
+
         /// <summary>
         /// Quantidade máxima de itens por página.
         /// </summary>
-        public int PageSize { get; set; }
+        public int PageSize { get; }
 
         /// <summary>
         /// Página atual (base 1).
         /// </summary>
-        public int PageNumber { get; set; }
+        public int PageNumber { get; }}
 
         /// <summary>
         /// Total de registros disponíveis.
         /// </summary>
-        public int TotalItems { get; set; }
+        public int TotalItems { get; }
 
         /// <summary>
         /// Total de páginas calculadas.
         /// </summary>
-        public int TotalPages =>
-            PageSize <= 0 ? 0 : (int)Math.Ceiling((double)TotalItems / PageSize);
+        public int TotalPages => PageSize <= 0 ? 0 : (int)Math.Ceiling((double)TotalItems / PageSize);
+
+        public bool HasPrevious => PageNumber > 1;
+        public bool HasNext => PageNumber < TotalPages;
+
+        public int? PreviousPage => HasPrevious ? PageNumber - 1 : null;
+        public int? NextPage => HasNext ? PageNumber + 1 : null;
 
         /// <summary>
         /// Itens da página atual.
         /// </summary>
-        public IReadOnlyCollection<T> Items { get; set; }
+        public IReadOnlyList<T> Items { get; }
     }
 }

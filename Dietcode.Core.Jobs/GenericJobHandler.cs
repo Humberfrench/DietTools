@@ -11,16 +11,10 @@ namespace Dietcode.Core.Jobs
     /// Handler do job genérico: lê o estado no store, dispara o handler pelo HandlerKey,
     /// persiste o resultado e marca Completed/Failed.
     /// </summary>
-    public sealed class GenericJobHandler : IJobHandler<GenericJob>
+    public sealed class GenericJobHandler(IAsyncJobStoreGeneric store, IHandlerDispatcher dispatcher) : IJobHandler<GenericJob>
     {
-        private readonly IAsyncJobStoreGeneric _store;
-        private readonly IHandlerDispatcher _dispatcher;
-
-        public GenericJobHandler(IAsyncJobStoreGeneric store, IHandlerDispatcher dispatcher)
-        {
-            _store = store;
-            _dispatcher = dispatcher;
-        }
+        private readonly IAsyncJobStoreGeneric _store = store;
+        private readonly IHandlerDispatcher _dispatcher = dispatcher;
 
         public async Task HandleAsync(GenericJob job, CancellationToken ct)
         {

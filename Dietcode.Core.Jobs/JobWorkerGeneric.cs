@@ -13,18 +13,12 @@ namespace Dietcode.Core.Jobs
     /// Worker genérico: fica consumindo IJobQueue e despacha para o handler correto.
     /// Por enquanto, ele trata GenericJob; você pode expandir depois para outros jobs.
     /// </summary>
-    public sealed class JobWorkerGeneric : BackgroundService
+    public sealed class JobWorkerGeneric(IJobQueue queue, IServiceScopeFactory scopeFactory, ILogger<JobWorkerGeneric> logger) : BackgroundService
     {
-        private readonly IJobQueue _queue;
-        private readonly IServiceScopeFactory _scopeFactory;
-        private readonly ILogger<JobWorkerGeneric> _logger;
+        private readonly IJobQueue _queue = queue;
+        private readonly IServiceScopeFactory _scopeFactory = scopeFactory;
+        private readonly ILogger<JobWorkerGeneric> _logger = logger;
 
-        public JobWorkerGeneric(IJobQueue queue, IServiceScopeFactory scopeFactory, ILogger<JobWorkerGeneric> logger)
-        {
-            _queue = queue;
-            _scopeFactory = scopeFactory;
-            _logger = logger;
-        }
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _logger.LogInformation("✅ JobWorkerGeneric iniciado");
