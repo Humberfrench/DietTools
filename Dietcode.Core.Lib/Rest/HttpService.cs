@@ -1,7 +1,7 @@
-﻿using Dietcode.Core.Lib.JsonConverting;
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using Dietcode.Core.Lib.JsonConverting;
 
 namespace Dietcode.Core.Lib.Rest
 {
@@ -215,51 +215,52 @@ namespace Dietcode.Core.Lib.Rest
         }
 
 
-        private static async Task<ApiResult<TResponse>> ReadResponse<TResponse>(HttpResponseMessage response, JsonSerializerOptions options,
-                                                                                CancellationToken cancellationToken = default)
-                                                                                where TResponse : class, new()
+        private static async Task<ApiResult<TResponse>> ReadResponse<TResponse>(
+            HttpResponseMessage response,
+            JsonSerializerOptions options,
+            CancellationToken cancellationToken = default)
+            where TResponse : class, new()
         {
             var result = new ApiResult<TResponse>
             {
-                StatusCode = response.StatusCode
+                StatusCode = response.StatusCode,
+                TimeStamp = DateTime.UtcNow,
+                IsSuccess = response.IsSuccessStatusCode,
+                ContentType = response.Content.Headers.ContentType?.MediaType,
+                ContentLength = response.Content.Headers.ContentLength
             };
 
-            string json = string.Empty;
+            result.Content = response.Content is null
+                ? string.Empty
+                : await response.Content.ReadAsStringAsync(cancellationToken);
 
-            try
-            {
-                json = await response.Content.ReadAsStringAsync(cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                result.Error = $"Erro ao ler conteúdo da resposta: {ex.Message}";
-                result.Data = new TResponse();
-                return result;
-            }
+            // Mensagem base em caso de erro (sem assumir JSON nenhum)
+            if (!result.IsSuccess)
+                result.Error = $"HTTP {(int)result.StatusCode} ({response.ReasonPhrase})";
 
-            if (string.IsNullOrWhiteSpace(json))
+            // Se tiver body e parecer JSON, tenta desserializar para TResponse
+            if (!string.IsNullOrWhiteSpace(result.Content))
             {
-                result.Data = new TResponse();
-                return result;
-            }
+                var bodyTrim = result.Content.TrimStart();
+                var looksLikeJson =
+                    (result.ContentType?.Contains("json", StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    bodyTrim.StartsWith("{") || bodyTrim.StartsWith("[");
 
-            try
-            {
-                result.Data = JsonSerializer.Deserialize<TResponse>(json, options) ?? new TResponse();
-            }
-            catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
-            {
-                result.Error = "Timeout na comunicação com o serviço externo.";
-                result.Data = new TResponse();
-            }
-            catch (Exception ex)
-            {
-                result.Error = $"Erro ao desserializar JSON: {ex.Message}";
-                result.Data = new TResponse();
+                if (looksLikeJson)
+                {
+                    try
+                    {
+                        result.Data = JsonSerializer.Deserialize<TResponse>(result.Content, options) ?? new TResponse();
+                    }
+                    catch (Exception ex)
+                    {
+                        result.Error += $" - Falha ao desserializar JSON: {ex.Message}";
+                        // Mantém Content para debug; não quebra fluxo
+                    }
+                }
             }
 
             return result;
         }
-
     }
 }

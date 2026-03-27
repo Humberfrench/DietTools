@@ -1,6 +1,6 @@
 ﻿namespace Dietcode.Core.Lib
 {
-    public static class BoletoValidator
+    public static class Validator
     {
         #region Constantes de tipos de código
 

@@ -27,7 +27,7 @@ namespace Dietcode.Core.Lib.Pagging
         /// <summary>
         /// Página atual (base 1).
         /// </summary>
-        public int PageNumber { get; }}
+        public int PageNumber { get; }
 
         /// <summary>
         /// Total de registros disponíveis.
