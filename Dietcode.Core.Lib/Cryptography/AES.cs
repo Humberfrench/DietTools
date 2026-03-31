@@ -1,5 +1,4 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 
 namespace Dietcode.Core.Lib.Cryptography
@@ -8,10 +7,96 @@ namespace Dietcode.Core.Lib.Cryptography
     {
         private AES() { }
 
-        private static string NormalizeKey(string? key)
+        // Deriva uma chave forte de 32 bytes (AES-256) a partir de string (senha/chave)
+        // Para uso interno simples: PBKDF2 com salt fixo (melhor: salt por app no config + rotação)
+        private static byte[] DeriveKey(string? key)
+        {
+            key ??= "";
+            // Ideal: mover esse salt para config e não hardcode.
+            // Não precisa ser secreto, só constante/único do seu app.
+            byte[] salt = Encoding.UTF8.GetBytes("Dietcode.FixedSalt.v1");
+
+            using var kdf = new Rfc2898DeriveBytes(
+                password: key,
+                salt: salt,
+                iterations: 100_000,
+                hashAlgorithm: HashAlgorithmName.SHA256);
+
+            return kdf.GetBytes(32); // 32 bytes = AES-256
+        }
+
+        // ==========================================================
+        // ENCRYPT (AES-GCM) => retorna "v2:{base64(nonce|tag|cipher)}"
+        // ==========================================================
+        public static string? Encrypt(string text, string? key)
+        {
+            if (text == null) return null;
+
+            byte[] keyBytes = DeriveKey(key);
+            byte[] nonce = RandomNumberGenerator.GetBytes(12);
+            byte[] plainBytes = Encoding.UTF8.GetBytes(text);
+
+            byte[] cipherBytes = new byte[plainBytes.Length];
+            byte[] tag = new byte[16];
+
+            using (var aes = new AesGcm(keyBytes))
+            {
+                aes.Encrypt(nonce, plainBytes, cipherBytes, tag);
+            }
+
+            // pacote: nonce(12) + tag(16) + cipher(n)
+            byte[] combined = new byte[12 + 16 + cipherBytes.Length];
+            Buffer.BlockCopy(nonce, 0, combined, 0, 12);
+            Buffer.BlockCopy(tag, 0, combined, 12, 16);
+            Buffer.BlockCopy(cipherBytes, 0, combined, 28, cipherBytes.Length);
+
+            return "v2:" + Convert.ToBase64String(combined);
+        }
+
+        // ==========================================================
+        // DECRYPT
+        // - suporta legado (ECB atual) sem prefixo
+        // - suporta novo "v2:"
+        // ==========================================================
+        public static string? Decrypt(string? text, string? key)
+        {
+            if (text == null) return null;
+
+            if (text.StartsWith("v2:", StringComparison.Ordinal))
+            {
+                byte[] keyBytes = DeriveKey(key);
+                byte[] combined = Convert.FromBase64String(text.Substring(3));
+
+                if (combined.Length < 28)
+                    throw new CryptographicException("Ciphertext inválido.");
+
+                byte[] nonce = new byte[12];
+                byte[] tag = new byte[16];
+                byte[] cipherBytes = new byte[combined.Length - 28];
+
+                Buffer.BlockCopy(combined, 0, nonce, 0, 12);
+                Buffer.BlockCopy(combined, 12, tag, 0, 16);
+                Buffer.BlockCopy(combined, 28, cipherBytes, 0, cipherBytes.Length);
+
+                byte[] plainBytes = new byte[cipherBytes.Length];
+
+                using (var aes = new AesGcm(keyBytes))
+                {
+                    aes.Decrypt(nonce, cipherBytes, tag, plainBytes);
+                }
+
+                return Encoding.UTF8.GetString(plainBytes);
+            }
+
+            // ===== Legado: mantém compatibilidade com seu ECB antigo =====
+            return DecryptLegacyEcb(text, key);
+        }
+
+        // ====== Seu código atual (legado) isolado ======
+        private static string NormalizeKeyLegacy(string? key)
         {
             if (string.IsNullOrWhiteSpace(key))
-                return new string(' ', 16); // mantém compatibilidade
+                return new string(' ', 16);
 
             if (key.Length < 16)
                 return key.PadLeft(16, ' ');
@@ -22,36 +107,9 @@ namespace Dietcode.Core.Lib.Cryptography
             return key;
         }
 
-        // ==========================================================
-        // ENCRYPT
-        // ==========================================================
-        public static string? Encrypt(string text, string? key)
+        private static string? DecryptLegacyEcb(string text, string? key)
         {
-            if (text == null) return null;
-
-            key = NormalizeKey(key);
-            byte[] keyBytes = Encoding.UTF8.GetBytes(key);
-            byte[] messageBytes = Encoding.UTF8.GetBytes(text);
-
-            using var aes = Aes.Create();
-            aes.Key = keyBytes;
-            aes.Mode = CipherMode.ECB;
-            aes.Padding = PaddingMode.PKCS7;
-
-            using ICryptoTransform transform = aes.CreateEncryptor();
-            byte[] encrypted = transform.TransformFinalBlock(messageBytes, 0, messageBytes.Length);
-
-            return Convert.ToBase64String(encrypted);
-        }
-
-        // ==========================================================
-        // DECRYPT
-        // ==========================================================
-        public static string? Decrypt(string? text, string? key)
-        {
-            if (text == null) return null;
-
-            key = NormalizeKey(key);
+            key = NormalizeKeyLegacy(key);
             byte[] keyBytes = Encoding.UTF8.GetBytes(key);
             byte[] messageBytes = Convert.FromBase64String(text);
 
