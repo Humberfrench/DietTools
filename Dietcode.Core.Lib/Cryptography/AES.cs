@@ -12,19 +12,19 @@ namespace Dietcode.Core.Lib.Cryptography
         private static byte[] DeriveKey(string? key)
         {
             key ??= "";
-            // Ideal: mover esse salt para config e não hardcode.
-            // Não precisa ser secreto, só constante/único do seu app.
+
+            // Ideal: vir do appsettings/secret e ser único por app
             byte[] salt = Encoding.UTF8.GetBytes("Dietcode.FixedSalt.v1");
 
-            using var kdf = new Rfc2898DeriveBytes(
-                password: key,
+            // .NET moderno: usar o método estático Pbkdf2
+            return Rfc2898DeriveBytes.Pbkdf2(
+                password: Encoding.UTF8.GetBytes(key),
                 salt: salt,
                 iterations: 100_000,
-                hashAlgorithm: HashAlgorithmName.SHA256);
-
-            return kdf.GetBytes(32); // 32 bytes = AES-256
+                hashAlgorithm: HashAlgorithmName.SHA256,
+                outputLength: 32 // AES-256
+            );
         }
-
         // ==========================================================
         // ENCRYPT (AES-GCM) => retorna "v2:{base64(nonce|tag|cipher)}"
         // ==========================================================
@@ -39,7 +39,7 @@ namespace Dietcode.Core.Lib.Cryptography
             byte[] cipherBytes = new byte[plainBytes.Length];
             byte[] tag = new byte[16];
 
-            using (var aes = new AesGcm(keyBytes))
+            using var aes = new AesGcm(keyBytes, tagSizeInBytes: 16);
             {
                 aes.Encrypt(nonce, plainBytes, cipherBytes, tag);
             }
@@ -80,7 +80,7 @@ namespace Dietcode.Core.Lib.Cryptography
 
                 byte[] plainBytes = new byte[cipherBytes.Length];
 
-                using (var aes = new AesGcm(keyBytes))
+                using var aes = new AesGcm(keyBytes, tagSizeInBytes: 16);
                 {
                     aes.Decrypt(nonce, cipherBytes, tag, plainBytes);
                 }

@@ -30,6 +30,21 @@ namespace Dietcode.Database.Orm
             connectionString = Context.ConnectionString;
         }
 
+        #region privates
+        private static object[] ToKeyValues(Tipo id)
+        {
+            if (id is null) throw new ArgumentNullException(nameof(id));
+
+            // chave composta (record struct implementando ICompositeKey)
+            if (id is ICompositeKey composite)
+                return composite.Values();
+
+            // chave simples
+            return new object[] { id! };
+        }
+
+        #endregion
+
         #region Dapper
 
         public IDbConnection Connection => new SqlConnection(connectionString);
@@ -85,11 +100,27 @@ namespace Dietcode.Database.Orm
             return Task.FromResult(entries.Count > 0);
         }
 
+        //public virtual async Task<Table?> ObterPorId(Tipo id, bool asTracking = true, CancellationToken ct = default)
+        //{
+        //    ct.ThrowIfCancellationRequested();
+
+        //    var entity = await DbSet.FindAsync(new object[] { id! }, ct);
+        //    if (entity is null)
+        //        return null;
+
+        //    if (!asTracking)
+        //        Context.Entry(entity).State = EntityState.Detached;
+
+        //    return entity;
+        //}
+
         public virtual async Task<Table?> ObterPorId(Tipo id, bool asTracking = true, CancellationToken ct = default)
         {
             ct.ThrowIfCancellationRequested();
 
-            var entity = await DbSet.FindAsync(new object[] { id! }, ct);
+            var keyValues = ToKeyValues(id);
+            var entity = await DbSet.FindAsync(keyValues, ct);
+
             if (entity is null)
                 return null;
 

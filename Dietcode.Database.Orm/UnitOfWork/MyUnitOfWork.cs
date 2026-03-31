@@ -94,20 +94,25 @@ namespace Dietcode.Database.Orm.UnitOfWork
 
             foreach (var change in modifiedEntities)
             {
-                object? keyValue = null;
+                // Pega TODAS as propriedades que fazem parte da PK (simples ou composta)
+                var pkProperties = change.Properties
+                    .Where(p => p.Metadata.IsPrimaryKey())
+                    .ToList();
 
-                var pkProperty = change.Properties
-                    .FirstOrDefault(p => p.Metadata.IsPrimaryKey());
-
-                if (pkProperty != null)
-                {
-                    keyValue = pkProperty.CurrentValue;
-                }
+                // Ex.: "UsuarioId=10" ou "UsuarioId=10|RoleId=3"
+                var keyValue = pkProperties.Count == 0
+                    ? string.Empty
+                    : string.Join("|", pkProperties.Select(p =>
+                    {
+                        var name = p.Metadata.Name;
+                        var value = p.CurrentValue?.ToString() ?? string.Empty;
+                        return $"{name}={value}";
+                    }));
 
                 entries.Add(new Entries
                 {
                     EntryName = change.Entity.GetType().Name,
-                    EntryKeyValue = keyValue ?? string.Empty
+                    EntryKeyValue = keyValue
                 });
             }
 
