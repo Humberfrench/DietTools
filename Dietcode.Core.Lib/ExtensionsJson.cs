@@ -101,6 +101,18 @@ namespace Dietcode.Core.Lib
             return "{" + nameof(dado) + ":'" + dado + "'}";
         }
 
+        public static T ToObject<T>(this string dado) where T : new()
+        {
+            T retorno = DeserializeObject<T>(dado, defaultJsonOptions) ?? new();
+            return retorno;
+        }
+
+        public static T ToObject<T>(this string dado, JsonSerializerOptions options) where T : new()
+        {
+            T retorno = DeserializeObject<T>(dado, options) ?? new();
+            return retorno;
+        }
+
         // ============================
         // CONVERT OBJECTS
         // ============================
