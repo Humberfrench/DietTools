@@ -10,6 +10,7 @@ namespace Dietcode.Api.Core.Middleware
     public class RateLimiter : IRateLimiter
     {
         private readonly IMemoryCache _cache;
+        private readonly object _counterCreationLock = new();
 
         public RateLimiter(IMemoryCache cache)
         {
@@ -18,29 +19,33 @@ namespace Dietcode.Api.Core.Middleware
 
         private sealed class Counter
         {
-            public int Count { get; set; }
-            public DateTime WindowStart { get; set; }
+            private int _count;
+
+            public DateTime WindowStart { get; init; }
+
+            public int Increment()
+            {
+                return Interlocked.Increment(ref _count);
+            }
         }
 
         public RateLimitResult Check(string key, int limit, TimeSpan window)
         {
-            var counter = _cache.GetOrCreate(key, entry =>
-            {
-                entry.AbsoluteExpirationRelativeToNow = window;
-                return new Counter
-                {
-                    Count = 0,
-                    WindowStart = DateTime.UtcNow
-                };
-            });
+            Counter counter;
 
-            // fallback defensivo (não deveria acontecer)
-            counter ??= new Counter
+            lock (_counterCreationLock)
             {
-                Count = 0,
-                WindowStart = DateTime.UtcNow
-            };
-            counter.Count++;
+                counter = _cache.GetOrCreate(key, entry =>
+                {
+                    entry.AbsoluteExpirationRelativeToNow = window;
+                    return new Counter
+                    {
+                        WindowStart = DateTime.UtcNow
+                    };
+                })!;
+            }
+
+            var currentCount = counter.Increment();
 
             var elapsed = DateTime.UtcNow - counter.WindowStart;
             var retryAfter = window - elapsed;
@@ -49,8 +54,8 @@ namespace Dietcode.Api.Core.Middleware
 
             return new RateLimitResult
             {
-                IsLimited = counter.Count > limit,
-                Remaining = Math.Max(0, limit - counter.Count),
+                IsLimited = currentCount > limit,
+                Remaining = Math.Max(0, limit - currentCount),
                 RetryAfter = retryAfter
             };
         }

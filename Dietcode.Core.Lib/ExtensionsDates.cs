@@ -1,4 +1,6 @@
-﻿namespace Dietcode.Core.Lib
+﻿using System.Globalization;
+
+namespace Dietcode.Core.Lib
 {
     public static partial class Extensions
     {
@@ -50,6 +52,14 @@
             => dateValue.HasValue
                 ? $"{dateValue.Value:dd/MM/yyyy} {separador} {dateValue.Value:HH:mm:ss}"
                 : "";
+
+        public static DateTime ToDateTime(this string dataTexto)
+        {
+            return DateTime.ParseExact(
+                dataTexto,
+                "dd/MM/yyyy",
+                CultureInfo.InvariantCulture);
+        }
 
         //DATE ONLY
         public static string ToDateFormatted(this DateOnly dateValue) => dateValue.ToString("dd/MM/yyyy");
