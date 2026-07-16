@@ -7,7 +7,7 @@ Este pacote e a versao Classic de `Dietcode.Core.Domain.Rules`, com validadores 
 ## Instalacao
 
 ```bash
-dotnet add package Dietcode.Classic.Domain.Rules --version 4.8.0
+dotnet add package Dietcode.Classic.Domain.Rules --version 4.8.1
 ```
 
 ## Recursos

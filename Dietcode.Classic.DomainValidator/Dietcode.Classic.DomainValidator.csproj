@@ -12,9 +12,9 @@
 		<Copyright>Dietcode Web</Copyright>
 		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 		<Title>Dietcode Classic Domain Validator</Title>
-		<Version>4.8.0</Version>
-		<AssemblyVersion>4.8.0</AssemblyVersion>
-		<FileVersion>4.8.0.0</FileVersion>
+		<Version>4.8.1</Version>
+		<AssemblyVersion>4.8.1</AssemblyVersion>
+		<FileVersion>4.8.1.0</FileVersion>
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageReadmeFile>README.md</PackageReadmeFile>

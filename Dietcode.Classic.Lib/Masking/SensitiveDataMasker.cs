@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Dietcode.Classic.Lib.Masking
 {
@@ -7,13 +7,13 @@ namespace Dietcode.Classic.Lib.Masking
         private static readonly HashSet<string> SensitiveFields =
             new(StringComparer.OrdinalIgnoreCase)
             {
-            "password",
-            "senha",
-            "token",
-            "accessToken",
-            "refreshToken",
-            "authorization",
-            "apiKey"
+                "password",
+                "senha",
+                "token",
+                "accessToken",
+                "refreshToken",
+                "authorization",
+                "apiKey"
             };
 
         public static object? Mask(object? data)
@@ -21,7 +21,6 @@ namespace Dietcode.Classic.Lib.Masking
             if (data == null)
                 return null;
 
-            // 🛑 CASO 1: string
             if (data is string str)
             {
                 if (string.IsNullOrWhiteSpace(str))
@@ -29,88 +28,60 @@ namespace Dietcode.Classic.Lib.Masking
 
                 str = str.TrimStart();
 
-                // Não parece JSON → retorna como texto cru
                 if (!(str.StartsWith("{") || str.StartsWith("[")))
                     return str;
 
-                // Parece JSON → tenta mascarar
                 try
                 {
-                    using var doc = JsonDocument.Parse(str);
-                    var masked = MaskElement(doc.RootElement);
-                    return JsonSerializer.Deserialize<object>(masked.GetRawText());
+                    var token = JToken.Parse(str);
+                    var masked = MaskToken(token);
+                    return masked.ToObject<object>();
                 }
                 catch
                 {
-                    return str; // fallback total
+                    return str;
                 }
             }
 
-            // 🛑 CASO 2: objeto normal
             try
             {
-                var json = JsonSerializer.Serialize(data);
-                using var doc = JsonDocument.Parse(json);
-
-                var masked = MaskElement(doc.RootElement);
-
-                return JsonSerializer.Deserialize<object>(
-                    masked.GetRawText());
+                var token = data as JToken ?? JToken.FromObject(data);
+                var masked = MaskToken(token);
+                return masked.ToObject<object>();
             }
             catch
             {
-                // Nunca quebrar o pipeline
                 return data;
             }
         }
 
-        private static JsonElement MaskElement(JsonElement element)
+        private static JToken MaskToken(JToken token)
         {
-            using var stream = new MemoryStream();
-            using var writer = new Utf8JsonWriter(stream);
-
-            WriteMasked(element, writer);
-
-            writer.Flush();
-            stream.Position = 0;
-
-            return JsonDocument.Parse(stream).RootElement.Clone();
+            var clone = token.DeepClone();
+            MaskTokenInPlace(clone);
+            return clone;
         }
 
-        private static void WriteMasked(JsonElement element, Utf8JsonWriter writer)
+        private static void MaskTokenInPlace(JToken token)
         {
-            switch (element.ValueKind)
+            if (token is JObject obj)
             {
-                case JsonValueKind.Object:
-                    writer.WriteStartObject();
-                    foreach (var prop in element.EnumerateObject())
-                    {
-                        writer.WritePropertyName(prop.Name);
+                foreach (var prop in obj.Properties().ToList())
+                {
+                    if (SensitiveFields.Contains(prop.Name))
+                        prop.Value = "***";
+                    else
+                        MaskTokenInPlace(prop.Value);
+                }
 
-                        if (SensitiveFields.Contains(prop.Name))
-                        {
-                            writer.WriteStringValue("***");
-                        }
-                        else
-                        {
-                            WriteMasked(prop.Value, writer);
-                        }
-                    }
-                    writer.WriteEndObject();
-                    break;
+                return;
+            }
 
-                case JsonValueKind.Array:
-                    writer.WriteStartArray();
-                    foreach (var item in element.EnumerateArray())
-                        WriteMasked(item, writer);
-                    writer.WriteEndArray();
-                    break;
-
-                default:
-                    element.WriteTo(writer);
-                    break;
+            if (token is JArray array)
+            {
+                foreach (var item in array)
+                    MaskTokenInPlace(item);
             }
         }
     }
 }
-

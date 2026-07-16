@@ -7,7 +7,7 @@ Este pacote e a versao Classic de `Dietcode.Core.DomainValidator`.
 ## Instalacao
 
 ```bash
-dotnet add package Dietcode.Classic.DomainValidator --version 4.8.0
+dotnet add package Dietcode.Classic.DomainValidator --version 4.8.1
 ```
 
 ## Recursos

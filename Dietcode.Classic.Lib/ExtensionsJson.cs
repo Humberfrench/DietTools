@@ -1,66 +1,61 @@
-﻿using System.Text.Json;
-using Dietcode.Classic.Lib.JsonConverting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Dietcode.Classic.Lib
 {
     public static partial class Extensions
     {
-        // Mantém o mesmo valor, só deixei como const + readonly por segurança (não quebra nada)
         private const int maxDepth = 128;
-        private static readonly JsonSerializerOptions defaultJsonOptions = JsonOptionsFactory.CreateDefault();
+        private static readonly JsonSerializerSettings defaultJsonSettings = CreateDefaultJsonSettings();
 
-        // ============================
-        // SERIALIZE
-        // ============================
-
-        public static string SerializeObject(object value, JsonSerializerOptions options)
+        private static JsonSerializerSettings CreateDefaultJsonSettings()
         {
-            return JsonSerializer.Serialize(value, options);
+            return new JsonSerializerSettings
+            {
+                MaxDepth = maxDepth,
+                NullValueHandling = NullValueHandling.Ignore,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                Formatting = Formatting.None
+            };
+        }
+
+        public static string SerializeObject(object value, JsonSerializerSettings options)
+        {
+            return JsonConvert.SerializeObject(value, options);
         }
 
         public static string SerializeObject(object value)
         {
-            return JsonSerializer.Serialize(value, defaultJsonOptions);
+            return JsonConvert.SerializeObject(value, defaultJsonSettings);
         }
 
-        public static string Serialize<T>(T value, JsonSerializerOptions options)
+        public static string Serialize<T>(T value, JsonSerializerSettings options)
         {
-            return JsonSerializer.Serialize(value, options);
+            return JsonConvert.SerializeObject(value, options);
         }
 
         public static string Serialize<T>(T value)
         {
-            return JsonSerializer.Serialize(value, defaultJsonOptions);
+            return JsonConvert.SerializeObject(value, defaultJsonSettings);
         }
 
-        // ============================
-        // DESERIALIZE
-        // ============================
-
-        public static T DeserializeObject<T>(string value, JsonSerializerOptions options) where T : new()
+        public static T DeserializeObject<T>(string value, JsonSerializerSettings options) where T : new()
         {
             try
             {
-                return JsonSerializer.Deserialize<T>(value, options) ?? new T();
+                return JsonConvert.DeserializeObject<T>(value, options) ?? new T();
             }
             catch (JsonException ex)
             {
-                // mantém exatamente o padrão original:
-                // lança InvalidOperationException com JsonException como InnerException
                 throw new InvalidOperationException("Erro ao desserializar o objeto.", ex);
             }
         }
 
-        // ✅ Cópia que NÃO exige new() — funciona com struct / record / record class
-        // Mantém o mesmo padrão de exceção (InvalidOperationException com JsonException como InnerException).
-        public static T DeserializeObjectAny<T>(string value, JsonSerializerOptions options)
+        public static T DeserializeObjectAny<T>(string value, JsonSerializerSettings options)
         {
             try
             {
-                // Se não conseguir desserializar, retorna default(T):
-                // - null para referência
-                // - 0/false para struct
-                return JsonSerializer.Deserialize<T>(value, options)!;
+                return JsonConvert.DeserializeObject<T>(value, options)!;
             }
             catch (JsonException ex)
             {
@@ -72,7 +67,7 @@ namespace Dietcode.Classic.Lib
         {
             try
             {
-                return JsonSerializer.Deserialize<T>(value, defaultJsonOptions) ?? new T();
+                return JsonConvert.DeserializeObject<T>(value, defaultJsonSettings) ?? new T();
             }
             catch (JsonException ex)
             {
@@ -80,144 +75,118 @@ namespace Dietcode.Classic.Lib
             }
         }
 
-        // ============================
-        // EXTENSÕES ToJson
-        // ============================
-
-        public static string ToJson(this object dado, JsonSerializerOptions options)
+        public static string ToJson(this object dado, JsonSerializerSettings options)
         {
             return Serialize(dado, options);
         }
 
         public static string ToJson(this object dado)
         {
-            return Serialize(dado, defaultJsonOptions);
+            return Serialize(dado, defaultJsonSettings);
         }
 
         public static string ToJson(this string dado)
         {
-            // mantém exatamente o comportamento antigo
-            // {dado:'valor'} – mesmo que não seja JSON "padrão", pode ter consumo legado
             return "{" + nameof(dado) + ":'" + dado + "'}";
         }
 
         public static T ToObject<T>(this string dado) where T : new()
         {
-            T retorno = DeserializeObject<T>(dado, defaultJsonOptions) ?? new();
-            return retorno;
+            return DeserializeObject<T>(dado, defaultJsonSettings);
         }
 
-        public static T ToObject<T>(this string dado, JsonSerializerOptions options) where T : new()
+        public static T ToObject<T>(this string dado, JsonSerializerSettings options) where T : new()
         {
-            T retorno = DeserializeObject<T>(dado, options) ?? new();
-            return retorno;
+            return DeserializeObject<T>(dado, options);
         }
 
-        // ============================
-        // CONVERT OBJECTS
-        // ============================
+        public static JObject ToJObject(this string json)
+        {
+            return JObject.Parse(json);
+        }
 
-        private static Destiny ConvertObjectsInternal<Destiny>(string json, JsonSerializerOptions options)
+        public static JToken ToJToken(this string json)
+        {
+            return JToken.Parse(json);
+        }
+
+        public static JObject ToJObject(this object value)
+        {
+            if (value is JObject jObject)
+                return (JObject)jObject.DeepClone();
+
+            return JObject.FromObject(value, JsonSerializer.Create(defaultJsonSettings));
+        }
+
+        public static JToken ToJToken(this object value)
+        {
+            if (value == null)
+                return JValue.CreateNull();
+
+            if (value is JToken token)
+                return token.DeepClone();
+
+            return JToken.FromObject(value, JsonSerializer.Create(defaultJsonSettings));
+        }
+
+        private static Destiny ConvertObjectsInternal<Destiny>(string json, JsonSerializerSettings options)
             where Destiny : new()
         {
             return DeserializeObject<Destiny>(json, options);
         }
 
-        // ✅ Cópia sem new() — suporta struct / record / record class
-        private static Destiny ConvertObjectsInternalAny<Destiny>(string json, JsonSerializerOptions options)
+        private static Destiny ConvertObjectsInternalAny<Destiny>(string json, JsonSerializerSettings options)
         {
             var obj = DeserializeObjectAny<Destiny>(json, options);
             return obj!;
         }
+
         public static Destiny ConvertObjects<Destiny, Origin>(this Origin data) where Destiny : new()
         {
-            var json = SerializeObject(data!, defaultJsonOptions);
-            return ConvertObjectsInternal<Destiny>(json, defaultJsonOptions);
+            var json = SerializeObject(data!, defaultJsonSettings);
+            return ConvertObjectsInternal<Destiny>(json, defaultJsonSettings);
         }
 
         public static Destiny ConvertObjects<Destiny>(this object data) where Destiny : new()
         {
-            var json = SerializeObject(data, defaultJsonOptions);
-            return ConvertObjectsInternal<Destiny>(json, defaultJsonOptions);
+            var json = SerializeObject(data, defaultJsonSettings);
+            return ConvertObjectsInternal<Destiny>(json, defaultJsonSettings);
         }
 
-        public static Destiny ConvertObjects<Destiny, Origin>(this Origin data, JsonSerializerOptions options) where Destiny : new()
+        public static Destiny ConvertObjects<Destiny, Origin>(this Origin data, JsonSerializerSettings options) where Destiny : new()
         {
             var json = SerializeObject(data!, options);
             return ConvertObjectsInternal<Destiny>(json, options);
         }
 
-        public static Destiny ConvertObjects<Destiny>(this object data, JsonSerializerOptions options) where Destiny : new()
+        public static Destiny ConvertObjects<Destiny>(this object data, JsonSerializerSettings options) where Destiny : new()
         {
             var json = SerializeObject(data, options);
             return ConvertObjectsInternal<Destiny>(json, options);
         }
 
-        // ✅ Cópias que NÃO exigem new() — funcionam com record posicional, record class, struct, etc.
-        // Mantém seus métodos atuais intactos.
-
-        /// <summary>
-        /// Sem exigencia de New() — funciona com struct / record / record class
-        /// </summary>
-        /// <typeparam name="Destiny"></typeparam>
-        /// <typeparam name="Origin"></typeparam>
-        /// <param name="data"></param>
-        /// <returns></returns>
         public static Destiny ConvertObjectsAny<Destiny, Origin>(this Origin data)
         {
-            var json = SerializeObject(data!, defaultJsonOptions);
-
-            // Se o JSON não conseguir materializar Destiny, isso volta default(Destiny) (null p/ ref, 0 p/ struct).
-            // Se você prefere falhar, troque por throw quando vier null.
-            var obj = ConvertObjectsInternalAny<Destiny>(json, defaultJsonOptions);
-            return obj!;
+            var json = SerializeObject(data!, defaultJsonSettings);
+            return ConvertObjectsInternalAny<Destiny>(json, defaultJsonSettings)!;
         }
 
-        /// <summary>
-        /// Sem exigencia de New() — funciona com struct / record / record class
-        /// </summary>
-        /// <typeparam name="Destiny"></typeparam>
-        /// <param name="data"></param>
-        /// <returns></returns>
         public static Destiny ConvertObjectsAny<Destiny>(this object data)
         {
-            var json = SerializeObject(data, defaultJsonOptions);
-
-            var obj = ConvertObjectsInternalAny<Destiny>(json, defaultJsonOptions);
-            return obj!;
+            var json = SerializeObject(data, defaultJsonSettings);
+            return ConvertObjectsInternalAny<Destiny>(json, defaultJsonSettings)!;
         }
 
-        /// <summary>
-        /// Sem exigencia de New() — funciona com struct / record / record class
-        /// </summary>
-        /// <typeparam name="Destiny"></typeparam>
-        /// <typeparam name="Origin"></typeparam>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public static Destiny ConvertObjectsAny<Destiny, Origin>(this Origin data, JsonSerializerOptions options)
+        public static Destiny ConvertObjectsAny<Destiny, Origin>(this Origin data, JsonSerializerSettings options)
         {
             var json = SerializeObject(data!, options);
-
-            // Se o JSON não conseguir materializar Destiny, isso volta default(Destiny) (null p/ ref, 0 p/ struct).
-            // Se você prefere falhar, troque por throw quando vier null.
-            var obj = ConvertObjectsInternalAny<Destiny>(json, options);
-            return obj!;
+            return ConvertObjectsInternalAny<Destiny>(json, options)!;
         }
 
-        /// <summary>
-        /// Sem exigencia de New() — funciona com struct / record / record class
-        /// </summary>
-        /// <typeparam name="Destiny"></typeparam>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        public static Destiny ConvertObjectsAny<Destiny>(this object data, JsonSerializerOptions options)
+        public static Destiny ConvertObjectsAny<Destiny>(this object data, JsonSerializerSettings options)
         {
             var json = SerializeObject(data, options);
-
-            var obj = ConvertObjectsInternalAny<Destiny>(json, options);
-            return obj!;
+            return ConvertObjectsInternalAny<Destiny>(json, options)!;
         }
-
     }
 }
-

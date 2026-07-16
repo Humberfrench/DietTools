@@ -1,25 +1,29 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Json;
-using Dietcode.Classic.Lib.JsonConverting;
+using Newtonsoft.Json;
 
 namespace Dietcode.Classic.Lib.Rest
 {
     public static class HttpService
     {
-        private static readonly JsonSerializerOptions jsonOptions = JsonOptionsFactory.CreateDefault();
+        private static readonly JsonSerializerSettings jsonSettings = new()
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            Formatting = Formatting.None
+        };
 
         public static async Task<ApiResult<TResponse>> Post<TRequest, TResponse>(string url, TRequest payload,
                                                                                  EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                                 string token = "", JsonSerializerOptions? options = null,
+                                                                                 string token = "", JsonSerializerSettings? options = null,
                                                                                  int secondsTimeout = 120,
                                                                                  CancellationToken cancellationToken = default)
                                                                                  where TResponse : class, new()
         {
-            options ??= jsonOptions;
+            options ??= jsonSettings;
 
-            string requestJson = JsonSerializer.Serialize(payload, options);
+            string requestJson = JsonConvert.SerializeObject(payload, options);
 
             HttpClient client = new();
             client.Timeout = TimeSpan.FromSeconds(secondsTimeout);
@@ -36,12 +40,12 @@ namespace Dietcode.Classic.Lib.Rest
         }
 
         public static async Task<ApiResult<TResponse>> Post<TResponse>(string url, EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                       string token = "", JsonSerializerOptions? options = null,
+                                                                       string token = "", JsonSerializerSettings? options = null,
                                                                        int secondsTimeout = 120,
                                                                        CancellationToken cancellationToken = default)
                                                                        where TResponse : class, new()
         {
-            options ??= jsonOptions;
+            options ??= jsonSettings;
 
             HttpClient client = new();
             client.Timeout = TimeSpan.FromSeconds(secondsTimeout);
@@ -56,14 +60,14 @@ namespace Dietcode.Classic.Lib.Rest
 
         public static async Task<ApiResult<TResponse>> Put<TRequest, TResponse>(string url, TRequest payload,
                                                                                 EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                                string token = "", JsonSerializerOptions? options = null,
+                                                                                string token = "", JsonSerializerSettings? options = null,
                                                                                 int secondsTimeout = 120,
                                                                                 CancellationToken cancellationToken = default)
                                                                                 where TResponse : class, new()
         {
-            options ??= jsonOptions;
+            options ??= jsonSettings;
 
-            string requestJson = JsonSerializer.Serialize(payload, options);
+            string requestJson = JsonConvert.SerializeObject(payload, options);
 
             HttpClient client = new();
             client.Timeout = TimeSpan.FromSeconds(secondsTimeout);
@@ -81,14 +85,13 @@ namespace Dietcode.Classic.Lib.Rest
 
         public static async Task<ApiResult<TResponse>> Get<TResponse>(string url, Dictionary<string, object> querystringParameter,
                                                                       EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                      string token = "", JsonSerializerOptions? options = null,
+                                                                      string token = "", JsonSerializerSettings? options = null,
                                                                       int secondsTimeout = 120,
                                                                       CancellationToken cancellationToken = default)
                                                                       where TResponse : class, new()
         {
-            options ??= jsonOptions;
+            options ??= jsonSettings;
 
-            // 🔧 Construir querystring na URL
             if (querystringParameter != null && querystringParameter.Count > 0)
             {
                 var querystring = string.Join("&",
@@ -98,19 +101,17 @@ namespace Dietcode.Classic.Lib.Rest
 
                 url = url.Contains("?") ? $"{url}&{querystring}" : $"{url}?{querystring}";
             }
-            return await Get<TResponse>(url, enumApiRest, token, options, secondsTimeout, cancellationToken);
 
+            return await Get<TResponse>(url, enumApiRest, token, options, secondsTimeout, cancellationToken);
         }
 
-
-
         public static async Task<ApiResult<TResponse>> Get<TResponse>(string url, EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                      string token = "", JsonSerializerOptions? options = null,
+                                                                      string token = "", JsonSerializerSettings? options = null,
                                                                       int secondsTimeout = 120,
                                                                       CancellationToken cancellationToken = default)
                                                                       where TResponse : class, new()
         {
-            options ??= jsonOptions;
+            options ??= jsonSettings;
 
             HttpClient client = new();
             client.Timeout = TimeSpan.FromSeconds(secondsTimeout);
@@ -125,15 +126,15 @@ namespace Dietcode.Classic.Lib.Rest
 
         public static async Task<ApiResult<TResponse>> Patch<TRequest, TResponse>(string url, TRequest payload,
                                                                                   EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                                  string token = "", JsonSerializerOptions? options = null,
+                                                                                  string token = "", JsonSerializerSettings? options = null,
                                                                                   string mediaType = "application/json",
                                                                                   int secondsTimeout = 120,
                                                                                   CancellationToken cancellationToken = default)
                                                                                   where TResponse : class, new()
         {
-            options ??= jsonOptions;
+            options ??= jsonSettings;
 
-            string requestJson = JsonSerializer.Serialize(payload, options);
+            string requestJson = JsonConvert.SerializeObject(payload, options);
 
             HttpClient client = new();
             client.Timeout = TimeSpan.FromSeconds(secondsTimeout);
@@ -151,14 +152,14 @@ namespace Dietcode.Classic.Lib.Rest
 
         public static async Task<ApiResult<TResponse>> Delete<TRequest, TResponse>(string url, TRequest payload,
                                                                                    EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                                   string token = "", JsonSerializerOptions? options = null,
+                                                                                   string token = "", JsonSerializerSettings? options = null,
                                                                                    int secondsTimeout = 120,
                                                                                    CancellationToken cancellationToken = default)
                                                                                    where TResponse : class, new()
         {
-            options ??= jsonOptions;
+            options ??= jsonSettings;
 
-            string requestJson = JsonSerializer.Serialize(payload, options);
+            string requestJson = JsonConvert.SerializeObject(payload, options);
 
             HttpClient client = new();
             client.Timeout = TimeSpan.FromSeconds(secondsTimeout);
@@ -175,12 +176,12 @@ namespace Dietcode.Classic.Lib.Rest
         }
 
         public static async Task<ApiResult<TResponse>> Delete<TResponse>(string url, EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                         string token = "", JsonSerializerOptions? options = null,
+                                                                         string token = "", JsonSerializerSettings? options = null,
                                                                          int secondsTimeout = 120,
                                                                          CancellationToken cancellationToken = default)
                                                                          where TResponse : class, new()
         {
-            options ??= jsonOptions;
+            options ??= jsonSettings;
 
             HttpClient client = new();
             client.Timeout = TimeSpan.FromSeconds(secondsTimeout);
@@ -215,10 +216,9 @@ namespace Dietcode.Classic.Lib.Rest
             }
         }
 
-
         private static async Task<ApiResult<TResponse>> ReadResponse<TResponse>(
             HttpResponseMessage response,
-            JsonSerializerOptions options,
+            JsonSerializerSettings options,
             CancellationToken cancellationToken = default)
             where TResponse : class, new()
         {
@@ -235,28 +235,25 @@ namespace Dietcode.Classic.Lib.Rest
                 ? string.Empty
                 : await response.Content.ReadAsStringAsync();
 
-            // Mensagem base em caso de erro (sem assumir JSON nenhum)
             if (!result.IsSuccess)
                 result.Error = $"HTTP {(int)result.StatusCode} ({response.ReasonPhrase})";
 
-            // Se tiver body e parecer JSON, tenta desserializar para TResponse
             if (!string.IsNullOrWhiteSpace(result.Content))
             {
                 var bodyTrim = result.Content.TrimStart();
                 var looksLikeJson =
-                    (result.ContentType?.Contains("json", StringComparison.OrdinalIgnoreCase) ?? false) ||
+                    (result.ContentType?.IndexOf("json", StringComparison.OrdinalIgnoreCase) >= 0) ||
                     bodyTrim.StartsWith("{") || bodyTrim.StartsWith("[");
 
                 if (looksLikeJson)
                 {
                     try
                     {
-                        result.Data = JsonSerializer.Deserialize<TResponse>(result.Content, options) ?? new TResponse();
+                        result.Data = JsonConvert.DeserializeObject<TResponse>(result.Content, options) ?? new TResponse();
                     }
                     catch (Exception ex)
                     {
                         result.Error += $" - Falha ao desserializar JSON: {ex.Message}";
-                        // Mantém Content para debug; não quebra fluxo
                     }
                 }
             }
@@ -265,5 +262,3 @@ namespace Dietcode.Classic.Lib.Rest
         }
     }
 }
-
-

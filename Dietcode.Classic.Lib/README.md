@@ -7,12 +7,13 @@ Este pacote e a versao Classic de `Dietcode.Core.Lib`, com extensoes e helpers c
 ## Instalacao
 
 ```bash
-dotnet add package Dietcode.Classic.Lib --version 4.8.0
+dotnet add package Dietcode.Classic.Lib --version 4.8.1
 ```
 
 ## Recursos
 
 - extensoes para string, numeros, datas, JSON e enums
+- conversao JSON com `Newtonsoft.Json`, `JObject` e `JToken`
 - validacao e formatacao de CPF/CNPJ
 - validacao de e-mail, telefone, cartao e boletos
 - helper REST simples com `HttpService`
