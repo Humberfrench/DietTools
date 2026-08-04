@@ -1,22 +1,19 @@
-﻿
-using System;
-
-namespace Dietcode.Classic.Lib
+﻿namespace Dietcode.Classic.Lib
 {
     [Serializable]
     public class BreadCrumb
     {
-        public string LinkText { get; set; }
+        public string LinkText { get; set; } = string.Empty;
 
-        public string ActionName { get; set; }
+        public string ActionName { get; set; } = string.Empty;
 
-        public string ControllerName { get; set; }
+        public string ControllerName { get; set; } = string.Empty;
 
         public bool Voltar { get; set; }
 
-        public string VoltarUrl { get; set; }
+        public string VoltarUrl { get; set; } = string.Empty;
 
-        public string Link { get; set; }
+        public string Link { get; set; } = string.Empty;
 
         public bool LinkRoot { get; set; }
     }

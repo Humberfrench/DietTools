@@ -17,4 +17,9 @@ namespace Dietcode.Api.Core.Results.Interfaces
         new T Content { get; }
     }
 
+    public interface ICreatedResult : IContentResult
+    {
+        object Identifier { get; }
+    }
+
 }

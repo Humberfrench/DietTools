@@ -8,9 +8,9 @@
 
 		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 		<Title>Dietcode Api Database</Title>
-		<Version>10.0.0</Version>
-		<AssemblyVersion>10.0.0</AssemblyVersion>
-		<FileVersion>10.0.0.0</FileVersion>
+		<Version>10.1.0</Version>
+		<AssemblyVersion>10.1.0</AssemblyVersion>
+		<FileVersion>10.1.0.0</FileVersion>
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 		<!--<PackageOutputPath>D:\Nuget\\</PackageOutputPath>-->
 		<NeutralLanguage>pt-BR</NeutralLanguage>
@@ -28,13 +28,13 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="Dapper" Version="2.1.66" />
+		<PackageReference Include="Dapper" Version="2.1.79" />
 		<PackageReference Include="Dapper.Contrib" Version="2.0.78" />
-		<PackageReference Include="Dietcode.Core.Lib" Version="9.0.3.2026" />
-		<PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.4" />
-		<PackageReference Include="MySqlConnector" Version="2.5.0" />
-		<PackageReference Include="Npgsql" Version="10.0.0" />
-		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.26.100" />
+		<PackageReference Include="Dietcode.Core.Lib" Version="10.6.0" />
+		<PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" />
+		<PackageReference Include="MySqlConnector" Version="2.6.1" />
+		<PackageReference Include="Npgsql" Version="10.0.3" />
+		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.26.300" />
 	</ItemGroup>
 
 </Project>

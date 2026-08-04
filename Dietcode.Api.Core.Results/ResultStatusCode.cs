@@ -54,19 +54,39 @@
         NotAcceptable = 406,
 
         /// <summary>
-        /// Time Out 
+        /// Time Out
         /// </summary>
         TimeOut = 408,
 
         /// <summary>
-        /// Recurso ja existente 
+        /// Recurso ja existente
         /// </summary>
         Conflict = 409,
+
+        /// <summary>
+        /// Verbo HTTP não suportado para o recurso
+        /// </summary>
+        MethodNotAllowed = 405,
+
+        /// <summary>
+        /// Content-Type do corpo da requisição não suportado
+        /// </summary>
+        UnsupportedMediaType = 415,
 
         /// <summary>
         /// UnprocessableEntity
         /// </summary>
         UnprocessableEntity = 422,
+
+        /// <summary>
+        /// Precondição (ex.: ETag/If-Match) falhou
+        /// </summary>
+        PreconditionFailed = 412,
+
+        /// <summary>
+        /// Precondição (ex.: ETag/If-Match) é obrigatória e não foi enviada
+        /// </summary>
+        PreconditionRequired = 428,
 
         /// <summary>
         /// TooManyRequestsResult
@@ -84,7 +104,17 @@
         /// Erro durante o processamento ou exceção não tratada. (Falha)
         /// </summary>
         InternalServerError = 500,
+
+        /// <summary>
+        /// Resposta inválida/erro recebido de uma dependência externa (gateway, provider, etc.)
+        /// </summary>
+        BadGateway = 502,
         ServiceUnavailable = 503,
+
+        /// <summary>
+        /// Dependência externa (gateway, provider, etc.) não respondeu a tempo
+        /// </summary>
+        GatewayTimeout = 504,
         #endregion
 
         #region 6xx Codes (Personal Error/Messages)

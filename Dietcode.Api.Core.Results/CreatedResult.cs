@@ -9,7 +9,7 @@ namespace Dietcode.Api.Core.Results
         {
         }
     }
-    public class CreatedResult<T> : MethodResult<T>, IContentResult<T>
+    public class CreatedResult<T> : MethodResult<T>, IContentResult<T>, ICreatedResult
     {
         public object Identifier { get; }
 

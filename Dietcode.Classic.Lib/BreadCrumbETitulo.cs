@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Dietcode.Classic.Lib
+﻿namespace Dietcode.Classic.Lib
 {
     [Serializable]
     public class BreadCrumbETitulo
     {
-        public string Titulo { get; set; }
+        public string Titulo { get; set; } = string.Empty;
 
-        public List<BreadCrumb> BreadCrumbs { get; set; }
+        public List<BreadCrumb> BreadCrumbs { get; set; } = [];
     }
 
 }

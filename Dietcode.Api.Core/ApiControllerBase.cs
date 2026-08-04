@@ -40,54 +40,19 @@ namespace Dietcode.Api.Core
 
 
         // ---------------------------------------------------------
-        // COMPLETED GENÉRICO (para métodos que retornam TContent)
+        // COMPLETED (ponto único de tradução MethodResult -> IActionResult)
+        // O overload genérico existe só para facilitar inferência de tipo
+        // no call site; toda a lógica vive na versão não genérica abaixo,
+        // então Created/NotFound/Location-header se comportam igual
+        // independente de qual overload o controller chamar.
         // ---------------------------------------------------------
 
         [NonAction]
         protected IActionResult Completed<TContent>(MethodResult<TContent> result)
         {
-            return Completed<TContent>((MethodResult)result);
+            return Completed((MethodResult)result);
         }
 
-        [NonAction]
-        protected IActionResult Completed<TContent>(MethodResult result)
-        {
-            result = BeforeReturn(result);
-
-            if ((int)result.Status >= StatusCodes.Status400BadRequest)
-            {
-                if (result is IErrorResult errorResult)
-                {
-                    return CreateErrorResponse(result.Status, errorResult.Errors);
-                }
-
-                return CreateErrorResponse(
-                    new ErrorResult(result.Status, new ErrorValidation(result.Status.ToString(),
-                                                                        "Erro não especificado.")));
-            }
-
-            if (result is IContentResult<TContent> contentResult)
-            {
-                if (contentResult.Status == ResultStatusCode.Created &&
-                    result is CreatedResult<TContent> createdResult)
-                {
-                    return CompletedAtAction(createdResult, "Get");
-                }
-
-                if (contentResult.Status == ResultStatusCode.OK && ShouldReturnNotFound(contentResult.Content))
-                {
-                    return Completed(new ResultStatus.NotFoundResult(
-                        new ErrorValidation("404", "Nenhum registro encontrado.")));
-                }
-
-                return CreateObjectResult(contentResult.Status, contentResult.Content!);
-            }
-
-            return CreateStatusCodeResult(result.Status);
-        }
-        // ---------------------------------------------------------
-        // COMPLETED NÃO GENÉRICO (para quem não sabe o tipo)
-        // ---------------------------------------------------------
         [NonAction]
         protected IActionResult Completed(MethodResult result)
         {
@@ -107,6 +72,11 @@ namespace Dietcode.Api.Core
 
             if (result is IContentResult contentResult)
             {
+                if (contentResult.Status == ResultStatusCode.Created && result is ICreatedResult createdResult)
+                {
+                    return CompletedAtAction(createdResult, "Get");
+                }
+
                 if (contentResult.Status == ResultStatusCode.OK && ShouldReturnNotFound(contentResult.Content))
                 {
                     return Completed(new ResultStatus.NotFoundResult(
@@ -137,7 +107,7 @@ namespace Dietcode.Api.Core
         // ---------------------------------------------------------
         // CREATED AT ACTION (para CreatedResult<T>)
         // ---------------------------------------------------------
-        private IActionResult CompletedAtAction<TContent>(CreatedResult<TContent> createdResult, string actionName)
+        private IActionResult CompletedAtAction(ICreatedResult createdResult, string actionName)
         {
             var location = Url.Action(
                 action: actionName,
@@ -205,6 +175,7 @@ namespace Dietcode.Api.Core
             // Enriquecimento padrão
             details.Extensions["traceId"] = HttpContext?.TraceIdentifier ?? Guid.NewGuid().ToString();
             details.Extensions["timestamp"] = DateTimeOffset.UtcNow;
+            details.Extensions["code"] = string.IsNullOrWhiteSpace(first?.Code) ? null : first!.Code;
 
             return details;
         }
@@ -212,16 +183,16 @@ namespace Dietcode.Api.Core
         [NonAction]
         protected virtual ValidationProblemDetails CreateValidationProblemDetails(ErrorResult errorResult, string? instanceOverride = null)
         {
-            var messages = errorResult.Errors?
-                .Select(e => e.Message)
-                .Where(m => !string.IsNullOrWhiteSpace(m))
-                .ToArray() ?? Array.Empty<string>();
+            // Agrupa por Code (quando informado pelo ErrorBuilder/enum) para o
+            // consumidor conseguir tratar programaticamente; sem Code, cai no
+            // bucket "General" como antes.
+            var errorsDict = (errorResult.Errors ?? Enumerable.Empty<ErrorValidation>())
+                .Where(e => !string.IsNullOrWhiteSpace(e.Message))
+                .GroupBy(e => string.IsNullOrWhiteSpace(e.Code) ? "General" : e.Code)
+                .ToDictionary(g => g.Key, g => g.Select(e => e.Message).ToArray());
 
-            // Como não sabemos o campo de cada erro, agrupamos em uma categoria geral
-            var errorsDict = new System.Collections.Generic.Dictionary<string, string[]>
-            {
-                ["General"] = messages.Length > 0 ? messages : new[] { "Erro de validação." }
-            };
+            if (errorsDict.Count == 0)
+                errorsDict["General"] = new[] { "Erro de validação." };
 
             var vpd = new ValidationProblemDetails(errorsDict)
             {
@@ -249,12 +220,18 @@ namespace Dietcode.Api.Core
                 ResultStatusCode.Unauthorized => "Não autorizado",
                 ResultStatusCode.Forbidden => "Proibido",
                 ResultStatusCode.NotFound => "Não encontrado",
+                ResultStatusCode.MethodNotAllowed => "Método não permitido",
                 ResultStatusCode.NotAcceptable => "Não aceitável",
                 ResultStatusCode.TimeOut => "Tempo excedido",
                 ResultStatusCode.Conflict => "Conflito",
+                ResultStatusCode.UnsupportedMediaType => "Tipo de conteúdo não suportado",
                 ResultStatusCode.UnprocessableEntity => "Entidade não processável",
+                ResultStatusCode.PreconditionFailed => "Precondição falhou",
+                ResultStatusCode.PreconditionRequired => "Precondição obrigatória",
                 ResultStatusCode.InternalServerError => "Erro interno no servidor",
+                ResultStatusCode.BadGateway => "Falha em dependência externa",
                 ResultStatusCode.ServiceUnavailable => "Serviço indisponível",
+                ResultStatusCode.GatewayTimeout => "Tempo excedido em dependência externa",
                 _ => "Erro"
             };
         }

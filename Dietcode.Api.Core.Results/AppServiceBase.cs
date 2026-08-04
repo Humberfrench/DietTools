@@ -172,5 +172,71 @@
 
         public InternalServerErrorResult InternalServerError(Exception ex)
             => Failure(new InternalServerErrorResult(ex));
+
+        // ---------------------------
+        // BadGateway / GatewayTimeout (falha em dependência externa)
+        // ---------------------------
+
+        public BadGatewayResult BadGateway(string msg)
+            => Failure(new BadGatewayResult(new ErrorValidation(null!, msg)));
+
+        public BadGatewayResult BadGateway(Enum error)
+            => Failure(new BadGatewayResult(ErrorBuilder.GetError(error)));
+
+        public BadGatewayResult BadGateway(Enum error, params object[] args)
+            => Failure(new BadGatewayResult(ErrorBuilder.GetError(error, args)));
+
+        public BadGatewayResult BadGateway(ErrorValidation error)
+            => Failure(new BadGatewayResult(error));
+
+        public BadGatewayResult BadGateway(IEnumerable<ErrorValidation> errors)
+            => Failure(new BadGatewayResult(errors));
+
+        public GatewayTimeoutResult GatewayTimeout(string msg)
+            => Failure(new GatewayTimeoutResult(new ErrorValidation(null!, msg)));
+
+        public GatewayTimeoutResult GatewayTimeout(Enum error)
+            => Failure(new GatewayTimeoutResult(ErrorBuilder.GetError(error)));
+
+        public GatewayTimeoutResult GatewayTimeout(Enum error, params object[] args)
+            => Failure(new GatewayTimeoutResult(ErrorBuilder.GetError(error, args)));
+
+        public GatewayTimeoutResult GatewayTimeout(ErrorValidation error)
+            => Failure(new GatewayTimeoutResult(error));
+
+        public GatewayTimeoutResult GatewayTimeout(IEnumerable<ErrorValidation> errors)
+            => Failure(new GatewayTimeoutResult(errors));
+
+        // ---------------------------
+        // MethodNotAllowed / UnsupportedMediaType
+        // ---------------------------
+
+        public MethodNotAllowedResult MethodNotAllowed(string msg)
+            => Failure(new MethodNotAllowedResult(new ErrorValidation(null!, msg)));
+
+        public MethodNotAllowedResult MethodNotAllowed(ErrorValidation error)
+            => Failure(new MethodNotAllowedResult(error));
+
+        public UnsupportedMediaTypeResult UnsupportedMediaType(string msg)
+            => Failure(new UnsupportedMediaTypeResult(new ErrorValidation(null!, msg)));
+
+        public UnsupportedMediaTypeResult UnsupportedMediaType(ErrorValidation error)
+            => Failure(new UnsupportedMediaTypeResult(error));
+
+        // ---------------------------
+        // PreconditionFailed / PreconditionRequired
+        // ---------------------------
+
+        public PreconditionFailedResult PreconditionFailed(string msg)
+            => Failure(new PreconditionFailedResult(new ErrorValidation(null!, msg)));
+
+        public PreconditionFailedResult PreconditionFailed(ErrorValidation error)
+            => Failure(new PreconditionFailedResult(error));
+
+        public PreconditionRequiredResult PreconditionRequired(string msg)
+            => Failure(new PreconditionRequiredResult(new ErrorValidation(null!, msg)));
+
+        public PreconditionRequiredResult PreconditionRequired(ErrorValidation error)
+            => Failure(new PreconditionRequiredResult(error));
     }
 }

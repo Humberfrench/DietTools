@@ -1,8 +1,8 @@
-﻿using Dietcode.Core.Lib;
+﻿using System.Diagnostics;
+using Dietcode.Core.Lib;
 using Dietcode.Database.Orm.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.Diagnostics;
 
 namespace Dietcode.Database.Orm.Context
 {
