@@ -53,6 +53,46 @@ namespace Dietcode.Api.Core
             return Completed((MethodResult)result);
         }
 
+        // ---------------------------------------------------------
+        // COMPLETED SEM MethodResult (para serviços que não usam AppServiceBase)
+        // Reaproveita o mesmo pipeline acima (ProblemDetails, code, Location
+        // header quando aplicável, ShouldReturnNotFound, etc.) — só monta o
+        // MethodResult internamente a partir do (content, status) recebido.
+        // ---------------------------------------------------------
+
+        [NonAction]
+        protected IActionResult Completed<TContent>(TContent content, ResultStatusCode statusCode)
+        {
+            if ((int)statusCode >= StatusCodes.Status400BadRequest)
+            {
+                // Mesmo espírito do fallback em Completed(MethodResult): tenta aproveitar
+                // o que foi passado como descrição do erro; sem nada reconhecível, cai no
+                // genérico -- nunca lança, sempre resolve para um ProblemDetails coerente.
+                return content switch
+                {
+                    IEnumerable<ErrorValidation> errors => CreateErrorResponse(statusCode, errors),
+                    ErrorValidation error => CreateErrorResponse(statusCode, new[] { error }),
+                    string message => CreateErrorResponse(statusCode, new[] { new ErrorValidation(statusCode.ToString(), message) }),
+                    _ => CreateErrorResponse(
+                        new ErrorResult(statusCode, new ErrorValidation(statusCode.ToString(), "Erro não especificado.")))
+                };
+            }
+
+            return Completed(new StatusContentResult<TContent>(content, statusCode));
+        }
+
+        [NonAction]
+        protected IActionResult Completed(ResultStatusCode statusCode, string message)
+            => Completed(statusCode, new ErrorValidation(null!, message));
+
+        [NonAction]
+        protected IActionResult Completed(ResultStatusCode statusCode, ErrorValidation error)
+            => Completed(new ErrorResult(statusCode, error));
+
+        [NonAction]
+        protected IActionResult Completed(ResultStatusCode statusCode, IEnumerable<ErrorValidation> errors)
+            => Completed(new ErrorResult(statusCode, errors));
+
         [NonAction]
         protected IActionResult Completed(MethodResult result)
         {
