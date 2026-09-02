@@ -5,6 +5,19 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <Version>9.0.0.0</Version>
+    <!-- O motor de QR (portado do QRCoder, MIT) usa Span<T>/Memory<T> em código
+         atrás de #if HAS_SPAN; net10.0 sempre suporta, mas o símbolo não é
+         definido automaticamente pelo SDK (é específico do QRCoder). -->
+    <DefineConstants>$(DefineConstants);HAS_SPAN</DefineConstants>
   </PropertyGroup>
+
+  <ItemGroup>
+    <!-- O QRCoder upstream declara esses usings globais via Directory.Build.props;
+         replicando aqui já que este projeto não compartilha esse arquivo. -->
+    <Using Include="System.Collections.BitArray" Alias="BitArray" />
+    <Using Include="System.Globalization" />
+    <Using Include="System.Text" />
+    <Using Include="System.Text.RegularExpressions" />
+  </ItemGroup>
 
 </Project>

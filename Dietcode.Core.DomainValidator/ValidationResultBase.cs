@@ -1,5 +1,5 @@
-﻿using Dietcode.Core.DomainValidator.ObjectValue;
-using System.Net;
+﻿using System.Net;
+using Dietcode.Core.DomainValidator.ObjectValue;
 
 namespace Dietcode.Core.DomainValidator
 {
@@ -26,19 +26,6 @@ namespace Dietcode.Core.DomainValidator
         /// como IDs criados ou atualizados em operações de persistência (EF, Dapper etc.).
         /// </summary>
         public List<Entries> Entries { get; set; } = [];
-
-        /// <summary>
-        /// Código numérico opcional associado à mensagem do resultado.
-        /// Pode representar códigos de erro internos.
-        /// </summary>
-        [Obsolete("Use a propriedade Mensagens em vez de CodigoMensagem.", true)]
-        public int CodigoMensagem { get; set; }
-
-        /// <summary>
-        /// Mensagem principal associada ao resultado.
-        /// </summary>
-        [Obsolete("Use a propriedade Mensagens em vez de Mensagem.", true)]
-        public string Mensagem { get; set; } = string.Empty;
 
         /// <summary>
         /// Mensagem principal associada ao resultado.

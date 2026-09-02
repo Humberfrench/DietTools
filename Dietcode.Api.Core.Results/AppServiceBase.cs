@@ -23,6 +23,23 @@
             => result;
 
         // ---------------------------
+        // Propagação de erro (MethodResult -> MethodResult<TContent>)
+        // Usado quando um método interno devolveu MethodResult (BadRequest,
+        // NotFound, Conflict etc. — qualquer um) e o método atual precisa
+        // repassar esse mesmo erro, mas seu retorno é MethodResult<TContent>.
+        // Mantém o Status e os Errors originais; não precisa saber de qual
+        // tipo concreto o erro veio.
+        // ---------------------------
+
+        protected MethodResult<TContent> Propagate<TContent>(MethodResult error, TContent content = default!)
+        {
+            if (error is Interfaces.IErrorResult errorResult)
+                return Failure(new ErrorResult<TContent>(content, error.Status, errorResult.Errors));
+
+            return Failure(new MethodResult<TContent>(content, error.Status));
+        }
+
+        // ---------------------------
         // Success results
         // ---------------------------
 
@@ -41,6 +58,9 @@
         public AcceptedResult Accepted()
             => Success(new AcceptedResult());
 
+        public AcceptedResult<TContent> Accepted<TContent>(TContent content)
+            => Success(new AcceptedResult<TContent>(content));
+
         public AcceptedResult<TContent> Accepted<TContent>(TContent content, object id)
             => Success(new AcceptedResult<TContent>(content, id));
 
@@ -52,7 +72,6 @@
             => Failure(new BadRequestResult(new ErrorValidation(null!, msg)));
 
         public BadRequestResult<T> BadRequest<T>(string msg, T content)
-            where T : class, new()
             => Failure(new BadRequestResult<T>(content, new ErrorValidation(null!, msg)));
 
         public BadRequestResult BadRequest(Enum error)

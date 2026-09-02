@@ -53,6 +53,16 @@ namespace Dietcode.Api.Core
             return Completed((MethodResult)result);
         }
 
+        // TContent aqui é só conveniência de call-site (ex.: manter o mesmo
+        // `Completed<ProblemDetails>(...)` em todos os returns do método,
+        // mesmo quando o branch de erro devolve um ErrorResult que não é
+        // MethodResult<ProblemDetails>); a lógica é sempre a do MethodResult base.
+        [NonAction]
+        protected IActionResult Completed<TContent>(MethodResult result)
+        {
+            return Completed(result);
+        }
+
         // ---------------------------------------------------------
         // COMPLETED SEM MethodResult (para serviços que não usam AppServiceBase)
         // Reaproveita o mesmo pipeline acima (ProblemDetails, code, Location
@@ -78,7 +88,7 @@ namespace Dietcode.Api.Core
                 };
             }
 
-            return Completed(new StatusContentResult<TContent>(content, statusCode));
+            return Completed(new MethodResult<TContent>(content, statusCode));
         }
 
         [NonAction]

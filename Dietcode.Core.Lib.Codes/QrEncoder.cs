@@ -1,4 +1,8 @@
-﻿namespace Dietcode.Core.Lib.Codes
+﻿// ECCLevel/EciMode são enums aninhados em QRCodeGenerator (mesma estrutura do
+// QRCoder original) — precisa de using static pra usar sem qualificar.
+using static Dietcode.Core.Lib.Codes.QRCodeGenerator;
+
+namespace Dietcode.Core.Lib.Codes
 {
     /// <summary>
     /// Encoder de QR Code simples e moderno.

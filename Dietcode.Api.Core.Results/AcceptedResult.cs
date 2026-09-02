@@ -11,9 +11,9 @@ namespace Dietcode.Api.Core.Results
     }
     public class AcceptedResult<T> : MethodResult<T>, IContentResult<T>
     {
-        public object Identifier { get; }
+        public object? Identifier { get; }
 
-        public AcceptedResult(T content, object identifier)
+        public AcceptedResult(T content, object? identifier = null)
             : base(content, ResultStatusCode.Accepted)
         {
             Identifier = identifier;

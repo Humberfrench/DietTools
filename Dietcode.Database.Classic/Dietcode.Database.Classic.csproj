@@ -12,19 +12,19 @@
 	  <PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 	  <Title>Dietcode Entity ORM Generic</Title>
 	  <Description>Dietcode Entity ORM Classic - Repositorio Classic</Description>
-	  <Version>10.1.0</Version>
-	  <AssemblyVersion>10.1.0</AssemblyVersion>
-	  <FileVersion>10.1.0.0</FileVersion>
+	  <Version>10.2.0</Version>
+	  <AssemblyVersion>10.2.0</AssemblyVersion>
+	  <FileVersion>10.2.0.0</FileVersion>
 	  <PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 
   </PropertyGroup>
 
 	<ItemGroup>
 		<PackageReference Include="Dapper" Version="2.1.79" />
-		<PackageReference Include="Dietcode.Core.DomainValidator" Version="10.0.0" />
-		<PackageReference Include="Dietcode.Core.Lib" Version="10.6.0" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.10" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.10" />
+		<PackageReference Include="Dietcode.Core.DomainValidator" Version="10.1.0" />
+		<PackageReference Include="Dietcode.Core.Lib" Version="10.7.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.11" />
 	</ItemGroup>
 
 	<ItemGroup>

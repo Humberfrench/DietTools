@@ -1,4 +1,6 @@
-﻿namespace Dietcode.Api.Core.Results
+﻿using Dietcode.Api.Core.Results.Interfaces;
+
+namespace Dietcode.Api.Core.Results
 {
     public class MethodResult
     {
@@ -12,7 +14,7 @@
         public ResultStatusCode Status { get; set; }
     }
 
-    public class MethodResult<TContent> : MethodResult
+    public class MethodResult<TContent> : MethodResult, IContentResult<TContent>
     {
         public TContent Content { get; set; }
 
@@ -21,6 +23,8 @@
         {
             Content = content;
         }
+
+        object IContentResult.Content => Content!;
     }
 
 
