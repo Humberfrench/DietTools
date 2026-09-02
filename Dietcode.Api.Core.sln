@@ -75,6 +75,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "11 - Libs - Net framework",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 - Rest - Net framework", "10 - Rest - Net framework", "{6F1FAC13-1F8E-4A0D-877C-DA206D513F1F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietcode.Core.Security", "Dietcode.Core.Security\Dietcode.Core.Security.csproj", "{B3C847ED-97B8-4406-931A-653F3436A213}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -173,6 +175,10 @@ Global
 		{A4983219-2F68-4C01-82F1-7E60FA4EBF6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4983219-2F68-4C01-82F1-7E60FA4EBF6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4983219-2F68-4C01-82F1-7E60FA4EBF6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3C847ED-97B8-4406-931A-653F3436A213}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3C847ED-97B8-4406-931A-653F3436A213}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3C847ED-97B8-4406-931A-653F3436A213}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3C847ED-97B8-4406-931A-653F3436A213}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -207,6 +213,7 @@ Global
 		{CE2EB37C-E052-4A61-BA6B-D99BD4BF19CC} = {0B64961E-970D-463C-8C6F-04F4B33557CC}
 		{3751AAA7-1A0E-465F-BA20-1C85ECFA7753} = {0B64961E-970D-463C-8C6F-04F4B33557CC}
 		{A4983219-2F68-4C01-82F1-7E60FA4EBF6B} = {0B64961E-970D-463C-8C6F-04F4B33557CC}
+		{B3C847ED-97B8-4406-931A-653F3436A213} = {E8D11812-D460-446D-910B-52D1345CC00F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0ED78C3A-F78A-413C-870C-FE9FB681E5B6}

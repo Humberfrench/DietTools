@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Dietcode.Core.Lib.Cryptography.V1
+namespace Dietcode.Core.Security.V1
 {
     [Obsolete("AESV1 is deprecated. Use AES instead.")]
     public class AES

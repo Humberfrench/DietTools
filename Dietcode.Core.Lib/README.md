@@ -5,7 +5,7 @@ Biblioteca de utilitarios para aplicacoes .NET, reunindo extensoes, formatadores
 ## Instalacao
 
 ```bash
-dotnet add package Dietcode.Core.Lib --version 10.6.0
+dotnet add package Dietcode.Core.Lib --version 10.9.0
 ```
 
 ## Funcionalidades
@@ -13,7 +13,6 @@ dotnet add package Dietcode.Core.Lib --version 10.6.0
 - Extensoes para string, numeros, datas, JSON e enums.
 - Validacao e formatacao de documentos brasileiros, como CPF e CNPJ.
 - Validadores de telefone, cartao, boletos e dados comuns.
-- Criptografia AES.
 - Mascaramento de dados sensiveis.
 - Conversores JSON flexiveis.
 - Analise de forca de senha.
@@ -287,6 +286,10 @@ var masked = SensitiveDataMasker.Mask(new
     Token = "abc"
 });
 ```
+
+## Pacotes relacionados
+
+- `Dietcode.Core.Security`: criptografia AES (AES-GCM atual e AES-ECB legado). Esta funcionalidade morava neste pacote e foi movida para lá.
 
 ## Licenca
 

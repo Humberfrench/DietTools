@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Dietcode.Core.Lib.Cryptography
+namespace Dietcode.Core.Security
 {
     public class AES
     {

@@ -7,7 +7,7 @@ Este pacote e usado diretamente por `Dietcode.Api.Core`.
 ## Instalacao
 
 ```bash
-dotnet add package Dietcode.Api.Core.Results --version 10.5.0
+dotnet add package Dietcode.Api.Core.Results --version 10.10.0
 ```
 
 ## Objetivo
@@ -112,7 +112,8 @@ Metodos disponiveis:
 - `Created()`
 - `Created<TContent>(TContent content, object id)`
 - `Accepted()`
-- `Accepted<TContent>(TContent content, object id)`
+- `Accepted<TContent>(TContent content)` — 202 sem identificador.
+- `Accepted<TContent>(TContent content, object id)` — 202 com identificador (ex.: id de rastreio de um processo assíncrono).
 - `BadRequest(...)`
 - `NotFound(...)`
 - `TimeOut(...)`
@@ -120,6 +121,33 @@ Metodos disponiveis:
 - `NotAcceptable(...)`
 - `Forbidden()`
 - `InternalServerError(Exception ex)`
+
+`BadRequest<T>(string msg, T content)` aceita qualquer `T`, incluindo tipos de valor como `bool` e `int` — não há restrição `class`.
+
+## Propagar erro de um método interno
+
+Quando um método precisa devolver `MethodResult<TContent>`, mas o erro veio de uma chamada interna que devolveu apenas `MethodResult` (de tipo concreto desconhecido em tempo de compilação — pode ser `BadRequestResult`, `ConflictResult`, `NotFoundResult` etc.), use `Propagate<TContent>` para reempacotar o erro preservando `Status` e `Errors` originais:
+
+```csharp
+public sealed class OperationService : AppServiceBase
+{
+    public async Task<MethodResult<bool>> AdjustOperation(string tIdBefore, string tIdAfter, CancellationToken ct)
+    {
+        var operacaoGateway = await GetOperacao(tIdBefore);
+
+        if (operacaoGateway is null)
+            return NotFound<bool>("Operacao nao encontrada.", false);
+
+        MethodResult result = await UpdateOperations(tIdAfter, ct);
+        if (result.IsError)
+            return Propagate<bool>(result, false);
+
+        return Accepted(true);
+    }
+}
+```
+
+`Propagate` não exige saber qual foi o tipo concreto do erro: se o `MethodResult` recebido implementa `IErrorResult`, os `Errors` são copiados; caso contrário, apenas o `Status` é preservado.
 
 ## Erros
 

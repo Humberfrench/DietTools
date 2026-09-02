@@ -7,7 +7,7 @@ Este pacote depende de `Dietcode.Api.Core.Results` para o modelo padronizado de 
 ## Instalacao
 
 ```bash
-dotnet add package Dietcode.Api.Core --version 10.5.0
+dotnet add package Dietcode.Api.Core --version 10.10.0
 ```
 
 ## Funcionalidades
