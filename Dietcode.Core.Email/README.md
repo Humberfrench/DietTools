@@ -2,15 +2,15 @@
 
 Biblioteca para envio de emails via SMTP autenticado.
 
-O pacote usa MailKit e foi separado do `Dietcode.Core.Lib` para evitar adicionar dependencias de email em projetos que usam apenas utilitarios gerais.
+O pacote usa MailKit e foi separado do `Dietcode.Core.Lib` para evitar adicionar dependências de email em projetos que usam apenas utilitários gerais.
 
-## Instalacao
+## Instalação
 
 ```bash
-dotnet add package Dietcode.Core.Email --version 1.0.0
+dotnet add package Dietcode.Core.Email --version 10.2.0
 ```
 
-## Configuracao
+## Configuração
 
 `appsettings.json`:
 
@@ -30,7 +30,7 @@ dotnet add package Dietcode.Core.Email --version 1.0.0
 }
 ```
 
-`Program.cs`:
+`Program.cs`, a partir de uma seção de configuração:
 
 ```csharp
 using Dietcode.Core.Email.Extensions;
@@ -38,6 +38,25 @@ using Dietcode.Core.Email.Extensions;
 builder.Services.AddDietcodeSmtpEmail(
     builder.Configuration.GetSection("SmtpEmail"));
 ```
+
+Ou configurando as opções diretamente em código, sem depender de `IConfiguration`:
+
+```csharp
+using Dietcode.Core.Email.Extensions;
+
+builder.Services.AddDietcodeSmtpEmail(options =>
+{
+    options.Host = "smtp.seudominio.com.br";
+    options.Port = 587;
+    options.UseStartTls = true;
+    options.UserName = "usuario@seudominio.com.br";
+    options.Password = "senha-ou-app-password";
+    options.FromEmail = "usuario@seudominio.com.br";
+    options.FromName = "Dietcode";
+});
+```
+
+Ambos os overloads de `AddDietcodeSmtpEmail` registram `IEmailSender` como `Transient`, implementado por `SmtpEmailSender`.
 
 ## Uso
 
@@ -60,8 +79,8 @@ public sealed class WelcomeService
         {
             To = [new EmailAddress("cliente@exemplo.com", "Cliente")],
             Subject = "Bem-vindo",
-            TextBody = "Ola!",
-            HtmlBody = "<strong>Ola!</strong>"
+            TextBody = "Olá!",
+            HtmlBody = "<strong>Olá!</strong>"
         }, cancellationToken);
 
         if (!result.IsSuccess)
@@ -72,14 +91,28 @@ public sealed class WelcomeService
 }
 ```
 
+`EmailAddress` também aceita conversão implícita a partir de `string`, então `To = ["cliente@exemplo.com"]` funciona diretamente.
+
+## Mensagem
+
+`EmailMessage` reúne todos os dados do envio:
+
+- `From`: remetente; quando omitido, usa `FromEmail`/`FromName` da configuração.
+- `To`, `Cc`, `Bcc`, `ReplyTo`: listas de `EmailAddress`.
+- `Subject`, `TextBody`, `HtmlBody`.
+- `Attachments`: lista de `EmailAttachment`.
+- `Headers`: dicionário de cabeçalhos SMTP adicionais.
+
+Validações antes do envio (falhas retornam `EmailSendResult.Failure`, sem lançar exceção): configuração SMTP válida (host, porta, remetente e timeout), pelo menos um destinatário (`To`, `Cc` ou `Bcc`), assunto obrigatório, corpo de texto/HTML ou ao menos um anexo, endereços não vazios e anexos com nome de arquivo e conteúdo.
+
 ## Anexos
 
 ```csharp
 var message = new EmailMessage
 {
     To = ["cliente@exemplo.com"],
-    Subject = "Relatorio",
-    TextBody = "Segue o relatorio em anexo.",
+    Subject = "Relatório",
+    TextBody = "Segue o relatório em anexo.",
     Attachments =
     [
         EmailAttachment.FromBytes(
@@ -89,6 +122,8 @@ var message = new EmailMessage
     ]
 };
 ```
+
+`EmailAttachment` também suporta anexos inline (`IsInline = true` com `ContentId`), úteis para imagens referenciadas dentro do `HtmlBody`.
 
 ## TLS/SSL
 
@@ -100,13 +135,17 @@ var message = new EmailMessage
 
 `SendAsync` retorna `EmailSendResult`:
 
-- `IsSuccess`: indica se o envio foi concluido.
-- `MessageId`: retorno do servidor SMTP quando disponivel.
-- `Error`: mensagem de erro quando o envio falha.
+- `IsSuccess`: indica se o envio foi concluído.
+- `MessageId`: retorno do servidor SMTP quando disponível.
+- `Error`: mensagem de erro quando o envio falha (validação ou exceção de transporte/autenticação).
 - `TimeStamp`: data/hora UTC do resultado.
 
-Cancelamentos por `CancellationToken` sao propagados como `OperationCanceledException`.
+Cancelamentos por `CancellationToken` são propagados como `OperationCanceledException`; qualquer outra exceção durante o envio é convertida em `EmailSendResult.Failure`.
 
-## Licenca
+## Pacotes relacionados
+
+- `Dietcode.Core.Email.Tester`: aplicação de console interna para testar manualmente o envio de email usando este pacote e um `appsettings.json` local.
+
+## Licença
 
 MIT

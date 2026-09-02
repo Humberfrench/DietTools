@@ -1,24 +1,84 @@
 # Dietcode.Classic.Domain.Rules
 
-Pacote de regras de dominio para projetos .NET Framework 4.8.
+Versão legada do `Dietcode.Core.Domain.Rules` para projetos .NET Framework 4.8. Biblioteca para composição de regras de validação de domínio baseada no padrão *Specification*, permitindo descrever regras de negócio reutilizáveis, fortemente tipadas e expressas por meio de expressões lambda sobre as propriedades da entidade.
 
-Este pacote e a versao Classic de `Dietcode.Core.Domain.Rules`, com validadores e specifications semelhantes para uso em projetos legados.
-
-## Instalacao
+## Instalação
 
 ```bash
 dotnet add package Dietcode.Classic.Domain.Rules --version 4.8.1
 ```
 
-## Recursos
+## Funcionalidades
 
-- `Validator<TEntity>`
-- `Rule<TEntity>`
-- `ValidatorRules`
-- `ISpecification<T>`
-- `IRule<T>`
-- specifications para strings, numeros, e-mail, dia, mes e requisitos minimos
+- `ISpecification<T>`: contrato de uma especificação de negócio (`IsSatisfiedBy`).
+- `IRule<TEntity>`: contrato de uma regra nomeada, com `MensagemErro` e `Validar`.
+- `IValidator<TEntity>`: contrato de um validador que retorna um `ValidatorRules`.
+- `Rule<TEntity>`: implementação de `IRule<TEntity>` que encapsula uma `ISpecification<TEntity>` e a mensagem de erro associada.
+- `Validator<TEntity>`: classe abstrata base (padrão *Strategy*) para compor validadores a partir de regras nomeadas — `AdicionarRegra`, `RemoverRegra`, `ObterRegra` e `Validar`.
+- `ValidatorRules`: resultado da validação, com a lista de `Errors`, as flags `Valid`/`Invalid` e renderização em texto ou HTML.
+- Especificações prontas para uso, todas parametrizadas por expressão lambda:
+  - `PropriedadeStringPreenchida<T>`: string não nula, vazia ou composta só por espaços.
+  - `PropriedadeIntMaiorQueZero<T>` / `PropriedadeIntMaiorIgualZero<T>`.
+  - `PropriedadeDecimalMaiorQueZero<T>` / `PropriedadeDecimalMaiorIgualZero<T>`.
+  - `PropriedadeEmailValido<T>`: valida o formato do e-mail via expressão regular.
+  - `PropriedadeNumeroStringValido<T>`: string contendo apenas dígitos.
+  - `PropriedadeMesValido<T>`: mês entre 1 e 12.
+  - `PropriedadeDiaValido<T>`: dia válido para o mês informado (não considera anos bissextos).
+  - `RequisitoMinimoPreenchido<T>`: satisfeita quando pelo menos uma dentre várias propriedades string está preenchida.
 
-## Licenca
+## Criando um validador
+
+```csharp
+using Dietcode.Classic.Domain.Rules;
+using Dietcode.Classic.Domain.Rules.Specifications;
+
+public class UsuarioValidator : Validator<Usuario>
+{
+    public UsuarioValidator()
+    {
+        AdicionarRegra("NomeObrigatorio",
+            new Rule<Usuario>(new PropriedadeStringPreenchida<Usuario>(u => u.Nome),
+                "Nome é obrigatório."));
+
+        AdicionarRegra("EmailValido",
+            new Rule<Usuario>(new PropriedadeEmailValido<Usuario>(u => u.Email),
+                "E-mail inválido."));
+
+        AdicionarRegra("IdadeValida",
+            new Rule<Usuario>(new PropriedadeIntMaiorQueZero<Usuario>(u => u.Idade),
+                "Idade deve ser maior que zero."));
+    }
+}
+```
+
+## Executando a validação
+
+```csharp
+var validator = new UsuarioValidator();
+ValidatorRules resultado = validator.Validar(usuario);
+
+if (resultado.Invalid)
+{
+    string erros = resultado.RenderizeErrosAsText();
+    // ou resultado.RenderizeErrosAsHtml();
+}
+```
+
+## Combinando especificações
+
+`RequisitoMinimoPreenchido<T>` é útil para exigir que ao menos um entre vários campos opcionais esteja preenchido:
+
+```csharp
+AdicionarRegra("TelefoneOuEmail",
+    new Rule<Usuario>(
+        new RequisitoMinimoPreenchido<Usuario>(u => u.Telefone, u => u.Email),
+        "Informe ao menos um contato: telefone ou e-mail."));
+```
+
+## Pacotes relacionados
+
+- `Dietcode.Core.Domain.Rules`: versão atual para projetos .NET modernos (net10.0), com a mesma API (interfaces, `Rule<TEntity>`, `Validator<TEntity>` e especificações idênticas).
+
+## Licença
 
 MIT
