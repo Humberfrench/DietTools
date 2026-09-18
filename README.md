@@ -128,7 +128,7 @@ Mais detalhes: extensões de data, senhas, JSON e localização em [Dietcode.Cor
 
 ### Dietcode.Core.Lib.Codes
 
-**O que é / o que faz:** biblioteca de geração de QR Code para .NET 10. Combina um motor de codificação completo (portado do projeto [QRCoder](https://github.com/codebude/QRCoder), MIT) com renderização própria — sem `System.Drawing`, portanto multiplataforma — e uma API simplificada (`QrEncoder`). Não gera pacote NuGet; é consumida via referência de projeto.
+**O que é / o que faz:** biblioteca de geração de QR Code para .NET 10. Combina um motor de codificação completo (portado do projeto [QRCoder](https://github.com/codebude/QRCoder), MIT) com renderização própria — sem `System.Drawing`, portanto multiplataforma — e uma API simplificada (`QrEncoder`). Gera um pacote NuGet localmente durante o build, mas não é publicado nem consumido via NuGet; dentro da solução é referenciado diretamente via referência de projeto.
 
 **Funcionalidades:**
 - Motor `QRCodeGenerator` (versões 1–40 e Micro QR, detecção automática de modo, níveis de correção L/M/Q/H).
@@ -223,14 +223,22 @@ Mais detalhes: todas as especificações prontas em [Dietcode.Core.Domain.Rules/
 
 **Exemplo:**
 ```csharp
+using Dietcode.Api.Core.Results;
 using Dietcode.Core.Jobs;
 using Dietcode.Core.Jobs.Interfaces;
+using Dietcode.Core.Jobs.Interfaces.Domain;
 
 builder.Services.AddScoped(typeof(IJobAsyncService<,>), typeof(JobAsyncService<,>));
 builder.Services.AddHostedService<JobWorkerGeneric>();
 
-var request = new AsyncStartRequest<RelatorioInput>("gerar-relatorio", input);
-MethodResult<AsyncReturn> started = await jobService.StartAsync(request, ct);
+public sealed class RelatorioController(IJobAsyncService<RelatorioInput, RelatorioOutput> jobService)
+{
+    public async Task<MethodResult<AsyncReturn>> Iniciar(RelatorioInput input, CancellationToken ct)
+    {
+        var request = new AsyncStartRequest<RelatorioInput>("gerar-relatorio", input);
+        return await jobService.StartAsync(request, ct);
+    }
+}
 ```
 
 Mais detalhes: fluxo completo de status (`Processing`/`Completed`/`Failed`) em [Dietcode.Core.Jobs/README.md](Dietcode.Core.Jobs/README.md).
@@ -502,8 +510,14 @@ Mais detalhes: cálculo financeiro, geração de senhas aleatórias e utilidades
 using Dietcode.Classic.Domain.Rules;
 using Dietcode.Classic.Domain.Rules.Specifications;
 
-AdicionarRegra("EmailValido",
-    new Rule<Usuario>(new PropriedadeEmailValido<Usuario>(u => u.Email), "E-mail inválido."));
+public class UsuarioValidator : Validator<Usuario>
+{
+    public UsuarioValidator()
+    {
+        AdicionarRegra("EmailValido",
+            new Rule<Usuario>(new PropriedadeEmailValido<Usuario>(u => u.Email), "E-mail inválido."));
+    }
+}
 ```
 
 Mais detalhes em [Dietcode.Classic.Domain.Rules/README.md](Dietcode.Classic.Domain.Rules/README.md).
