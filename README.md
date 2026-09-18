@@ -312,20 +312,22 @@ Mais detalhes: detalhes de implementação e o formato legado em [Dietcode.Core.
 
 ### Dietcode.Core.Cep
 
-**O que é / o que faz:** biblioteca para consulta de endereço a partir de um CEP, com o provedor plugável via injeção de dependência. Hoje o único provedor é o [ViaCEP](https://viacep.com.br/) (v1); trocar ou adicionar um novo provedor no futuro não muda a assinatura de `ICepProvider` nem o código de quem já consome a biblioteca.
+**O que é / o que faz:** biblioteca para consulta de endereço a partir de um CEP, com o provedor plugável via injeção de dependência. Hoje há dois provedores — [ViaCEP](https://viacep.com.br/) e [BrasilAPI](https://brasilapi.com.br/docs#tag/CEP) — com failover automático entre eles; ambos devolvem exatamente o mesmo `CepLookupResult`, então trocar o provedor primário (ou adicionar um terceiro) não muda a assinatura de `ICepProvider` nem o código de quem já consome a biblioteca.
 
 **Funcionalidades:**
 - `ICepProvider.GetAddressAsync(cep)`: contrato estável, independente do provedor.
-- `ViaCepProvider`: implementação v1 (ViaCEP), com `HttpClient` tipado via `IHttpClientFactory`.
-- `CepLookupResult` (`Success`/`Failure`): nunca lança exceção para CEP inválido ou não encontrado.
-- `AddDietcodeViaCep(...)`: registro via DI, com `BaseUrl`/`TimeoutSeconds` configuráveis.
+- `ViaCepProvider` e `BrasilApiProvider`: implementações concretas, cada uma com `HttpClient` tipado via `IHttpClientFactory`.
+- `ContingencyCepProvider`: tenta o provedor primário e, só se ele falhar por problema de serviço (não por "CEP não encontrado"), consulta o secundário automaticamente.
+- `CepLookupResult` (`Success`/`Failure`): nunca lança exceção para CEP inválido ou não encontrado; traz `Provider` (qual respondeu) e `Contingencia` (se foi o secundário que respondeu).
+- `AddDietcodeCep(primario, ...)`: registra os dois provedores com failover; `AddDietcodeViaCep(...)`/`AddDietcodeBrasilApi(...)` registram um só, sem failover.
 
 **Exemplo:**
 ```csharp
+using Dietcode.Core.Cep;
 using Dietcode.Core.Cep.Abstractions;
 using Dietcode.Core.Cep.Extensions;
 
-builder.Services.AddDietcodeViaCep();
+builder.Services.AddDietcodeCep(CepProviderPrimario.ViaCep);
 
 // Em outra classe, injetando ICepProvider:
 public sealed class EnderecoService(ICepProvider cepProvider)
@@ -335,13 +337,13 @@ public sealed class EnderecoService(ICepProvider cepProvider)
         var resultado = await cepProvider.GetAddressAsync(cep, ct);
 
         return resultado.IsSuccess
-            ? $"{resultado.Address!.Logradouro} - {resultado.Address.Localidade}/{resultado.Address.Uf}"
+            ? $"{resultado.Address!.Logradouro} - {resultado.Address.Localidade}/{resultado.Address.Uf} (via {resultado.Provider})"
             : $"Erro: {resultado.Error}";
     }
 }
 ```
 
-Mais detalhes: como plugar um novo provedor (ex.: v2) sem quebrar consumidores em [Dietcode.Core.Cep/README.md](Dietcode.Core.Cep/README.md).
+Mais detalhes: os dois provedores, o failover e como plugar um terceiro sem quebrar consumidores em [Dietcode.Core.Cep/README.md](Dietcode.Core.Cep/README.md).
 
 ## 02 — Acesso a dados (.NET moderno)
 

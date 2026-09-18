@@ -1,17 +1,18 @@
+using System.Net;
 using System.Text.Json;
 using Dietcode.Core.Cep.Abstractions;
 using Dietcode.Core.Cep.Models;
 
-namespace Dietcode.Core.Cep.ViaCep;
+namespace Dietcode.Core.Cep.BrasilApi;
 
-public sealed class ViaCepProvider : ICepProvider
+public sealed class BrasilApiProvider : ICepProvider
 {
-    internal const string ProviderName = "ViaCEP";
+    internal const string ProviderName = "BrasilAPI";
 
     private readonly HttpClient _httpClient;
     private readonly JsonSerializerOptions _jsonOptions = new(JsonSerializerDefaults.Web);
 
-    public ViaCepProvider(HttpClient httpClient)
+    public BrasilApiProvider(HttpClient httpClient)
     {
         _httpClient = httpClient;
     }
@@ -22,28 +23,27 @@ public sealed class ViaCepProvider : ICepProvider
         if (digits is null)
             return CepLookupResult.Failure("CEP inválido.", ProviderName);
 
-        using var httpResponse = await _httpClient.GetAsync($"{digits}/json/", cancellationToken);
+        using var httpResponse = await _httpClient.GetAsync(digits, cancellationToken);
+
+        if (httpResponse.StatusCode == HttpStatusCode.NotFound)
+            return CepLookupResult.Failure("CEP não encontrado.", ProviderName);
 
         if (!httpResponse.IsSuccessStatusCode)
             throw new CepProviderUnavailableException(ProviderName, (int)httpResponse.StatusCode);
 
         var stream = await httpResponse.Content.ReadAsStreamAsync(cancellationToken);
-        var payload = await JsonSerializer.DeserializeAsync<ViaCepResponse>(stream, _jsonOptions, cancellationToken);
-        if (payload is null || payload.Erro)
+        var payload = await JsonSerializer.DeserializeAsync<BrasilApiResponse>(stream, _jsonOptions, cancellationToken);
+        if (payload is null)
             return CepLookupResult.Failure("CEP não encontrado.", ProviderName);
 
         return CepLookupResult.Success(new CepAddress
         {
             Cep = payload.Cep,
-            Logradouro = payload.Logradouro,
-            Complemento = payload.Complemento,
-            Bairro = payload.Bairro,
-            Localidade = payload.Localidade,
-            Uf = payload.Uf,
-            Ibge = payload.Ibge,
-            Gia = payload.Gia,
-            Ddd = payload.Ddd,
-            Siafi = payload.Siafi
+            Logradouro = payload.Street,
+            Bairro = payload.Neighborhood,
+            Localidade = payload.City,
+            Uf = payload.State,
+            Ibge = payload.Ibge?.City ?? string.Empty
         }, ProviderName);
     }
 }
