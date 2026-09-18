@@ -8,14 +8,14 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Owner>Dietcode</Owner>
 		<Authors>Humberto Almeida</Authors>
-		<Description>Dietcode Core Lib -CEP</Description>
+		<Description>Dietcode Core Lib - CEP</Description>
 		<Copyright>Dietcode Web</Copyright>
 		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 		<Title>Dietcode Core Lib</Title>
 
-		<Version>10.0.0</Version>
-		<AssemblyVersion>10.9.0</AssemblyVersion>
-		<FileVersion>10.9.0.0</FileVersion>
+		<Version>10.1.0</Version>
+		<AssemblyVersion>10.1.0</AssemblyVersion>
+		<FileVersion>10.1.0.0</FileVersion>
 
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
