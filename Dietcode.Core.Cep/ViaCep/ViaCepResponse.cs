@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Dietcode.Core.Cep.Json;
 
 namespace Dietcode.Core.Cep.ViaCep;
 
@@ -35,5 +36,6 @@ internal sealed class ViaCepResponse
     public string Siafi { get; init; } = string.Empty;
 
     [JsonPropertyName("erro")]
+    [JsonConverter(typeof(FlexibleBoolJsonConverter))]
     public bool Erro { get; init; }
 }

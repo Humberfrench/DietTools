@@ -1,6 +1,6 @@
 namespace Dietcode.Core.Cep.Models;
 
-public sealed class CepLookupResult
+public sealed record CepLookupResult
 {
     public bool IsSuccess { get; init; }
 
@@ -8,21 +8,29 @@ public sealed class CepLookupResult
 
     public string Error { get; init; } = string.Empty;
 
-    public static CepLookupResult Success(CepAddress address)
+    public string Provider { get; init; } = string.Empty;
+
+    public bool Contingencia { get; init; }
+
+    public static CepLookupResult Success(CepAddress address, string provider, bool contingencia = false)
     {
         return new CepLookupResult
         {
             IsSuccess = true,
-            Address = address
+            Address = address,
+            Provider = provider,
+            Contingencia = contingencia
         };
     }
 
-    public static CepLookupResult Failure(string error)
+    public static CepLookupResult Failure(string error, string provider, bool contingencia = false)
     {
         return new CepLookupResult
         {
             IsSuccess = false,
-            Error = error
+            Error = error,
+            Provider = provider,
+            Contingencia = contingencia
         };
     }
 }
