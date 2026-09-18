@@ -14,8 +14,8 @@
 		<Title>Dietcode Core Lib</Title>
 
 		<Version>10.2.0</Version>
-		<AssemblyVersion>10.9.0</AssemblyVersion>
-		<FileVersion>10.9.0.0</FileVersion>
+		<AssemblyVersion>10.2.0</AssemblyVersion>
+		<FileVersion>10.2.0.0</FileVersion>
 
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
