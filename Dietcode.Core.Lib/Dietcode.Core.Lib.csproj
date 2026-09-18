@@ -9,7 +9,7 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Owner>Dietcode</Owner>
 		<Authors>Humberto Almeida</Authors>
-		<Description>Dietcode Core Cep - Extensoes e ferramentas auxiliares</Description>
+		<Description>Dietcode Core Lib - Extensoes e ferramentas auxiliares</Description>
 		<Copyright>Dietcode Web</Copyright>
 		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 		<Title>Dietcode Core Lib</Title>
