@@ -15,6 +15,7 @@ A solução principal é [`Dietcode.Api.Core.sln`](Dietcode.Api.Core.sln) — re
 - [02 — Acesso a dados (.NET moderno)](#02--acesso-a-dados-net-moderno): [Dietcode.Database](#dietcodedatabase) · [Dietcode.Database.Domain](#dietcodedatabasedomain) · [Dietcode.Database.Orm](#dietcodedatabaseorm) · [Dietcode.Database.Classic](#dietcodedatabaseclassic)
 - [12 — Acesso a dados (legado, .NET Framework 4.8)](#12--acesso-a-dados-legado-net-framework-48): [Dietcode.Database.Net.Domain](#dietcodedatabasenetdomain) · [Dietcode.Database.Net.Orm](#dietcodedatabasenetorm)
 - [11 — Bibliotecas (legado, .NET Framework 4.8)](#11--bibliotecas-legado-net-framework-48): [Dietcode.Classic.Lib](#dietcodeclassiclib) · [Dietcode.Classic.Domain.Rules](#dietcodeclassicdomainrules) · [Dietcode.Classic.DomainValidator](#dietcodeclassicdomainvalidator)
+- [98 — Testes](#98--testes): [Dietcode.UnitTests](#dietcodeunittests)
 - [99 — Ferramentas e infraestrutura](#99--ferramentas-e-infraestrutura): [Tools](#tools) · [NugetServer](#nugetserver)
 
 ---
@@ -539,6 +540,26 @@ result.AddError("E-mail é obrigatório.", codigo: 101);
 ```
 
 Mais detalhes em [Dietcode.Classic.DomainValidator/README.md](Dietcode.Classic.DomainValidator/README.md).
+
+## 98 — Testes
+
+### Dietcode.UnitTests
+
+**O que é / o que faz:** projeto de testes unitários (xUnit) cobrindo as bibliotecas que não dependem de banco de dados — `Dietcode.Core.Lib`, `Dietcode.Api.Core.Results`, `Dietcode.Core.Email` e `Dietcode.Core.Cep`. Organizado em uma pasta por biblioteca testada.
+
+**Funcionalidades:**
+- Validação de CPF/CNPJ/e-mail e extensões de string de `Dietcode.Core.Lib`.
+- `MethodResult`/`AppServiceBase` (Ok, BadRequest, NotFound, Propagate) de `Dietcode.Api.Core.Results`.
+- Validações de `SmtpEmailSender` (sem rede — só o caminho que roda antes da conexão SMTP).
+- `ViaCepProvider`, `BrasilApiProvider` e o failover de `ContingencyCepProvider`, usando um `HttpMessageHandler` falso (sem rede real).
+- Sem dependência de mocking framework — fakes/stubs escritos à mão.
+
+**Exemplo:**
+```bash
+dotnet test Dietcode.UnitTests/Dietcode.UnitTests.csproj
+```
+
+Mais detalhes, incluindo o que ficou fora do escopo (banco de dados, `Dietcode.Api.Core`), em [Dietcode.UnitTests/README.md](Dietcode.UnitTests/README.md).
 
 ## 99 — Ferramentas e infraestrutura
 

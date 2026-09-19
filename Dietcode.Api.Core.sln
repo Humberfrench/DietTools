@@ -67,6 +67,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietcode.Core.Security", "D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietcode.Core.Cep", "Dietcode.Core.Cep\Dietcode.Core.Cep.csproj", "{9BD6F2BB-738D-4BC2-AACD-FA599E354D33}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99 - Testes", "99 - Testes", "{F13C2FD1-FC10-4B2F-9E34-00E28347C645}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dietcode.UnitTests", "Dietcode.UnitTests\Dietcode.UnitTests.csproj", "{89585A35-033C-4194-9116-5A23D7CB4DFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +157,10 @@ Global
 		{9BD6F2BB-738D-4BC2-AACD-FA599E354D33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BD6F2BB-738D-4BC2-AACD-FA599E354D33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BD6F2BB-738D-4BC2-AACD-FA599E354D33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89585A35-033C-4194-9116-5A23D7CB4DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89585A35-033C-4194-9116-5A23D7CB4DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89585A35-033C-4194-9116-5A23D7CB4DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89585A35-033C-4194-9116-5A23D7CB4DFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -184,6 +192,7 @@ Global
 		{A4983219-2F68-4C01-82F1-7E60FA4EBF6B} = {0B64961E-970D-463C-8C6F-04F4B33557CC}
 		{B3C847ED-97B8-4406-931A-653F3436A213} = {E8D11812-D460-446D-910B-52D1345CC00F}
 		{9BD6F2BB-738D-4BC2-AACD-FA599E354D33} = {E8D11812-D460-446D-910B-52D1345CC00F}
+		{89585A35-033C-4194-9116-5A23D7CB4DFD} = {F13C2FD1-FC10-4B2F-9E34-00E28347C645}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0ED78C3A-F78A-413C-870C-FE9FB681E5B6}
