@@ -81,6 +81,30 @@ ApiResult<CreateUserResponse> result =
         cancellationToken: cancellationToken);
 ```
 
+### POST com headers extras
+
+Além da autenticação (`enumApiRest`/`token`), dá para enviar headers de negócio adicionais via `headers`:
+
+```csharp
+var payload = new PagamentoRequest { /* ... */ };
+
+var headers = new Dictionary<string, string>
+{
+    ["Cliente-Id"] = "33939" // quem é o lojista da operação
+};
+
+ApiResult<PagamentoResponse> result =
+    await HttpService.Post<PagamentoRequest, PagamentoResponse>(
+        url: "https://api2.grupag.com.br/v1/pagamento",
+        payload: payload,
+        enumApiRest: EnumApiRest.Bearer,
+        token: accessToken,
+        headers: headers,
+        cancellationToken: cancellationToken);
+```
+
+`headers` é opcional (`null` por padrão) e disponível em todos os métodos (`Get`, `Post`, `Put`, `Patch`, `Delete`). Chaves duplicadas (comparação sem diferenciar maiúsculas/minúsculas, ex.: `Cliente-Id` e `cliente-id`) colapsam para um único header — o último valor do dicionário é o que vale.
+
 ### PUT, PATCH e DELETE
 
 O helper também oferece:
