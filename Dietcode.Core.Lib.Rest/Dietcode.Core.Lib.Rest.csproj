@@ -8,10 +8,10 @@
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Owner>Dietcode</Owner>
 		<Authors>Humberto Almeida</Authors>
-		<Description>Dietcode Core Lib Codes - Bar and QR Codes Generator</Description>
+		<Description>Dietcode Core Lib Rest - Helper para chamadas HTTP com retorno padronizado</Description>
 		<Copyright>Dietcode Web</Copyright>
 		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
-		<Title>Dietcode Core Lib Codes</Title>
+		<Title>Dietcode Core Lib Rest</Title>
 
 		<Version>10.0.0</Version>
 		<AssemblyVersion>10.0.0</AssemblyVersion>
@@ -29,6 +29,7 @@
 			<PackagePath>\</PackagePath>
 			<Pack>true</Pack>
 		</None>
+		<None Include="README.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 	<ItemGroup>
