@@ -56,4 +56,23 @@
 	  <ProjectReference Include="..\Dietcode.Core.Lib.Helpers\Dietcode.Core.Lib.Helpers.csproj" />
 	</ItemGroup>
 
+	<!--
+		Dietcode.Core.Lib.Helpers e IsPackable=false (nao gera pacote proprio),
+		entao o "dotnet pack" padrao NAO inclui automaticamente a DLL dele aqui
+		dentro. Sem este target, o restore de quem instala este pacote passa,
+		mas falha em runtime (FileNotFoundException) ao usar tipos do Helpers.
+		Este target forca a DLL da ProjectReference a entrar no .nupkg.
+	-->
+	<PropertyGroup>
+		<TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);CopyProjectReferencesToPackage</TargetsForTfmSpecificBuildOutput>
+	</PropertyGroup>
+
+	<Target Name="CopyProjectReferencesToPackage" DependsOnTargets="BuildOnlySettings;ResolveReferences">
+		<ItemGroup>
+			<BuildOutputInPackage
+				Include="@(ReferenceCopyLocalPaths-&gt;WithMetadataValue('ReferenceSourceTarget', 'ProjectReference'))"
+				TargetPath="%(ReferenceCopyLocalPaths.DestinationSubDirectory)%(ReferenceCopyLocalPaths.Filename)%(ReferenceCopyLocalPaths.Extension)" />
+		</ItemGroup>
+	</Target>
+
 </Project>
