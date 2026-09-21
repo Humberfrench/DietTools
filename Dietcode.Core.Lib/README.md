@@ -1,11 +1,11 @@
 # Dietcode.Core.Lib
 
-Biblioteca de utilitarios para aplicacoes .NET, reunindo extensoes, formatadores, validadores, helpers JSON, criptografia, mascaramento de dados, paginacao, localizacao, validacao de senha e chamadas REST simples.
+Biblioteca de utilitarios para aplicacoes .NET, reunindo extensoes, formatadores, validadores, helpers JSON, criptografia, mascaramento de dados, paginacao, localizacao e validacao de senha.
 
 ## Instalacao
 
 ```bash
-dotnet add package Dietcode.Core.Lib --version 10.9.0
+dotnet add package Dietcode.Core.Lib --version 10.10.0
 ```
 
 ## Funcionalidades
@@ -18,7 +18,6 @@ dotnet add package Dietcode.Core.Lib --version 10.9.0
 - Analise de forca de senha.
 - Paginacao.
 - Localizacao simples por dicionario.
-- Helper REST para chamadas HTTP com retorno padronizado.
 
 ## Extensoes comuns
 
@@ -85,7 +84,7 @@ O pacote usa `System.Text.Json` e possui opcoes padrao em `JsonOptionsFactory`.
 
 ```csharp
 using Dietcode.Core.Lib;
-using Dietcode.Core.Lib.JsonConverting;
+using Dietcode.Core.Lib.Helpers.JsonConverting;
 
 var options = JsonOptionsFactory.CreateDefault();
 
@@ -126,120 +125,6 @@ A analise considera:
 - caracteres fora de ASCII;
 - entropia estimada;
 - nivel de forca.
-
-## REST
-
-A pasta `Rest` oferece um helper estatico para chamadas HTTP simples.
-
-Componentes principais:
-
-- `HttpService`: executa chamadas HTTP.
-- `ApiResult<TResponse>`: resposta padronizada.
-- `EnumApiRest`: tipo de autenticacao.
-
-### Tipos de autenticacao
-
-```csharp
-EnumApiRest.None
-EnumApiRest.Basic
-EnumApiRest.Bearer
-EnumApiRest.XApiKey
-```
-
-### GET
-
-```csharp
-using Dietcode.Core.Lib.Rest;
-
-ApiResult<UserResponse> result = await HttpService.Get<UserResponse>(
-    url: "https://api.exemplo.com/users/1",
-    enumApiRest: EnumApiRest.Bearer,
-    token: accessToken,
-    cancellationToken: cancellationToken);
-
-if (result.IsSuccess)
-{
-    var user = result.Data;
-}
-else
-{
-    var erro = result.Error;
-    var body = result.Content;
-}
-```
-
-### GET com query string
-
-```csharp
-var query = new Dictionary<string, object>
-{
-    ["page"] = 1,
-    ["pageSize"] = 20,
-    ["active"] = true
-};
-
-ApiResult<UserListResponse> result = await HttpService.Get<UserListResponse>(
-    url: "https://api.exemplo.com/users",
-    querystringParameter: query,
-    enumApiRest: EnumApiRest.XApiKey,
-    token: apiKey,
-    cancellationToken: cancellationToken);
-```
-
-### POST com JSON
-
-```csharp
-var payload = new CreateUserRequest
-{
-    Name = "Maria",
-    Email = "maria@exemplo.com"
-};
-
-ApiResult<CreateUserResponse> result =
-    await HttpService.Post<CreateUserRequest, CreateUserResponse>(
-        url: "https://api.exemplo.com/users",
-        payload: payload,
-        enumApiRest: EnumApiRest.Bearer,
-        token: accessToken,
-        cancellationToken: cancellationToken);
-```
-
-### PUT, PATCH e DELETE
-
-O helper tambem oferece:
-
-- `Put<TRequest, TResponse>()`
-- `Patch<TRequest, TResponse>()`
-- `Delete<TRequest, TResponse>()`
-- `Delete<TResponse>()`
-
-### ApiResult
-
-```csharp
-public class ApiResult<TResponse> where TResponse : class, new()
-{
-    public TResponse Data { get; set; }
-    public HttpStatusCode StatusCode { get; set; }
-    public DateTime TimeStamp { get; set; }
-    public bool IsSuccess { get; set; }
-    public string Content { get; set; }
-    public string? ContentType { get; set; }
-    public long? ContentLength { get; set; }
-    public string Error { get; set; }
-}
-```
-
-`IsSuccess` reflete `HttpResponseMessage.IsSuccessStatusCode`, ou seja, status HTTP `2xx`.
-
-`Content` guarda o body bruto da resposta, inclusive em caso de erro. Isso ajuda em diagnostico quando a API externa retorna texto, HTML, JSON inesperado ou mensagens fora do contrato.
-
-### Observacoes sobre o helper REST
-
-- `TResponse` precisa ser uma classe com construtor vazio (`where TResponse : class, new()`).
-- Respostas primitivas como `bool`, `int` e `decimal` nao sao suportadas diretamente por `ApiResult<TResponse>` na versao atual.
-- Cada chamada cria um `HttpClient` internamente.
-- Falhas de transporte, como timeout, DNS ou conexao recusada, podem subir como excecao para o chamador.
-- O body so e desserializado quando a resposta parece JSON.
 
 ## Localizacao
 
@@ -290,6 +175,8 @@ var masked = SensitiveDataMasker.Mask(new
 ## Pacotes relacionados
 
 - `Dietcode.Core.Security`: criptografia AES (AES-GCM atual e AES-ECB legado). Esta funcionalidade morava neste pacote e foi movida para lá.
+- `Dietcode.Core.Lib.Rest`: helper REST (`HttpService`, `ApiResult<T>`, `EnumApiRest`). Esta funcionalidade morava neste pacote e foi movida para lá.
+- `Dietcode.Core.Lib.Helpers`: projeto auxiliar interno (sem `PackageId` próprio) com `JsonOptionsFactory` e os conversores JSON flexíveis; seu binário é embutido neste pacote.
 
 ## Licenca
 
