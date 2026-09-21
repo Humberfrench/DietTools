@@ -11,7 +11,8 @@ namespace Dietcode.Core.Lib.Rest
 
         public static async Task<ApiResult<TResponse>> Post<TRequest, TResponse>(string url, TRequest payload,
                                                                                  EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                                 string token = "", JsonSerializerOptions? options = null,
+                                                                                 string token = "", Dictionary<string, string>? headers = null,
+                                                                                 JsonSerializerOptions? options = null,
                                                                                  int secondsTimeout = 120,
                                                                                  CancellationToken cancellationToken = default)
                                                                                  where TResponse : class, new()
@@ -27,7 +28,7 @@ namespace Dietcode.Core.Lib.Rest
                 Content = new StringContent(requestJson, Encoding.UTF8, "application/json")
             };
 
-            ApplyHeaders(request, enumApiRest, token);
+            ApplyHeaders(request, enumApiRest, token, headers);
 
             var response = await client.SendAsync(request, cancellationToken);
 
@@ -35,7 +36,8 @@ namespace Dietcode.Core.Lib.Rest
         }
 
         public static async Task<ApiResult<TResponse>> Post<TResponse>(string url, EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                       string token = "", JsonSerializerOptions? options = null,
+                                                                       string token = "", Dictionary<string, string>? headers = null,
+                                                                       JsonSerializerOptions? options = null,
                                                                        int secondsTimeout = 120,
                                                                        CancellationToken cancellationToken = default)
                                                                        where TResponse : class, new()
@@ -46,7 +48,7 @@ namespace Dietcode.Core.Lib.Rest
             client.Timeout = TimeSpan.FromSeconds(secondsTimeout);
             var request = new HttpRequestMessage(HttpMethod.Post, url);
 
-            ApplyHeaders(request, enumApiRest, token);
+            ApplyHeaders(request, enumApiRest, token, headers);
 
             var response = await client.SendAsync(request, cancellationToken);
 
@@ -55,7 +57,8 @@ namespace Dietcode.Core.Lib.Rest
 
         public static async Task<ApiResult<TResponse>> Put<TRequest, TResponse>(string url, TRequest payload,
                                                                                 EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                                string token = "", JsonSerializerOptions? options = null,
+                                                                                string token = "", Dictionary<string, string>? headers = null,
+                                                                                JsonSerializerOptions? options = null,
                                                                                 int secondsTimeout = 120,
                                                                                 CancellationToken cancellationToken = default)
                                                                                 where TResponse : class, new()
@@ -71,7 +74,7 @@ namespace Dietcode.Core.Lib.Rest
                 Content = new StringContent(requestJson, Encoding.UTF8, "application/json")
             };
 
-            ApplyHeaders(request, enumApiRest, token);
+            ApplyHeaders(request, enumApiRest, token, headers);
 
             var response = await client.SendAsync(request, cancellationToken);
 
@@ -80,7 +83,8 @@ namespace Dietcode.Core.Lib.Rest
 
         public static async Task<ApiResult<TResponse>> Get<TResponse>(string url, Dictionary<string, object> querystringParameter,
                                                                       EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                      string token = "", JsonSerializerOptions? options = null,
+                                                                      string token = "", Dictionary<string, string>? headers = null,
+                                                                      JsonSerializerOptions? options = null,
                                                                       int secondsTimeout = 120,
                                                                       CancellationToken cancellationToken = default)
                                                                       where TResponse : class, new()
@@ -97,14 +101,15 @@ namespace Dietcode.Core.Lib.Rest
 
                 url = url.Contains("?") ? $"{url}&{querystring}" : $"{url}?{querystring}";
             }
-            return await Get<TResponse>(url, enumApiRest, token, options, secondsTimeout, cancellationToken);
+            return await Get<TResponse>(url, enumApiRest, token, headers, options, secondsTimeout, cancellationToken);
 
         }
 
 
 
         public static async Task<ApiResult<TResponse>> Get<TResponse>(string url, EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                      string token = "", JsonSerializerOptions? options = null,
+                                                                      string token = "", Dictionary<string, string>? headers = null,
+                                                                      JsonSerializerOptions? options = null,
                                                                       int secondsTimeout = 120,
                                                                       CancellationToken cancellationToken = default)
                                                                       where TResponse : class, new()
@@ -115,7 +120,7 @@ namespace Dietcode.Core.Lib.Rest
             client.Timeout = TimeSpan.FromSeconds(secondsTimeout);
             var request = new HttpRequestMessage(HttpMethod.Get, url);
 
-            ApplyHeaders(request, enumApiRest, token);
+            ApplyHeaders(request, enumApiRest, token, headers);
 
             var response = await client.SendAsync(request, cancellationToken);
 
@@ -124,7 +129,8 @@ namespace Dietcode.Core.Lib.Rest
 
         public static async Task<ApiResult<TResponse>> Patch<TRequest, TResponse>(string url, TRequest payload,
                                                                                   EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                                  string token = "", JsonSerializerOptions? options = null,
+                                                                                  string token = "", Dictionary<string, string>? headers = null,
+                                                                                  JsonSerializerOptions? options = null,
                                                                                   string mediaType = "application/json",
                                                                                   int secondsTimeout = 120,
                                                                                   CancellationToken cancellationToken = default)
@@ -141,7 +147,7 @@ namespace Dietcode.Core.Lib.Rest
                 Content = new StringContent(requestJson, Encoding.UTF8, mediaType)
             };
 
-            ApplyHeaders(request, enumApiRest, token);
+            ApplyHeaders(request, enumApiRest, token, headers);
 
             var response = await client.SendAsync(request, cancellationToken);
 
@@ -150,7 +156,8 @@ namespace Dietcode.Core.Lib.Rest
 
         public static async Task<ApiResult<TResponse>> Delete<TRequest, TResponse>(string url, TRequest payload,
                                                                                    EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                                   string token = "", JsonSerializerOptions? options = null,
+                                                                                   string token = "", Dictionary<string, string>? headers = null,
+                                                                                   JsonSerializerOptions? options = null,
                                                                                    int secondsTimeout = 120,
                                                                                    CancellationToken cancellationToken = default)
                                                                                    where TResponse : class, new()
@@ -166,7 +173,7 @@ namespace Dietcode.Core.Lib.Rest
                 Content = new StringContent(requestJson, Encoding.UTF8, "application/json")
             };
 
-            ApplyHeaders(request, enumApiRest, token);
+            ApplyHeaders(request, enumApiRest, token, headers);
 
             var response = await client.SendAsync(request, cancellationToken);
 
@@ -174,7 +181,8 @@ namespace Dietcode.Core.Lib.Rest
         }
 
         public static async Task<ApiResult<TResponse>> Delete<TResponse>(string url, EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                         string token = "", JsonSerializerOptions? options = null,
+                                                                         string token = "", Dictionary<string, string>? headers = null,
+                                                                         JsonSerializerOptions? options = null,
                                                                          int secondsTimeout = 120,
                                                                          CancellationToken cancellationToken = default)
                                                                          where TResponse : class, new()
@@ -185,14 +193,14 @@ namespace Dietcode.Core.Lib.Rest
             client.Timeout = TimeSpan.FromSeconds(secondsTimeout);
             var request = new HttpRequestMessage(HttpMethod.Delete, url);
 
-            ApplyHeaders(request, enumApiRest, token);
+            ApplyHeaders(request, enumApiRest, token, headers);
 
             var response = await client.SendAsync(request, cancellationToken);
 
             return await ReadResponse<TResponse>(response, options, cancellationToken);
         }
 
-        private static void ApplyHeaders(HttpRequestMessage request, EnumApiRest auth, string token)
+        private static void ApplyHeaders(HttpRequestMessage request, EnumApiRest auth, string token, Dictionary<string, string>? headers)
         {
             switch (auth)
             {
@@ -212,6 +220,17 @@ namespace Dietcode.Core.Lib.Rest
                 default:
                     break;
             }
+
+            if (headers is null || headers.Count == 0)
+                return;
+
+            // Chaves duplicadas (case-insensitive) colapsam para um só valor: o último do dicionário vence.
+            var uniqueHeaders = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var (key, value) in headers)
+                uniqueHeaders[key] = value;
+
+            foreach (var (key, value) in uniqueHeaders)
+                request.Headers.TryAddWithoutValidation(key, value);
         }
 
 
