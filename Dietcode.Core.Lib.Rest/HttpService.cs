@@ -1,4 +1,4 @@
-﻿using System.Net.Http.Headers;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using Dietcode.Core.Lib.Helpers.JsonConverting;
@@ -11,10 +11,10 @@ namespace Dietcode.Core.Lib.Rest
 
         public static async Task<ApiResult<TResponse>> Post<TRequest, TResponse>(string url, TRequest payload,
                                                                                  EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                                 string token = "", Dictionary<string, string>? headers = null,
-                                                                                 JsonSerializerOptions? options = null,
+                                                                                 string token = "", JsonSerializerOptions? options = null,
                                                                                  int secondsTimeout = 120,
-                                                                                 CancellationToken cancellationToken = default)
+                                                                                 CancellationToken cancellationToken = default,
+                                                                                 Dictionary<string, string>? headers = null)
                                                                                  where TResponse : class, new()
         {
             options ??= jsonOptions;
@@ -36,10 +36,10 @@ namespace Dietcode.Core.Lib.Rest
         }
 
         public static async Task<ApiResult<TResponse>> Post<TResponse>(string url, EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                       string token = "", Dictionary<string, string>? headers = null,
-                                                                       JsonSerializerOptions? options = null,
+                                                                       string token = "", JsonSerializerOptions? options = null,
                                                                        int secondsTimeout = 120,
-                                                                       CancellationToken cancellationToken = default)
+                                                                       CancellationToken cancellationToken = default,
+                                                                       Dictionary<string, string>? headers = null)
                                                                        where TResponse : class, new()
         {
             options ??= jsonOptions;
@@ -57,10 +57,10 @@ namespace Dietcode.Core.Lib.Rest
 
         public static async Task<ApiResult<TResponse>> Put<TRequest, TResponse>(string url, TRequest payload,
                                                                                 EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                                string token = "", Dictionary<string, string>? headers = null,
-                                                                                JsonSerializerOptions? options = null,
+                                                                                string token = "", JsonSerializerOptions? options = null,
                                                                                 int secondsTimeout = 120,
-                                                                                CancellationToken cancellationToken = default)
+                                                                                CancellationToken cancellationToken = default,
+                                                                                Dictionary<string, string>? headers = null)
                                                                                 where TResponse : class, new()
         {
             options ??= jsonOptions;
@@ -83,10 +83,10 @@ namespace Dietcode.Core.Lib.Rest
 
         public static async Task<ApiResult<TResponse>> Get<TResponse>(string url, Dictionary<string, object> querystringParameter,
                                                                       EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                      string token = "", Dictionary<string, string>? headers = null,
-                                                                      JsonSerializerOptions? options = null,
+                                                                      string token = "", JsonSerializerOptions? options = null,
                                                                       int secondsTimeout = 120,
-                                                                      CancellationToken cancellationToken = default)
+                                                                      CancellationToken cancellationToken = default,
+                                                                      Dictionary<string, string>? headers = null)
                                                                       where TResponse : class, new()
         {
             options ??= jsonOptions;
@@ -101,17 +101,17 @@ namespace Dietcode.Core.Lib.Rest
 
                 url = url.Contains("?") ? $"{url}&{querystring}" : $"{url}?{querystring}";
             }
-            return await Get<TResponse>(url, enumApiRest, token, headers, options, secondsTimeout, cancellationToken);
+            return await Get<TResponse>(url, enumApiRest, token, options, secondsTimeout, cancellationToken, headers);
 
         }
 
 
 
         public static async Task<ApiResult<TResponse>> Get<TResponse>(string url, EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                      string token = "", Dictionary<string, string>? headers = null,
-                                                                      JsonSerializerOptions? options = null,
+                                                                      string token = "", JsonSerializerOptions? options = null,
                                                                       int secondsTimeout = 120,
-                                                                      CancellationToken cancellationToken = default)
+                                                                      CancellationToken cancellationToken = default,
+                                                                      Dictionary<string, string>? headers = null)
                                                                       where TResponse : class, new()
         {
             options ??= jsonOptions;
@@ -129,11 +129,11 @@ namespace Dietcode.Core.Lib.Rest
 
         public static async Task<ApiResult<TResponse>> Patch<TRequest, TResponse>(string url, TRequest payload,
                                                                                   EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                                  string token = "", Dictionary<string, string>? headers = null,
-                                                                                  JsonSerializerOptions? options = null,
+                                                                                  string token = "", JsonSerializerOptions? options = null,
                                                                                   string mediaType = "application/json",
                                                                                   int secondsTimeout = 120,
-                                                                                  CancellationToken cancellationToken = default)
+                                                                                  CancellationToken cancellationToken = default,
+                                                                                  Dictionary<string, string>? headers = null)
                                                                                   where TResponse : class, new()
         {
             options ??= jsonOptions;
@@ -156,10 +156,10 @@ namespace Dietcode.Core.Lib.Rest
 
         public static async Task<ApiResult<TResponse>> Delete<TRequest, TResponse>(string url, TRequest payload,
                                                                                    EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                                   string token = "", Dictionary<string, string>? headers = null,
-                                                                                   JsonSerializerOptions? options = null,
+                                                                                   string token = "", JsonSerializerOptions? options = null,
                                                                                    int secondsTimeout = 120,
-                                                                                   CancellationToken cancellationToken = default)
+                                                                                   CancellationToken cancellationToken = default,
+                                                                                   Dictionary<string, string>? headers = null)
                                                                                    where TResponse : class, new()
         {
             options ??= jsonOptions;
@@ -181,10 +181,10 @@ namespace Dietcode.Core.Lib.Rest
         }
 
         public static async Task<ApiResult<TResponse>> Delete<TResponse>(string url, EnumApiRest enumApiRest = EnumApiRest.None,
-                                                                         string token = "", Dictionary<string, string>? headers = null,
-                                                                         JsonSerializerOptions? options = null,
+                                                                         string token = "", JsonSerializerOptions? options = null,
                                                                          int secondsTimeout = 120,
-                                                                         CancellationToken cancellationToken = default)
+                                                                         CancellationToken cancellationToken = default,
+                                                                         Dictionary<string, string>? headers = null)
                                                                          where TResponse : class, new()
         {
             options ??= jsonOptions;
@@ -230,7 +230,13 @@ namespace Dietcode.Core.Lib.Rest
                 uniqueHeaders[key] = value;
 
             foreach (var (key, value) in uniqueHeaders)
+            {
+                // Se a chave colidir com um header já definido (ex.: auth acima), remove antes:
+                // TryAddWithoutValidation apenas ADICIONA outro valor à mesma chave em vez de
+                // substituir, o que resultaria em dois valores conflitantes no mesmo header.
+                request.Headers.Remove(key);
                 request.Headers.TryAddWithoutValidation(key, value);
+            }
         }
 
 
