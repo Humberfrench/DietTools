@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using Dietcode.Core.Lib.JsonConverting;
+using Dietcode.Core.Lib.Helpers.JsonConverting;
 
 namespace Dietcode.Core.Lib
 {

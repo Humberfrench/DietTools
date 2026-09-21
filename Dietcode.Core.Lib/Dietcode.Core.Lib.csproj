@@ -14,9 +14,9 @@
 		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 		<Title>Dietcode Core Lib</Title>
 
-		<Version>10.9.0</Version>
-		<AssemblyVersion>10.9.0</AssemblyVersion>
-		<FileVersion>10.9.0.0</FileVersion>
+		<Version>10.10.0</Version>
+		<AssemblyVersion>10.10.0</AssemblyVersion>
+		<FileVersion>10.10.0.0</FileVersion>
 
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -50,6 +50,10 @@
 	    <Generator>ResXFileCodeGenerator</Generator>
 	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
 	  </EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Dietcode.Core.Lib.Helpers\Dietcode.Core.Lib.Helpers.csproj" />
 	</ItemGroup>
 
 </Project>

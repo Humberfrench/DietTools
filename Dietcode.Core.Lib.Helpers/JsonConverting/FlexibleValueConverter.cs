@@ -2,7 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Dietcode.Core.Lib.JsonConverting
+namespace Dietcode.Core.Lib.Helpers.JsonConverting
 {
     public class FlexibleValueConverter<T> : JsonConverter<T?>
         where T : struct

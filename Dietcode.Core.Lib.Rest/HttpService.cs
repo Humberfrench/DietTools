@@ -1,7 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
-using Dietcode.Core.Lib.JsonConverting;
+using Dietcode.Core.Lib.Helpers.JsonConverting;
 
 namespace Dietcode.Core.Lib.Rest
 {
