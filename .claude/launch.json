@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dietcode-site-v2",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8731", "--directory", "E:\\Dev.Dietcode\\Site.Dietcode\\V2"],
+      "port": 8731
+    },
+    {
+      "name": "dietcode-site-v3",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8732", "--directory", "E:\\Dev.Dietcode\\Site.Dietcode\\V3"],
+      "port": 8732
+    }
+  ]
+}
