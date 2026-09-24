@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using Dietcode.Core.Lib;
 using Dietcode.Database.Orm.Logging;
+using Dietcode.Database.Vault;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Dietcode.Database.Orm.Context
 {
@@ -44,16 +44,7 @@ namespace Dietcode.Database.Orm.Context
 
         public string ConnectionString { get; private set; }
 
-        private static string GetConnString()
-        {
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
-                .Build();
-
-            return configuration.GetConnectionString("DbContextConnString")
-                   ?? throw new ArgumentException("Connection String Inválida");
-        }
+        private static string GetConnString() => ConnectionStringResolver.Get();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
