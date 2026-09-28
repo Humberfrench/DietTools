@@ -43,7 +43,7 @@ namespace Dietcode.Classic.Domain.Rules.Specifications
         /// <returns>True se o e-mail for válido; caso contrário, false.</returns>
         private bool ValidarEmail(string email)
         {
-            var rg = new Regex(@"^[A-Za-z0-9](([_\.\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$");
+            var rg = new Regex(@"^[A-Za-z0-9][A-Za-z0-9_.\-]*@([A-Za-z0-9]+)(([\.\-]?[a-zA-Z0-9]+)*)\.([A-Za-z]{2,})$");
             return rg.IsMatch(email);
         }
     }

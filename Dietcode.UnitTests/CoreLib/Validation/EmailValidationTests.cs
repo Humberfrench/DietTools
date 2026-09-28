@@ -8,6 +8,9 @@ public class EmailValidationTests
     [Theory]
     [InlineData("usuario@exemplo.com")]
     [InlineData("usuario.nome+tag@exemplo.com.br")]
+    [InlineData("ducley_@hotmail.com")]
+    [InlineData("usuario_@exemplo.com")]
+    [InlineData("usuario-@exemplo.com")]
     public void IsValidEmail_ComEmailValido_RetornaTrue(string email)
     {
         Assert.True(email.IsValidEmail());
@@ -18,6 +21,7 @@ public class EmailValidationTests
     [InlineData("nao-e-email")]
     [InlineData("@exemplo.com")]
     [InlineData("usuario@")]
+    [InlineData("usuario.@exemplo.com")]
     public void IsValidEmail_ComEmailInvalido_RetornaFalse(string email)
     {
         Assert.False(email.IsValidEmail());
