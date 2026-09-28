@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Owner>Dietcode</Owner>
+		<Authors>Humberto Almeida</Authors>
+		<Description>Dietcode Core Jobs Redis - implementacao de IJobQueue e IAsyncJobStoreGeneric via Redis</Description>
+		<Copyright>Dietcode Web</Copyright>
+		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
+		<Title>Dietcode Core Jobs Redis</Title>
+		<Version>10.0.0</Version>
+		<AssemblyVersion>10.0.0</AssemblyVersion>
+		<FileVersion>10.0.0.0</FileVersion>
+		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>dietcode128.png</PackageIcon>
+		<NeutralLanguage>pt-BR</NeutralLanguage>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\Icon\dietcode128.png" Link="dietcode128.png">
+			<PackagePath>\</PackagePath>
+			<Pack>true</Pack>
+		</None>
+		<None Include="README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="StackExchange.Redis" Version="3.1.31" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.11" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Dietcode.Core.Jobs\Dietcode.Core.Jobs.csproj" />
+		<ProjectReference Include="..\Dietcode.Core.Jobs.Interfaces\Dietcode.Core.Jobs.Interfaces.csproj" />
+	</ItemGroup>
+
+</Project>
