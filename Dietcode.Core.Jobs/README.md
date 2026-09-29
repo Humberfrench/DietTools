@@ -66,6 +66,7 @@ Enquanto o job está em `Processing`, `GetResultAsync` retorna erro com `ResultS
 
 - `Dietcode.Api.Core.Results`: `MethodResult`, `ResultStatusCode` e `AppServiceBase`, usados por `JobAsyncService`.
 - `Dietcode.Core.Jobs.Interfaces`: define os contratos (`IJob`, `IJobQueue`, `IJobHandler<TJob>`, `IHandlerDispatcher`, `IAsyncJobStoreGeneric`, `IJobAsyncService<TRequest, TResult>`) e os modelos de domínio (`AsyncStartRequest<TRequest>`, `AsyncJobStateGeneric`, `AsyncReturn`, `JobStatus`) que este pacote implementa.
+- `Dietcode.Core.Jobs.Redis`: implementação de `IJobQueue`/`IAsyncJobStoreGeneric` via Redis — registre com `AddDietcodeRedisJobs(...)` em vez de escrever `IJobQueue`/`IAsyncJobStoreGeneric` próprios.
 
 ## Licença
 

@@ -91,6 +91,7 @@ MethodResult<RelatorioOutput> resultado = await jobAsyncService.GetResultAsync(s
 
 - `Dietcode.Api.Core.Results`: fornece `MethodResult` e `ResultStatusCode`, usados em `IJobAsyncService` e `AsyncReturn`.
 - `Dietcode.Core.Jobs`: implementa estas interfaces — fornece `JobAsyncService<TRequest, TResult>`, `JobWorkerGeneric` (worker em background) e o handler/job genéricos. A aplicação consumidora ainda precisa implementar `IJobQueue`, `IAsyncJobStoreGeneric` e `IHandlerDispatcher` de acordo com sua infraestrutura (memória, Redis, banco de dados etc.).
+- `Dietcode.Core.Jobs.Redis`: implementação pronta de `IJobQueue` e `IAsyncJobStoreGeneric` via Redis — dispensa escrever a infraestrutura de fila/store na mão se Redis já é a opção.
 
 ## Licença
 
