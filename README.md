@@ -8,6 +8,24 @@ Cada projeto também tem seu próprio `README.md`, com mais detalhes e exemplos 
 
 A solução principal é [`Dietcode.Api.Core.sln`](Dietcode.Api.Core.sln) — reúne a maior parte dos projetos, organizados nas pastas de solução descritas abaixo. `Tools` e `NugetServer` têm `.sln` próprios e não fazem parte dela.
 
+## Convenção de commits (Husky.Net)
+
+O repositório usa [Husky.Net](https://alirezanet.github.io/Husky.Net/) (gratuito, MIT) para validar a mensagem de commit via hook `commit-msg` — [`.husky/commit-msg`](.husky/commit-msg). Formato exigido:
+
+```
+<tipo>(escopo opcional): mensagem
+```
+
+Tipos válidos: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `style`, `perf`, `ci`, `build`. Exemplos:
+
+```
+feat: adiciona consulta de tarifas
+fix(gateway): corrige processamento do pagamento
+refactor(api): reorganiza serviço
+```
+
+O hook é instalado automaticamente: qualquer `dotnet restore`/`dotnet build` de um projeto da solução dispara o target `Husky` em [`Directory.Build.targets`](Directory.Build.targets), que roda `dotnet tool restore` + `dotnet husky install` uma vez. Não precisa instalar nada manualmente — só restaurar a solução (ou abrir no Visual Studio, que já restaura sozinho) depois de clonar. Pra desativar num pipeline de CI, defina a variável de ambiente `HUSKY=0`.
+
 ## Índice
 
 - [00 — API REST](#00--api-rest): [Dietcode.Api.Core](#dietcodeapicore) · [Dietcode.Api.Core.Results](#dietcodeapicoreresults)
