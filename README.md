@@ -11,7 +11,7 @@ A solução principal é [`Dietcode.Api.Core.sln`](Dietcode.Api.Core.sln) — re
 ## Índice
 
 - [00 — API REST](#00--api-rest): [Dietcode.Api.Core](#dietcodeapicore) · [Dietcode.Api.Core.Results](#dietcodeapicoreresults)
-- [01 — Bibliotecas (.NET moderno)](#01--bibliotecas-net-moderno): [Dietcode.Core.Lib](#dietcodecorelib) · [Dietcode.Core.Lib.Codes](#dietcodecorelibcodes) · [Dietcode.Core.DomainValidator](#dietcodecoredomainvalidator) · [Dietcode.Core.Domain.Rules](#dietcodecoredomainrules) · [Dietcode.Core.Jobs](#dietcodecorejobs) · [Dietcode.Core.Jobs.Interfaces](#dietcodecorejobsinterfaces) · [Dietcode.Core.Jobs.Redis](#dietcodecorejobsredis) · [Dietcode.Core.Email](#dietcodecoreemail) · [Dietcode.Core.Security](#dietcodecoresecurity) · [Dietcode.Core.Cep](#dietcodecorecep)
+- [01 — Bibliotecas (.NET moderno)](#01--bibliotecas-net-moderno): [Dietcode.Core.Lib](#dietcodecorelib) · [Dietcode.Core.Lib.Codes](#dietcodecorelibcodes) · [Dietcode.Core.DomainValidator](#dietcodecoredomainvalidator) · [Dietcode.Core.Domain.Rules](#dietcodecoredomainrules) · [Dietcode.Core.Jobs](#dietcodecorejobs) · [Dietcode.Core.Jobs.Interfaces](#dietcodecorejobsinterfaces) · [Dietcode.Core.Email](#dietcodecoreemail) · [Dietcode.Core.Security](#dietcodecoresecurity) · [Dietcode.Core.Cep](#dietcodecorecep)
 - [02 — Acesso a dados (.NET moderno)](#02--acesso-a-dados-net-moderno): [Dietcode.Database](#dietcodedatabase) · [Dietcode.Database.Domain](#dietcodedatabasedomain) · [Dietcode.Database.Orm](#dietcodedatabaseorm) · [Dietcode.Database.Classic](#dietcodedatabaseclassic)
 - [12 — Acesso a dados (legado, .NET Framework 4.8)](#12--acesso-a-dados-legado-net-framework-48): [Dietcode.Database.Net.Domain](#dietcodedatabasenetdomain) · [Dietcode.Database.Net.Orm](#dietcodedatabasenetorm)
 - [11 — Bibliotecas (legado, .NET Framework 4.8)](#11--bibliotecas-legado-net-framework-48): [Dietcode.Classic.Lib](#dietcodeclassiclib) · [Dietcode.Classic.Domain.Rules](#dietcodeclassicdomainrules) · [Dietcode.Classic.DomainValidator](#dietcodeclassicdomainvalidator)
@@ -214,23 +214,24 @@ Mais detalhes: todas as especificações prontas em [Dietcode.Core.Domain.Rules/
 
 ### Dietcode.Core.Jobs
 
-**O que é / o que faz:** implementação de referência para processamento assíncrono de jobs em background, sobre os contratos de `Dietcode.Core.Jobs.Interfaces`. Fornece o serviço que inicia jobs e consulta status/resultado, o job/handler genéricos e um `BackgroundService` que consome a fila.
+**O que é / o que faz:** implementação de referência para processamento assíncrono de jobs em background, sobre os contratos de `Dietcode.Core.Jobs.Interfaces`. Fornece o serviço que inicia jobs e consulta status/resultado, o job/handler genéricos, um `BackgroundService` que consome a fila, e dois providers prontos de infraestrutura (`IJobQueue`/`IAsyncJobStoreGeneric`): em memória (padrão) e Redis — escolhidos num único `AddDietcodeJobs(primario, ...)`, igual ao padrão usado em `Dietcode.Core.Cep`.
 
 **Funcionalidades:**
 - `JobAsyncService<TRequest, TResult>`: `StartAsync`, `GetStatusAsync`, `GetResultAsync` (retorna `MethodResult`).
 - `GenericJob` / `GenericJobHandler`: job enfileirado e handler que despacha para a lógica de negócio via `IHandlerDispatcher`.
 - `JobWorkerGeneric`: `BackgroundService` que consome `IJobQueue` em loop.
-- Requer que a aplicação registre `IJobQueue`, `IAsyncJobStoreGeneric` e `IHandlerDispatcher` (de `Dietcode.Core.Jobs.Interfaces`).
+- `AddDietcodeJobs(JobsProviderPrimario.InMemory | Redis, ...)`: registra tudo — `JobAsyncService`, `GenericJobHandler`, `JobWorkerGeneric` e o par `IJobQueue`/`IAsyncJobStoreGeneric` do provider escolhido. A aplicação só precisa registrar seu próprio `IHandlerDispatcher`.
 
 **Exemplo:**
 ```csharp
 using Dietcode.Api.Core.Results;
 using Dietcode.Core.Jobs;
+using Dietcode.Core.Jobs.Extensions;
 using Dietcode.Core.Jobs.Interfaces;
 using Dietcode.Core.Jobs.Interfaces.Domain;
 
-builder.Services.AddScoped(typeof(IJobAsyncService<,>), typeof(JobAsyncService<,>));
-builder.Services.AddHostedService<JobWorkerGeneric>();
+builder.Services.AddDietcodeJobs(JobsProviderPrimario.InMemory);
+builder.Services.AddSingleton<IHandlerDispatcher, MeuHandlerDispatcher>();
 
 public sealed class RelatorioController(IJobAsyncService<RelatorioInput, RelatorioOutput> jobService)
 {
@@ -242,7 +243,7 @@ public sealed class RelatorioController(IJobAsyncService<RelatorioInput, Relator
 }
 ```
 
-Mais detalhes: fluxo completo de status (`Processing`/`Completed`/`Failed`) em [Dietcode.Core.Jobs/README.md](Dietcode.Core.Jobs/README.md).
+Mais detalhes: fluxo completo de status (`Processing`/`Completed`/`Failed`), registro com Redis (chaves de `RedisJobOptions`, trade-offs de timeout/cancelamento) em [Dietcode.Core.Jobs/README.md](Dietcode.Core.Jobs/README.md).
 
 ### Dietcode.Core.Jobs.Interfaces
 
@@ -263,27 +264,6 @@ public interface IJobQueue
 ```
 
 Mais detalhes: todos os contratos em [Dietcode.Core.Jobs.Interfaces/README.md](Dietcode.Core.Jobs.Interfaces/README.md).
-
-### Dietcode.Core.Jobs.Redis
-
-**O que é / o que faz:** implementação via Redis de `IJobQueue` e `IAsyncJobStoreGeneric` (de `Dietcode.Core.Jobs.Interfaces`) — fila (lista + `BRPOP`) e store de estado (chave String por job), parametrizados via `RedisJobOptions`. Cumpre o mesmo contrato que uma implementação em memória cumpriria, só que sobrevivendo a restart e compartilhável entre instâncias.
-
-**Funcionalidades:**
-- `AddDietcodeRedisJobs(...)`: registra `IJobQueue` e `IAsyncJobStoreGeneric` via Redis em uma chamada só (via `IConfiguration` ou `Action<RedisJobOptions>`).
-- `RedisJobOptions`: `ConnectionString`, `Database`, `QueueKey`, `StoreKeyPrefix`, `DequeuePollingSeconds`, `StateTimeToLive`.
-- FIFO simples (`LPUSH`/`BRPOP`), at-most-once — sem redelivery/dead-letter (fora do escopo; exigiria Redis Streams).
-
-**Exemplo:**
-```csharp
-using Dietcode.Core.Jobs.Redis.Extensions;
-
-builder.Services.AddDietcodeRedisJobs(options =>
-{
-    options.ConnectionString = "localhost:6379";
-});
-```
-
-Mais detalhes: latência de cancelamento, atomicidade do store e demais trade-offs em [Dietcode.Core.Jobs.Redis/README.md](Dietcode.Core.Jobs.Redis/README.md).
 
 ### Dietcode.Core.Email
 

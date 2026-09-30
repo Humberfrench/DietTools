@@ -7,16 +7,17 @@
 	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <Owner>Dietcode</Owner>
 	  <Authors>Humberto Almeida</Authors>
-	  <Description>Dietcode Jobs Manager Interfaces</Description>
+	  <Description>Dietcode Jobs Manager - processamento assincrono de jobs em background, com providers prontos em memoria e Redis</Description>
 	  <Copyright>Dietcode Web</Copyright>
 	  <PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 	  <Title>Dietcode Jobs Manager</Title>
-	  <Version>10.1.0</Version>
-	  <AssemblyVersion>10.10.0</AssemblyVersion>
-	  <FileVersion>10.1.0.0</FileVersion>
+	  <Version>10.2.0</Version>
+	  <AssemblyVersion>10.2.0</AssemblyVersion>
+	  <FileVersion>10.2.0.0</FileVersion>
 	  <PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 	  <!--<PackageOutputPath>D:\Nuget\\</PackageOutputPath>-->
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <PackageIcon>dietcode128.png</PackageIcon>
 	  <NeutralLanguage>pt-BR</NeutralLanguage>
   </PropertyGroup>
@@ -26,6 +27,11 @@
       <PackagePath>\</PackagePath>
       <Pack>true</Pack>
     </None>
+    <None Include="README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StackExchange.Redis" Version="3.1.31" />
   </ItemGroup>
 
   <ItemGroup>
