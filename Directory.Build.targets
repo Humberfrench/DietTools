@@ -1,0 +1,34 @@
+<Project>
+
+  <!--
+    Auto-instala o Husky.Net (hooks de git) no primeiro "dotnet restore"/"dotnet build"
+    de qualquer projeto da solucao, sem exigir que cada contribuidor rode
+    "dotnet husky install" manualmente. Ver README.md raiz, secao
+    "Convencao de commits (Husky.Net)".
+
+    Padrao oficial do Husky.Net para solucoes com varios projetos (Directory.Build.targets
+    na raiz do repo, HuskyRoot = $(MSBuildThisFileDirectory)): todo projeto importa este
+    arquivo automaticamente, mas o Inputs/Outputs abaixo faz o "dotnet husky install" rodar
+    de fato só uma vez por restore (os demais projetos veem o stamp já atualizado e pulam).
+
+    Desativar em CI/CD: set HUSKY=0.
+  -->
+
+  <PropertyGroup>
+    <HuskyRoot Condition="'$(HuskyRoot)' == ''">$(MSBuildThisFileDirectory)</HuskyRoot>
+  </PropertyGroup>
+
+  <Target Name="Husky" AfterTargets="Restore" Condition="'$(HUSKY)' != 0"
+          Inputs="$(HuskyRoot).config/dotnet-tools.json"
+          Outputs="$(HuskyRoot).husky/_/install.stamp">
+    <Exec Command="dotnet tool restore" StandardOutputImportance="Low" StandardErrorImportance="High" />
+    <Exec Command="dotnet husky install" StandardOutputImportance="Low" StandardErrorImportance="High"
+          WorkingDirectory="$(HuskyRoot)" />
+    <Touch Files="$(HuskyRoot).husky/_/install.stamp" AlwaysCreate="true"
+           Condition="Exists('$(HuskyRoot).husky/_')" />
+    <ItemGroup>
+      <FileWrites Include="$(HuskyRoot).husky/_/install.stamp" />
+    </ItemGroup>
+  </Target>
+
+</Project>

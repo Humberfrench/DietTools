@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Husky.Net (gerado localmente por "dotnet husky install" / Directory.Build.targets)
+.husky/_/
