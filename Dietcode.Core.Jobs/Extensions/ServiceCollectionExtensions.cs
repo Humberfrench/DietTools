@@ -76,10 +76,12 @@ public static class ServiceCollectionExtensions
                 break;
 
             case JobsProviderPrimario.InMemory:
-            default:
                 services.AddSingleton<IJobQueue, InMemoryJobQueue>();
                 services.AddSingleton<IAsyncJobStoreGeneric, InMemoryJobStore>();
                 break;
+
+            default:
+                throw new ArgumentOutOfRangeException(nameof(primario), primario, "Provider de Jobs nao suportado.");
         }
     }
 }
