@@ -33,7 +33,7 @@ Regras completas em [`VERSIONAMENTO.md`](VERSIONAMENTO.md). Resumo: formato `X.Y
 ## Índice
 
 - [00 — API REST](#00--api-rest): [Dietcode.Api.Core](#dietcodeapicore) · [Dietcode.Api.Core.Results](#dietcodeapicoreresults)
-- [01 — Bibliotecas (.NET moderno)](#01--bibliotecas-net-moderno): [Dietcode.Core.Lib](#dietcodecorelib) · [Dietcode.Core.Lib.Codes](#dietcodecorelibcodes) · [Dietcode.Core.DomainValidator](#dietcodecoredomainvalidator) · [Dietcode.Core.Domain.Rules](#dietcodecoredomainrules) · [Dietcode.Core.Jobs](#dietcodecorejobs) · [Dietcode.Core.Jobs.Interfaces](#dietcodecorejobsinterfaces) · [Dietcode.Core.Email](#dietcodecoreemail) · [Dietcode.Core.Security](#dietcodecoresecurity) · [Dietcode.Core.Cep](#dietcodecorecep)
+- [01 — Bibliotecas (.NET moderno)](#01--bibliotecas-net-moderno): [Dietcode.Core.Lib](#dietcodecorelib) · [Dietcode.Core.Lib.Codes](#dietcodecorelibcodes) · [Dietcode.Core.DomainValidator](#dietcodecoredomainvalidator) · [Dietcode.Core.Domain.Rules](#dietcodecoredomainrules) · [Dietcode.Core.Jobs](#dietcodecorejobs) · [Dietcode.Core.Jobs.Interfaces](#dietcodecorejobsinterfaces) · [Dietcode.Core.Email](#dietcodecoreemail) · [Dietcode.Core.Security](#dietcodecoresecurity) · [Dietcode.Core.Password](#dietcodecorepassword) · [Dietcode.Core.Cep](#dietcodecorecep)
 - [02 — Acesso a dados (.NET moderno)](#02--acesso-a-dados-net-moderno): [Dietcode.Database](#dietcodedatabase) · [Dietcode.Database.Domain](#dietcodedatabasedomain) · [Dietcode.Database.Orm](#dietcodedatabaseorm) · [Dietcode.Database.Classic](#dietcodedatabaseclassic)
 - [12 — Acesso a dados (legado, .NET Framework 4.8)](#12--acesso-a-dados-legado-net-framework-48): [Dietcode.Database.Net.Domain](#dietcodedatabasenetdomain) · [Dietcode.Database.Net.Orm](#dietcodedatabasenetorm)
 - [11 — Bibliotecas (legado, .NET Framework 4.8)](#11--bibliotecas-legado-net-framework-48): [Dietcode.Classic.Lib](#dietcodeclassiclib) · [Dietcode.Classic.Domain.Rules](#dietcodeclassicdomainrules) · [Dietcode.Classic.DomainValidator](#dietcodeclassicdomainvalidator)
@@ -117,14 +117,13 @@ Mais detalhes: todos os `ResultStatusCode`, `Propagate` e `ErrorBuilder` em [Die
 
 ### Dietcode.Core.Lib
 
-**O que é / o que faz:** biblioteca de utilitários gerais para aplicações .NET — extensões, formatadores, validadores, helpers JSON, mascaramento de dados, paginação, localização, análise de senha e chamadas REST simples.
+**O que é / o que faz:** biblioteca de utilitários gerais para aplicações .NET — extensões, formatadores, validadores, helpers JSON, mascaramento de dados, paginação, localização e chamadas REST simples.
 
 **Funcionalidades:**
 - Extensões de string, número, data (incluindo `DateOnly`), JSON e enum.
 - Validação/formatação de CPF e CNPJ (`Validacao`, `ToCpf()`, `ToCnpj()`).
 - Mascaramento de dados sensíveis (`SensitiveDataMasker`).
 - `JsonOptionsFactory` com opções padrão para `System.Text.Json`.
-- Análise de força de senha (`AnalyzePassword()`).
 - Paginação, localização simples por dicionário.
 - `HttpService`: helper REST estático (GET/POST/PUT/PATCH/DELETE) com retorno padronizado (`ApiResult<T>`).
 
@@ -147,7 +146,7 @@ if (result.IsSuccess)
 }
 ```
 
-Mais detalhes: extensões de data, senhas, JSON e localização em [Dietcode.Core.Lib/README.md](Dietcode.Core.Lib/README.md).
+Mais detalhes: extensões de data, JSON e localização em [Dietcode.Core.Lib/README.md](Dietcode.Core.Lib/README.md).
 
 ### Dietcode.Core.Lib.Codes
 
@@ -333,6 +332,38 @@ string? texto = AES.Decrypt(cifrado, "minha-chave");
 ```
 
 Mais detalhes: detalhes de implementação e o formato legado em [Dietcode.Core.Security/README.md](Dietcode.Core.Security/README.md).
+
+### Dietcode.Core.Password
+
+**O que é / o que faz:** validação de senha e verificação de senha comprometida, com o provider plugável via injeção de dependência (mesmo padrão de `Dietcode.Core.Cep`/`Dietcode.Core.Jobs`). V1 usa a API range do [Have I Been Pwned — Pwned Passwords](https://haveibeenpwned.com/Passwords) com k-anonymity: só os 5 primeiros caracteres do SHA-1 da senha saem da aplicação. Também traz a análise de força de senha por pontuação/entropia que antes vivia em `Dietcode.Core.Lib` (pasta `Passwords`), agora movida para cá.
+
+**Funcionalidades:**
+- `IPasswordValidationService.ValidateAsync(...)`: regras locais (tamanho, não conter username/e-mail) + verificação de comprometimento, sempre retornando `PasswordValidationResult` (nunca lança para senha inválida/comprometida/indisponibilidade).
+- `ICompromisedPasswordProvider`/`HibpCompromisedPasswordProvider`: consulta HIBP só com o prefixo do hash (k-anonymity), com cache por prefixo e um retry para falha transitória.
+- `ProviderFailurePolicy` (`FailClosed`/`FailOpen`): decide o que fazer se o HIBP estiver indisponível — nunca trata indisponibilidade como "senha segura".
+- `AnalyzePassword()` (namespace `Dietcode.Core.Password.Scoring`): força de senha por entropia (`PasswordStrengthLevel`).
+
+**Exemplo:**
+```csharp
+using Dietcode.Core.Password;
+using Dietcode.Core.Password.Extensions;
+
+builder.Services.AddDietcodePassword();
+```
+```csharp
+using Dietcode.Core.Password.Abstractions;
+using Dietcode.Core.Password.Models;
+
+var contexto = new PasswordValidationContext { UserName = userName, Email = email };
+var resultado = await passwordValidationService.ValidateAsync(novaSenha, contexto, ct);
+
+if (!resultado.IsValid)
+{
+    // resultado.Issues: PASSWORD_TOO_SHORT, PASSWORD_COMPROMISED, etc.
+}
+```
+
+Mais detalhes: configuração do HIBP, `ProviderFailurePolicy`, scoring migrado e o teste de privacidade obrigatório em [Dietcode.Core.Password/README.md](Dietcode.Core.Password/README.md).
 
 ### Dietcode.Core.Cep
 

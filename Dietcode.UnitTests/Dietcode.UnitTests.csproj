@@ -30,6 +30,7 @@
     <ProjectReference Include="..\Dietcode.Api.Core.Results\Dietcode.Api.Core.Results.csproj" />
     <ProjectReference Include="..\Dietcode.Core.Email\Dietcode.Core.Email.csproj" />
     <ProjectReference Include="..\Dietcode.Core.Cep\Dietcode.Core.Cep.csproj" />
+    <ProjectReference Include="..\Dietcode.Core.Password\Dietcode.Core.Password.csproj" />
   </ItemGroup>
 
 </Project>

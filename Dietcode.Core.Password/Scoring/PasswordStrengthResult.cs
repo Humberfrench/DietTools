@@ -1,4 +1,4 @@
-﻿namespace Dietcode.Core.Lib.Passwords
+namespace Dietcode.Core.Password.Scoring
 {
     public sealed class PasswordStrengthResult
     {
