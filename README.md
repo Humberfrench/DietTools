@@ -26,6 +26,10 @@ refactor(api): reorganiza serviço
 
 O hook é instalado automaticamente: qualquer `dotnet restore`/`dotnet build` de um projeto da solução dispara o target `Husky` em [`Directory.Build.targets`](Directory.Build.targets), que roda `dotnet tool restore` + `dotnet husky install` uma vez. Não precisa instalar nada manualmente — só restaurar a solução (ou abrir no Visual Studio, que já restaura sozinho) depois de clonar. Pra desativar num pipeline de CI, defina a variável de ambiente `HUSKY=0`.
 
+## Versionamento
+
+Regras completas em [`VERSIONAMENTO.md`](VERSIONAMENTO.md). Resumo: formato `X.Y.Z`, onde `X` espelha a major version do target framework (`net10.0` hoje → `X = 10`, só muda numa migração de framework pra todo o repo) e `Y.Z` avançam de forma independente por pacote (cada entrega incrementa `Z` só do(s) pacote(s) alterado(s); `Y` sobe em mudanças relevantes e zera `Z`). `Version`/`AssemblyVersion`/`FileVersion` sempre sincronizados no `.csproj`.
+
 ## Índice
 
 - [00 — API REST](#00--api-rest): [Dietcode.Api.Core](#dietcodeapicore) · [Dietcode.Api.Core.Results](#dietcodeapicoreresults)
