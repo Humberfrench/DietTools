@@ -1,7 +1,7 @@
-using Dietcode.Core.Lib.Passwords;
+using Dietcode.Core.Password.Scoring;
 using Xunit;
 
-namespace Dietcode.UnitTests.CoreLib.Passwords;
+namespace Dietcode.UnitTests.CorePassword.Scoring;
 
 public class PasswordStrengthTests
 {

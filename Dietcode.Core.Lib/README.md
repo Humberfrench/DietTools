@@ -1,11 +1,11 @@
 # Dietcode.Core.Lib
 
-Biblioteca de utilitarios para aplicacoes .NET, reunindo extensoes, formatadores, validadores, helpers JSON, criptografia, mascaramento de dados, paginacao, localizacao e validacao de senha.
+Biblioteca de utilitarios para aplicacoes .NET, reunindo extensoes, formatadores, validadores, helpers JSON, criptografia, mascaramento de dados, paginacao e localizacao.
 
 ## Instalacao
 
 ```bash
-dotnet add package Dietcode.Core.Lib --version 10.10.0
+dotnet add package Dietcode.Core.Lib --version 10.12.0
 ```
 
 ## Funcionalidades
@@ -15,7 +15,6 @@ dotnet add package Dietcode.Core.Lib --version 10.10.0
 - Validadores de telefone, cartao, boletos e dados comuns.
 - Mascaramento de dados sensiveis.
 - Conversores JSON flexiveis.
-- Analise de forca de senha.
 - Paginacao.
 - Localizacao simples por dicionario.
 
@@ -101,31 +100,6 @@ As opcoes padrao incluem:
 - conversores flexiveis para valores e strings;
 - ignorar propriedades nulas ao serializar.
 
-## Senhas
-
-```csharp
-using Dietcode.Core.Lib.Passwords;
-
-var result = "Senha@123".AsSpan().AnalyzePassword();
-
-if (result.MeetsMinimumRules)
-{
-    // Senha atende as regras minimas.
-}
-```
-
-A analise considera:
-
-- tamanho minimo;
-- letras maiusculas;
-- letras minusculas;
-- numeros;
-- simbolos;
-- espacos em branco;
-- caracteres fora de ASCII;
-- entropia estimada;
-- nivel de forca.
-
 ## Localizacao
 
 ```csharp
@@ -176,6 +150,7 @@ var masked = SensitiveDataMasker.Mask(new
 
 - `Dietcode.Core.Security`: criptografia AES (AES-GCM atual e AES-ECB legado). Esta funcionalidade morava neste pacote e foi movida para lá.
 - `Dietcode.Core.Lib.Rest`: helper REST (`HttpService`, `ApiResult<T>`, `EnumApiRest`). Esta funcionalidade morava neste pacote e foi movida para lá.
+- `Dietcode.Core.Password`: validação de senha e verificação de senha comprometida (HIBP), incluindo a análise de força de senha (`AnalyzePassword()`) que morava aqui (namespace `Dietcode.Core.Lib.Passwords`) e foi movida para `Dietcode.Core.Password.Scoring`.
 - `Dietcode.Core.Lib.Helpers`: projeto auxiliar interno (sem `PackageId` próprio) com `JsonOptionsFactory` e os conversores JSON flexíveis; seu binário é embutido neste pacote.
 
 ## Licenca

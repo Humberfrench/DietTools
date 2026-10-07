@@ -1,5 +1,5 @@
-﻿using System.Runtime.CompilerServices;
-namespace Dietcode.Core.Lib.Passwords
+using System.Runtime.CompilerServices;
+namespace Dietcode.Core.Password.Scoring
 {
     public static class PasswordExtensions
     {
