@@ -1,3 +1,4 @@
+using Dietcode.Core.Password.Extensions;
 using TesteApi.Interfaces;
 using TesteApi.Repository;
 using static Dietcode.Database.Orm.Builder;
@@ -21,6 +22,8 @@ builder.Services.AddOpenApi();
 BuilderStart(builder.Services);
 
 builder.Services.AddScoped<IBancoRepository, BancoRepository>();
+
+builder.Services.AddDietcodePassword();
 
 var app = builder.Build();
 
