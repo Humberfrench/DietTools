@@ -51,6 +51,7 @@ public static class ServiceCollectionExtensions
         services.AddMemoryCache();
         services.AddSingleton<IPasswordHashService, PasswordHashService>();
         services.AddScoped<IPasswordValidationService, PasswordValidationService>();
+        services.AddScoped<IPasswordSecurityService, PasswordSecurityService>();
     }
 
     private static void RegisterProvider(

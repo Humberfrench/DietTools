@@ -21,7 +21,7 @@ senha.**
 ## Instalação
 
 ```bash
-dotnet add package Dietcode.Core.Password --version 10.0.0
+dotnet add package Dietcode.Core.Password --version 10.1.0
 ```
 
 ## Configuração
@@ -187,9 +187,61 @@ nível de força (`PasswordStrengthLevel`: `VeryWeak` → `VeryStrong`).
 Esta funcionalidade morava em `Dietcode.Core.Lib` (pasta `Passwords`) e foi
 migrada para cá — é a mesma análise, sem mudança de comportamento, só de
 namespace (`Dietcode.Core.Lib.Passwords` → `Dietcode.Core.Password.Scoring`).
-Hoje ainda não está integrada ao fluxo de `IPasswordValidationService`; é a
-base para a evolução futura de regras de criação de senha baseadas em
-pontuação.
+É uma chamada independente de `IPasswordValidationService` — não consulta o
+HIBP, não sabe se a senha foi vazada, só analisa a composição da própria
+string. Para as duas coisas juntas, ver a seção seguinte.
+
+## Integração: vazamento + força numa chamada só
+
+`IPasswordValidationService` (vazamento/regras locais) e `AnalyzePassword()`
+(força por pontuação) são chamadas independentes — nenhuma sabe da outra.
+`IPasswordSecurityService.CheckAsync` integra as duas num resultado só
+(`PasswordSecurityResult`), reaproveitando o `MinimumLength` já configurado
+em `PasswordValidationOptions` para a análise de força:
+
+```csharp
+using Dietcode.Core.Password.Abstractions;
+using Dietcode.Core.Password.Models;
+using Dietcode.Core.Password.Scoring;
+
+public sealed class ContaController
+{
+    private readonly IPasswordValidationService _passwordValidationService;
+    private readonly IPasswordSecurityService _passwordSecurityService;
+
+    public ContaController(
+        IPasswordValidationService passwordValidationService,
+        IPasswordSecurityService passwordSecurityService)
+    {
+        _passwordValidationService = passwordValidationService;
+        _passwordSecurityService = passwordSecurityService;
+    }
+
+    public async Task<IActionResult> Exemplos(string novaSenha, string userName, string email, CancellationToken ct)
+    {
+        var contexto = new PasswordValidationContext { UserName = userName, Email = email };
+
+        // 1. Só vazamento + regras locais (HIBP + comprimento/username/email).
+        PasswordValidationResult validacao = await _passwordValidationService.ValidateAsync(novaSenha, contexto, ct);
+
+        // 2. Só força por pontuação/entropia — não consulta o HIBP.
+        PasswordStrengthResult forca = novaSenha.AsSpan().AnalyzePassword();
+
+        // 3. Integração dos dois numa chamada só.
+        PasswordSecurityResult seguranca = await _passwordSecurityService.CheckAsync(novaSenha, contexto, ct);
+
+        return Ok(new { validacao, forca, seguranca });
+    }
+}
+```
+
+`PasswordSecurityResult.IsValid` reflete **só** `Validation.IsValid` — a
+força (`Strength`) é informativa, não bloqueante. Uma senha pode ter
+`Strength.Level` alto e ainda ser rejeitada por estar comprometida, ou o
+contrário. Para registrar `IPasswordSecurityService` na DI não é preciso
+nenhuma chamada extra: `AddDietcodePassword(...)` já registra os três
+serviços (`IPasswordHashService`, `IPasswordValidationService` e
+`IPasswordSecurityService`).
 
 ## Segurança em memória
 

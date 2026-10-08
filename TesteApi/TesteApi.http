@@ -24,3 +24,23 @@ Content-Type: application/json
 }
 
 ###
+
+POST {{TesteApi_HostAddress}}/ValidatePassword/strength
+Content-Type: application/json
+
+{
+  "password": "uma-senha-bem-mais-dificil-de-adivinhar-2024!"
+}
+
+###
+
+POST {{TesteApi_HostAddress}}/ValidatePassword/security
+Content-Type: application/json
+
+{
+  "password": "uma-senha-bem-mais-dificil-de-adivinhar-2024!",
+  "userName": "humberto",
+  "email": "humberto@exemplo.com"
+}
+
+###
