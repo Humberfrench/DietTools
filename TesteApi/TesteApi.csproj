@@ -16,4 +16,8 @@
 		<PackageReference Include="Dietcode.Database.Orm" Version="10.7.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Dietcode.Core.Password\Dietcode.Core.Password.csproj" />
+	</ItemGroup>
+
 </Project>
