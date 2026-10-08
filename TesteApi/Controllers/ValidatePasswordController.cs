@@ -1,5 +1,6 @@
 ﻿using Dietcode.Core.Password.Abstractions;
 using Dietcode.Core.Password.Models;
+using Dietcode.Core.Password.Scoring;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TesteApi.Controllers
@@ -9,10 +10,14 @@ namespace TesteApi.Controllers
     public class ValidatePasswordController : ControllerBase
     {
         private readonly IPasswordValidationService _passwordValidationService;
+        private readonly IPasswordSecurityService _passwordSecurityService;
 
-        public ValidatePasswordController(IPasswordValidationService passwordValidationService)
+        public ValidatePasswordController(
+            IPasswordValidationService passwordValidationService,
+            IPasswordSecurityService passwordSecurityService)
         {
             _passwordValidationService = passwordValidationService;
+            _passwordSecurityService = passwordSecurityService;
         }
 
         [HttpGet]
@@ -39,6 +44,40 @@ namespace TesteApi.Controllers
             };
 
             var resultado = await _passwordValidationService.ValidateAsync(request.Password, context, cancellationToken);
+
+            return Ok(resultado);
+        }
+
+        // Só a força por pontuação/entropia — não consulta o HIBP, não sabe
+        // se a senha foi vazada.
+        [HttpPost("strength")]
+        public ActionResult<PasswordStrengthResult> Strength([FromBody] ValidatePasswordRequest request)
+        {
+            if (string.IsNullOrEmpty(request.Password))
+                return BadRequest("Informe a senha no corpo da requisição (campo \"password\").");
+
+            var resultado = request.Password.AsSpan().AnalyzePassword();
+
+            return Ok(resultado);
+        }
+
+        // Integração dos dois: vazamento (HIBP) + regras locais + força por
+        // pontuação, numa chamada só.
+        [HttpPost("security")]
+        public async Task<ActionResult<PasswordSecurityResult>> Security(
+            [FromBody] ValidatePasswordRequest request,
+            CancellationToken cancellationToken)
+        {
+            if (string.IsNullOrEmpty(request.Password))
+                return BadRequest("Informe a senha no corpo da requisição (campo \"password\").");
+
+            var context = new PasswordValidationContext
+            {
+                UserName = request.UserName,
+                Email = request.Email
+            };
+
+            var resultado = await _passwordSecurityService.CheckAsync(request.Password, context, cancellationToken);
 
             return Ok(resultado);
         }
