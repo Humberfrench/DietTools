@@ -84,11 +84,25 @@ public class PasswordSecurityServiceTests
     }
 
     [Fact]
+    public async Task CheckAsync_ValidacaoSegura_IsValidPermaneceTrueMesmoComForcaFraca()
+    {
+        var service = CreateService(SafeResult());
+
+        // Só minúsculas: falha nas regras de força (sem maiúscula/dígito/símbolo).
+        var result = await service.CheckAsync("abcdefgh");
+
+        Assert.False(result.Strength.MeetsMinimumRules);
+        Assert.True(result.IsValid);
+    }
+
+    [Fact]
     public async Task CheckAsync_UsaMinimumLengthDasOpcoesParaCalcularForca()
     {
         var service = CreateService(SafeResult(), o => o.MinimumLength = 20);
 
-        var result = await service.CheckAsync("Curta@123");
+        // Atende ao mínimo padrão (12) e às demais regras de composição, mas
+        // é menor que o MinimumLength configurado (20).
+        var result = await service.CheckAsync("Senha@Forte12");
 
         Assert.False(result.Strength.MeetsMinimumRules);
     }
