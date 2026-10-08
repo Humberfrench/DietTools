@@ -4,3 +4,23 @@ GET {{TesteApi_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+POST {{TesteApi_HostAddress}}/ValidatePassword
+Content-Type: application/json
+
+{
+  "password": "123456"
+}
+
+###
+
+POST {{TesteApi_HostAddress}}/ValidatePassword
+Content-Type: application/json
+
+{
+  "password": "uma-senha-bem-mais-dificil-de-adivinhar-2024!",
+  "userName": "humberto",
+  "email": "humberto@exemplo.com"
+}
+
+###
