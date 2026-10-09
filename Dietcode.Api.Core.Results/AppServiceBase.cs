@@ -64,6 +64,10 @@
         public AcceptedResult<TContent> Accepted<TContent>(TContent content, object id)
             => Success(new AcceptedResult<TContent>(content, id));
 
+        public NoContentResult NoContent()
+        => Success(new NoContentResult());
+
+
         // ---------------------------
         // BadRequest
         // ---------------------------

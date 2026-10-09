@@ -30,7 +30,7 @@ public sealed class RedisJobStore : IAsyncJobStoreGeneric
         var db = _connection.GetDatabase(_options.Database);
         var json = JsonSerializer.Serialize(job, JsonOpts);
 
-        await db.StringSetAsync(Key(job.IdempotencyKey), json, _options.StateTimeToLive);
+        await db.StringSetAsync(Key(job.IdempotencyKey), json, (StackExchange.Redis.Expiration)_options.StateTimeToLive);
     }
 
     public async Task<AsyncJobStateGeneric?> GetAsync(string idempotencyKey, CancellationToken ct)
@@ -42,7 +42,7 @@ public sealed class RedisJobStore : IAsyncJobStoreGeneric
 
         return value.IsNullOrEmpty
             ? null
-            : JsonSerializer.Deserialize<AsyncJobStateGeneric>(value!, JsonOpts);
+            : JsonSerializer.Deserialize<AsyncJobStateGeneric>(value.ToString(), JsonOpts);
     }
 
     public Task SetCompletedAsync(string idempotencyKey, string resultJson, CancellationToken ct)
