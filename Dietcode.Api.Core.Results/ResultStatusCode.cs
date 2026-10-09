@@ -17,12 +17,12 @@
         Created = 201,
 
         /// <summary>
-        /// Recurso criado com sucesso.
+        /// Requisição aceita para processamento (ex.: processamento assíncrono).
         /// </summary>
         Accepted = 202,
 
         /// <summary>
-        /// Recurso criado com sucesso.
+        /// Operação realizada com sucesso, sem conteúdo no corpo da resposta.
         /// </summary>
         NoContent = 204,
         #endregion

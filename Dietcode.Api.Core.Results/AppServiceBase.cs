@@ -65,8 +65,7 @@
             => Success(new AcceptedResult<TContent>(content, id));
 
         public NoContentResult NoContent()
-        => Success(new NoContentResult());
-
+            => Success(new NoContentResult());
 
         // ---------------------------
         // BadRequest
@@ -261,5 +260,103 @@
 
         public PreconditionRequiredResult PreconditionRequired(ErrorValidation error)
             => Failure(new PreconditionRequiredResult(error));
+
+        // ---------------------------
+        // Unauthorized / UnprocessableEntity / TooManyRequests
+        // ---------------------------
+
+        public UnauthorizedResult Unauthorized(string msg)
+            => Failure(new UnauthorizedResult(new ErrorValidation(null!, msg)));
+
+        public UnauthorizedResult Unauthorized(Enum error)
+            => Failure(new UnauthorizedResult(ErrorBuilder.GetError(error)));
+
+        public UnauthorizedResult Unauthorized(Enum error, params object[] args)
+            => Failure(new UnauthorizedResult(ErrorBuilder.GetError(error, args)));
+
+        public UnauthorizedResult Unauthorized(ErrorValidation error)
+            => Failure(new UnauthorizedResult(error));
+
+        public UnauthorizedResult Unauthorized(IEnumerable<ErrorValidation> errors)
+            => Failure(new UnauthorizedResult(errors));
+
+        public UnprocessableEntityResult UnprocessableEntity(string msg)
+            => Failure(new UnprocessableEntityResult(new ErrorValidation(null!, msg)));
+
+        public UnprocessableEntityResult UnprocessableEntity(Enum error)
+            => Failure(new UnprocessableEntityResult(ErrorBuilder.GetError(error)));
+
+        public UnprocessableEntityResult UnprocessableEntity(Enum error, params object[] args)
+            => Failure(new UnprocessableEntityResult(ErrorBuilder.GetError(error, args)));
+
+        public UnprocessableEntityResult UnprocessableEntity(ErrorValidation error)
+            => Failure(new UnprocessableEntityResult(error));
+
+        public UnprocessableEntityResult UnprocessableEntity(IEnumerable<ErrorValidation> errors)
+            => Failure(new UnprocessableEntityResult(errors));
+
+        public TooManyRequestsResult TooManyRequests()
+            => Failure(new TooManyRequestsResult());
+
+        public TooManyRequestsResult TooManyRequests(string msg)
+            => Failure(new TooManyRequestsResult(new ErrorValidation(null!, msg)));
+
+        public TooManyRequestsResult TooManyRequests(Enum error)
+            => Failure(new TooManyRequestsResult(ErrorBuilder.GetError(error)));
+
+        public TooManyRequestsResult TooManyRequests(Enum error, params object[] args)
+            => Failure(new TooManyRequestsResult(ErrorBuilder.GetError(error, args)));
+
+        public TooManyRequestsResult TooManyRequests(ErrorValidation error)
+            => Failure(new TooManyRequestsResult(error));
+
+        public TooManyRequestsResult TooManyRequests(IEnumerable<ErrorValidation> errors)
+            => Failure(new TooManyRequestsResult(errors));
+
+        // ---------------------------
+        // ServiceUnavailable (sem lista de erros, igual a Forbidden)
+        // ---------------------------
+
+        public ServiceUnavailableResult ServiceUnavailable()
+            => Failure(new ServiceUnavailableResult());
+
+        // ---------------------------
+        // ClientClosed (499: cliente encerrou a requisição)
+        // ---------------------------
+
+        public ClientClosedResult ClientClosed(string msg)
+            => Failure(new ClientClosedResult(new ErrorValidation(null!, msg)));
+
+        public ClientClosedResult ClientClosed(ErrorValidation error)
+            => Failure(new ClientClosedResult(error));
+
+        public ClientClosedResult ClientClosed(IEnumerable<ErrorValidation> errors)
+            => Failure(new ClientClosedResult(errors));
+
+        public ClientClosedResult<TContent> ClientClosed<TContent>(TContent content, string msg)
+            => Failure(new ClientClosedResult<TContent>(content, new ErrorValidation(null!, msg)));
+
+        // ---------------------------
+        // BadRequest com ProblemDetails no conteúdo
+        // ---------------------------
+
+        public BadRequestProblemResult BadRequestProblem(string msg)
+            => Failure(new BadRequestProblemResult(new ErrorValidation(null!, msg)));
+
+        public BadRequestProblemResult BadRequestProblem(ErrorValidation error)
+            => Failure(new BadRequestProblemResult(error));
+
+        public BadRequestProblemResult BadRequestProblem(IEnumerable<ErrorValidation> errors)
+            => Failure(new BadRequestProblemResult(errors));
+
+        // ---------------------------
+        // Códigos personalizados (6xx)
+        // ---------------------------
+
+        public InternalPersonalErrorResult InternalPersonalError()
+            => Failure(new InternalPersonalErrorResult());
+
+        public InternalPersonalWarningResult InternalPersonalWarning()
+            => Failure(new InternalPersonalWarningResult());
     }
 }
