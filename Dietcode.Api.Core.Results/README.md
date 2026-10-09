@@ -7,7 +7,7 @@ Este pacote e usado diretamente por `Dietcode.Api.Core`.
 ## Instalacao
 
 ```bash
-dotnet add package Dietcode.Api.Core.Results --version 10.10.0
+dotnet add package Dietcode.Api.Core.Results --version 10.12.0
 ```
 
 ## Objetivo
@@ -74,14 +74,20 @@ public class MethodResult<TContent> : MethodResult
 - `Unauthorized` = 401
 - `Forbidden` = 403
 - `NotFound` = 404
+- `MethodNotAllowed` = 405
 - `NotAcceptable` = 406
 - `TimeOut` = 408
 - `Conflict` = 409
+- `PreconditionFailed` = 412
+- `UnsupportedMediaType` = 415
 - `UnprocessableEntity` = 422
+- `PreconditionRequired` = 428
 - `TooManyRequests` = 429
 - `ClientClosedRequest` = 499
 - `InternalServerError` = 500
+- `BadGateway` = 502
 - `ServiceUnavailable` = 503
+- `GatewayTimeout` = 504
 - `InternalPersonalError` = 600
 - `InternalPersonalWarning` = 601
 
@@ -114,13 +120,25 @@ Metodos disponiveis:
 - `Accepted()`
 - `Accepted<TContent>(TContent content)` — 202 sem identificador.
 - `Accepted<TContent>(TContent content, object id)` — 202 com identificador (ex.: id de rastreio de um processo assíncrono).
+- `NoContent()` — 204, sem corpo.
 - `BadRequest(...)`
+- `BadRequestProblem(...)` — 400 com `ProblemDetails` no conteúdo.
+- `Unauthorized(...)` — 401.
+- `Forbidden()` — 403.
 - `NotFound(...)`
+- `NotAcceptable(...)`
 - `TimeOut(...)`
 - `Conflict(...)`
-- `NotAcceptable(...)`
-- `Forbidden()`
+- `UnprocessableEntity(...)` — 422.
+- `TooManyRequests()` e `TooManyRequests(...)` — 429.
+- `ClientClosed(...)` — 499, cliente encerrou a requisição.
 - `InternalServerError(Exception ex)`
+- `BadGateway(...)` e `GatewayTimeout(...)` — falha em dependência externa.
+- `ServiceUnavailable()` — 503.
+- `MethodNotAllowed(...)`, `UnsupportedMediaType(...)`, `PreconditionFailed(...)` e `PreconditionRequired(...)`.
+- `InternalPersonalError()` e `InternalPersonalWarning()` — códigos próprios 600 e 601.
+
+Os métodos de erro seguem o mesmo padrão: aceitam uma mensagem (`string`), um `Enum` resolvido pelo `ErrorBuilder` (com ou sem argumentos de formatação), um `ErrorValidation` ou uma lista de `ErrorValidation`. Nem todos têm todas as sobrecargas; o IntelliSense mostra as disponíveis.
 
 `BadRequest<T>(string msg, T content)` aceita qualquer `T`, incluindo tipos de valor como `bool` e `int` — não há restrição `class`.
 
