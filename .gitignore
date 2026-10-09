@@ -364,3 +364,6 @@ FodyWeavers.xsd
 
 # Husky.Net (gerado localmente por "dotnet husky install" / Directory.Build.targets)
 .husky/_/
+
+# Configuração local de cada dev (ex.: launch.json com paths da própria máquina)
+.claude/
