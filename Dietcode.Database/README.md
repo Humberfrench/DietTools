@@ -7,7 +7,7 @@ Este pacote é independente da família `Dietcode.Database.Domain` / `Dietcode.D
 ## Instalação
 
 ```bash
-dotnet add package Dietcode.Database --version 10.2.0
+dotnet add package Dietcode.Database --version 10.3.0
 ```
 
 ## Funcionalidades

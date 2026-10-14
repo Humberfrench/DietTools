@@ -8,9 +8,9 @@
 
 		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 		<Title>Dietcode Api Database</Title>
-		<Version>10.2.0</Version>
-		<AssemblyVersion>10.2.0</AssemblyVersion>
-		<FileVersion>10.2.0.0</FileVersion>
+		<Version>10.3.0</Version>
+		<AssemblyVersion>10.3.0</AssemblyVersion>
+		<FileVersion>10.3.0.0</FileVersion>
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 		<!--<PackageOutputPath>D:\Nuget\\</PackageOutputPath>-->
 		<NeutralLanguage>pt-BR</NeutralLanguage>
@@ -35,6 +35,7 @@
 		<PackageReference Include="MySqlConnector" Version="2.6.2" />
 		<PackageReference Include="Npgsql" Version="10.0.3" />
 		<PackageReference Include="Oracle.ManagedDataAccess.Core" Version="23.26.300" />
+		<PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
 	</ItemGroup>
 
 </Project>

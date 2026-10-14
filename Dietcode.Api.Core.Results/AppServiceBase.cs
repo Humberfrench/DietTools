@@ -336,6 +336,12 @@
         public ClientClosedResult<TContent> ClientClosed<TContent>(TContent content, string msg)
             => Failure(new ClientClosedResult<TContent>(content, new ErrorValidation(null!, msg)));
 
+        public ClientClosedResult<TContent> ClientClosed<TContent>(TContent content, ErrorValidation error)
+            => Failure(new ClientClosedResult<TContent>(content, error));
+
+        public ClientClosedResult<TContent> ClientClosed<TContent>(TContent content, IEnumerable<ErrorValidation> errors)
+            => Failure(new ClientClosedResult<TContent>(content, errors));
+
         // ---------------------------
         // BadRequest com ProblemDetails no conteúdo
         // ---------------------------

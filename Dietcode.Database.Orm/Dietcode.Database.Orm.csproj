@@ -13,9 +13,9 @@
 		<PackageProjectUrl>http://www.dietcode.com.br</PackageProjectUrl>
 		<Title>Dietcode Entity ORM Generic</Title>
 		<Description>Dietcode Entity ORM Generic - Repositorio patterns and unit of work patterns</Description>
-		<Version>10.7.0</Version>
-		<AssemblyVersion>10.7.0</AssemblyVersion>
-		<FileVersion>10.7.0.0</FileVersion>
+		<Version>10.8.0</Version>
+		<AssemblyVersion>10.8.0</AssemblyVersion>
+		<FileVersion>10.8.0.0</FileVersion>
 		<PackageOutputPath>C:\Desenvolvimento\Nuget\Dietcode</PackageOutputPath>
 		<PackageIcon>dietcode128.png</PackageIcon>
 		<NeutralLanguage>pt-BR</NeutralLanguage>
@@ -45,6 +45,7 @@
 		<PackageReference Include="Serilog.Formatting.Compact" Version="3.0.0" />
 		<PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
 		<PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+		<PackageReference Include="System.Security.Cryptography.Pkcs" Version="10.0.13" />
 
 	</ItemGroup>
 

@@ -7,7 +7,7 @@ O pacote usa MailKit e foi separado do `Dietcode.Core.Lib` para evitar adicionar
 ## Instalação
 
 ```bash
-dotnet add package Dietcode.Core.Email --version 10.2.0
+dotnet add package Dietcode.Core.Email --version 10.3.0
 ```
 
 ## Configuração

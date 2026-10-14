@@ -7,7 +7,7 @@ Este pacote e usado diretamente por `Dietcode.Api.Core`.
 ## Instalacao
 
 ```bash
-dotnet add package Dietcode.Api.Core.Results --version 10.12.0
+dotnet add package Dietcode.Api.Core.Results --version 10.12.1
 ```
 
 ## Objetivo

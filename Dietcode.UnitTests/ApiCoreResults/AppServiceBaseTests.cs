@@ -181,4 +181,49 @@ public class AppServiceBaseTests
         Assert.True(result.IsError);
         Assert.Equal("Regra de negocio violada.", result.Errors.First().Message);
     }
+
+    [Fact]
+    public void BadRequestProblem_ComListaDeErros_UsaMensagensNoDetail()
+    {
+        var erros = new[] { new ErrorValidation("A", "primeiro"), new ErrorValidation("B", "segundo") };
+
+        var result = new TestAppService().BadRequestProblem(erros);
+
+        Assert.Equal("primeiro-segundo", result.Content.Detail);
+        Assert.Equal(2, result.Errors.Count());
+    }
+
+    [Fact]
+    public void BadRequestProblem_ComEnumeravelDeUsoUnico_MantemErros()
+    {
+        static IEnumerable<ErrorValidation> UmaVez()
+        {
+            yield return new ErrorValidation("A", "primeiro");
+            yield return new ErrorValidation("B", "segundo");
+        }
+
+        var result = new TestAppService().BadRequestProblem(UmaVez());
+
+        Assert.Equal(2, result.Errors.Count());
+        Assert.Equal(2, result.Errors.Count());
+    }
+
+    [Fact]
+    public void ClientClosed_Generico_ComErrorValidation_PreservaCodigo()
+    {
+        var result = new TestAppService().ClientClosed(7, new ErrorValidation("499", "Cancelado."));
+
+        Assert.Equal(7, result.Content);
+        Assert.Equal("499", result.Errors.First().Code);
+    }
+
+    [Fact]
+    public void ClientClosed_Generico_ComListaDeErros_PreservaTodos()
+    {
+        var erros = new[] { new ErrorValidation("A", "um"), new ErrorValidation("B", "dois") };
+
+        var result = new TestAppService().ClientClosed("x", erros);
+
+        Assert.Equal(2, result.Errors.Count());
+    }
 }
