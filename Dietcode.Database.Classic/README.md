@@ -7,7 +7,7 @@ Para o cenário completo, com contratos, chave composta, paginação e Unit of W
 ## Instalação
 
 ```bash
-dotnet add package Dietcode.Database.Classic --version 10.2.0
+dotnet add package Dietcode.Database.Classic --version 10.3.0
 ```
 
 ## Funcionalidades

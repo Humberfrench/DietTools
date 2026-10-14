@@ -7,7 +7,7 @@ Ao contrário de `Dietcode.Database.Classic`, que expõe um `DbContext` simplifi
 ## Instalação
 
 ```bash
-dotnet add package Dietcode.Database.Orm --version 10.5.0
+dotnet add package Dietcode.Database.Orm --version 10.8.0
 ```
 
 ## Funcionalidades
