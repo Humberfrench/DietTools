@@ -31,6 +31,7 @@
     <ProjectReference Include="..\Dietcode.Core.Email\Dietcode.Core.Email.csproj" />
     <ProjectReference Include="..\Dietcode.Core.Cep\Dietcode.Core.Cep.csproj" />
     <ProjectReference Include="..\Dietcode.Core.Password\Dietcode.Core.Password.csproj" />
+    <ProjectReference Include="..\Dietcode.Core.Lib.Boletos\Dietcode.Core.Lib.Boletos.csproj" />
   </ItemGroup>
 
 </Project>
