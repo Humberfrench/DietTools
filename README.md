@@ -33,7 +33,7 @@ Regras completas em [`VERSIONAMENTO.md`](VERSIONAMENTO.md). Resumo: formato `X.Y
 ## Índice
 
 - [00 — API REST](#00--api-rest): [Dietcode.Api.Core](#dietcodeapicore) · [Dietcode.Api.Core.Results](#dietcodeapicoreresults)
-- [01 — Bibliotecas (.NET moderno)](#01--bibliotecas-net-moderno): [Dietcode.Core.Lib](#dietcodecorelib) · [Dietcode.Core.Lib.Codes](#dietcodecorelibcodes) · [Dietcode.Core.DomainValidator](#dietcodecoredomainvalidator) · [Dietcode.Core.Domain.Rules](#dietcodecoredomainrules) · [Dietcode.Core.Jobs](#dietcodecorejobs) · [Dietcode.Core.Jobs.Interfaces](#dietcodecorejobsinterfaces) · [Dietcode.Core.Email](#dietcodecoreemail) · [Dietcode.Core.Security](#dietcodecoresecurity) · [Dietcode.Core.Password](#dietcodecorepassword) · [Dietcode.Core.Cep](#dietcodecorecep)
+- [01 — Bibliotecas (.NET moderno)](#01--bibliotecas-net-moderno): [Dietcode.Core.Lib](#dietcodecorelib) · [Dietcode.Core.Lib.Codes](#dietcodecorelibcodes) · [Dietcode.Core.Lib.Boletos](#dietcodecorelibboletos) · [Dietcode.Core.DomainValidator](#dietcodecoredomainvalidator) · [Dietcode.Core.Domain.Rules](#dietcodecoredomainrules) · [Dietcode.Core.Jobs](#dietcodecorejobs) · [Dietcode.Core.Jobs.Interfaces](#dietcodecorejobsinterfaces) · [Dietcode.Core.Email](#dietcodecoreemail) · [Dietcode.Core.Security](#dietcodecoresecurity) · [Dietcode.Core.Password](#dietcodecorepassword) · [Dietcode.Core.Cep](#dietcodecorecep)
 - [02 — Acesso a dados (.NET moderno)](#02--acesso-a-dados-net-moderno): [Dietcode.Database](#dietcodedatabase) · [Dietcode.Database.Domain](#dietcodedatabasedomain) · [Dietcode.Database.Orm](#dietcodedatabaseorm) · [Dietcode.Database.Classic](#dietcodedatabaseclassic)
 - [12 — Acesso a dados (legado, .NET Framework 4.8)](#12--acesso-a-dados-legado-net-framework-48): [Dietcode.Database.Net.Domain](#dietcodedatabasenetdomain) · [Dietcode.Database.Net.Orm](#dietcodedatabasenetorm)
 - [11 — Bibliotecas (legado, .NET Framework 4.8)](#11--bibliotecas-legado-net-framework-48): [Dietcode.Classic.Lib](#dietcodeclassiclib) · [Dietcode.Classic.Domain.Rules](#dietcodeclassicdomainrules) · [Dietcode.Classic.DomainValidator](#dietcodeclassicdomainvalidator)
@@ -172,6 +172,20 @@ string base64Png = encoder.EncodeToBase64Png(
 ```
 
 Mais detalhes: lista completa de payloads e persistência de `QRCodeData` em [Dietcode.Core.Lib.Codes/README.md](Dietcode.Core.Lib.Codes/README.md).
+
+### Dietcode.Core.Lib.Boletos
+
+**O que é / o que faz:** engine de validação de boletos bancários (código de barras de 44 e linha digitável de 47 dígitos) e de arrecadação (44 iniciado em `8` e 48 dígitos). Normaliza, converte um formato no outro, confere os dígitos verificadores e devolve valor, vencimento (com a regra do fator pós 22/02/2025 e sábado/domingo para segunda), multa e desconto. Substitui o antigo `Dietcode.Core.Lib.Validator`.
+
+**Exemplo:**
+```csharp
+using Dietcode.Core.Lib.Boletos;
+
+var r = new BoletoValidator().Validar("03399.50461 76900.419847 44270.601022 4 16290000711270");
+// r.IsValid, r.Valor, r.DataVencimento, r.Errors
+```
+
+Mais detalhes: formatos, políticas e códigos de erro em [Dietcode.Core.Lib.Boletos/README.md](Dietcode.Core.Lib.Boletos/README.md).
 
 ### Dietcode.Core.DomainValidator
 

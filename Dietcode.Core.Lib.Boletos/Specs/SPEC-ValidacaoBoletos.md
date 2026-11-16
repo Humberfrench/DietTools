@@ -278,3 +278,59 @@ Exemplos: `1.4.7 → 1.5.0` e `2.9.3 → 2.10.0`.
 - Todas as referências migradas; classe antiga removida só após testes.
 - Versão atualizada e changelog publicado.
 
+## 12. Decisões e observações de implementação (16/11/2026)
+
+Registro do que foi decidido na implementação do item 7 em diante. Onde houver conflito com as seções acima, vale esta.
+
+### 12.1 Formatos e entrada
+
+- Formatos suportados: **44** (código de barras: bancário, ou arrecadação quando inicia em `8`), **47** (linha digitável bancária) e **48** iniciado em `8` (linha digitável de arrecadação). **46 dígitos não é suportado**, sem modo legado.
+- Os 7 códigos de arrecadação reais fornecidos têm 44 dígitos: o código de barras de arrecadação (44 iniciado em `8`) faz parte do escopo, como na tabela da §3.
+- A normalização também descarta espaços e quebras de linha nas pontas (comum ao colar); no meio só espaço, ponto e hífen são aceitos.
+
+### 12.2 Resultado
+
+- `Valor` é `decimal` e vem `0` quando não informado (`ValorInformadoNoCodigo = false`), em vez de `decimal?`.
+- Novos campos: `ValorMulta` e `ValorDesconto` (sempre `0`; o código de barras do padrão não os carrega), `DataVencimentoOriginal`, `VencimentoAjustadoDiaUtil`, `Vencido`, `CicloFator` e `PossivelBoletoCartao`.
+- `BoletoValidacaoError` ganhou `Bloqueante`. `IsValid` considera só os bloqueantes. Avisos não bloqueantes: `VALOR_NAO_INFORMADO`, `SEGMENTO_DESCONHECIDO`, `ARRECADACAO_DV_NAO_CONFERIDO`, `VENCIMENTO_INDETERMINADO` quando vale D+1. `BOLETO_VENCIDO` é bloqueante conforme `BloquearVencido` (padrão `true`).
+- Códigos de erro acrescentados à lista da §7: `ARRECADACAO_CAMPO_1..4_INVALIDO`, `ARRECADACAO_INDICADOR_INVALIDO` e `SEGMENTO_DESCONHECIDO`. `BANCO_INVALIDO` não é produzido (ver 12.4).
+- `OrigemVencimento`: `NaoInformado`, `FatorVencimento`, `CampoLivreArrecadacao`, `RegraDMaisUm`.
+
+### 12.3 Fator, vencimento e data
+
+- **Política do ciclo** (só boletos futuros são avaliados): fator ≥ 1000 usa o ciclo novo (`22/02/2025 + fator − 1000`) enquanto a data não passar de hoje + `JanelaFuturaFatorDias` (5500; confirmar no leiaute oficial); além disso lê o ciclo original, sempre passado. Isso resolve T14 a T16. O T18 deixa de existir como "ambíguo": o ciclo escolhido vem em `CicloFator`.
+- Fatores `0001` a `0999` são inválidos (`FATOR_VENCIMENTO_INVALIDO`); `0000` não tem data (D+1 por política).
+- Vencimento em sábado ou domingo é levado para a **segunda-feira**, inclusive a estimativa D+1. Feriados **não** são tratados.
+- "Hoje" é a data **local** (sem UTC) de `TimeProvider.GetLocalNow()`. Vencendo hoje não é vencido.
+- Arrecadação: nos 7 exemplos reais o campo livre traz o vencimento em AAAAMMDD nas posições 20–27 do código de barras. É lido como `CampoLivreArrecadacao` quando for data válida (anos 2000–2099). É **convenção dos convênios**, não regra do padrão; pode ser desligado em `InterpretarDataDoCampoLivreDeArrecadacao`. Sem data, vale D+1.
+
+### 12.4 Banco, moeda e cartão
+
+- Banco desconhecido é **ignorado**: não há catálogo, `IBancoCodigoValidator` não foi criado e o fluxo segue para valor e data. `BancoCodigo` é só devolvido.
+- Só a moeda `9` é aceita (T09).
+- A heurística de cartão do legado foi mantida como **opcional**: `PossivelBoletoCartao = true` quando o bancário tem fator e valor zerados. Não interfere em `IsValid`.
+
+### 12.5 Arrecadação
+
+- DV geral: posições 1–3 e 5–44, módulo do indicador (`6`/`7` Módulo 10, `8`/`9` Módulo 11). Linha de 48: cada bloco de 11 dígitos usa o mesmo módulo.
+- Módulo 11 da arrecadação: pesos 2 a 9 da direita para a esquerda, resto 0 ou 1 → DV 0, senão `11 − resto`. **Pendente de conferência** com o leiaute oficial e com boletos reais de indicador `8` e `9` (os 7 reais são indicador `6`, Módulo 10, e todos conferem).
+- **Decisão de 16/11/2026:** enquanto não houver conferência, o DV divergente nos indicadores `8` e `9` **não bloqueia** (`ValidarModulo11Arrecadacao = false`, padrão): vira o aviso `ARRECADACAO_DV_NAO_CONFERIDO` (um só por código) e valor e vencimento são extraídos normalmente. Os indicadores `6` e `7` (Módulo 10, conferidos com boletos reais) sempre bloqueiam. Ao conferir um boleto real de `8` ou `9`, o padrão passa a `true`.
+- Módulo 11 bancário: `11 − resto`, com 0, 10 e 11 virando 1. Conferido com os 9 boletos bancários reais.
+- Valor só nos indicadores `6` e `8` (11 dígitos, `long`); em `7` e `9` o valor é `0`.
+- Segmentos: mapa herdado do legado (6 e 9 = `Outros`, 7 = trânsito). `0` e `8` viram `Desconhecido` com aviso, em vez de "Banco" como no legado.
+
+### 12.6 Legado: defeitos adicionais encontrados
+
+Além dos de §8.1:
+
+11. `ObterValor` de arrecadação a partir da **linha digitável de 48 dígitos** devolvia valor errado: `FormatarBarrasCorretoArrecadacao` não tira os DVs dos blocos e o `Substring(4, 11)` pegava o DV do bloco 1 no meio.
+12. `IdentificarTipoDeBoleto` mapeava segmento desconhecido para `Banco`.
+13. `TratarCodigo` remove `.`, mas `ObterCodigodeBarrasCorreto` e `FormatarBarrasCorretoArrecadacao` não.
+14. Não há nenhum consumidor do `Validator` dentro do repositório DietTools (sem chamadas além da própria classe); os consumidores citados na §9 estão em outros repositórios.
+
+### 12.7 Projeto, testes e versão
+
+- Biblioteca independente (sem referência a `Dietcode.Core.Lib`), pacote `Dietcode.Core.Lib.Boletos` **10.0.0**, com `AddDietcodeBoletos(...)` no namespace `Dietcode.Core.Lib.Boletos.DependencyInjection`.
+- Os testes ficam no projeto central `Dietcode.UnitTests` (pasta `CoreLibBoletos`), não em um `Dietcode.Core.Lib.Boletos.Tests` separado. Vetores reais fornecidos pelo time em 16/11/2026: 9 bancários e 7 de arrecadação; os demais são sintéticos e identificados como tais.
+- `Dietcode.Core.Lib`: ao concluir a migração e remover o legado, sobe de 10.12.0 para **10.14.0** (a 10.13.0 é pulada de propósito). A remoção ainda **não** foi feita; depende da migração dos consumidores.
+
