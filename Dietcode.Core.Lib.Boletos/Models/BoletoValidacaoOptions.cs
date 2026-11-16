@@ -33,10 +33,18 @@ public sealed class BoletoValidacaoOptions
     public bool ValidarModulo11Arrecadacao { get; set; }
 
     /// <summary>
+    /// Fuso horário do negócio (id do sistema, ex.: <c>America/Sao_Paulo</c>) para decidir a data de "hoje".
+    /// Padrão <c>null</c>: usa a data local do <see cref="TimeProvider"/> (sem UTC). Em host configurado em UTC
+    /// (contêineres, nuvem), defina o fuso, ou a data vira o dia seguinte no fim da tarde de Brasília.
+    /// Um id inexistente lança <see cref="TimeZoneNotFoundException"/> na primeira validação.
+    /// </summary>
+    public string? FusoHorarioId { get; set; }
+
+    /// <summary>
     /// Para o fator ≥ 1000 usa-se o ciclo novo (22/02/2025 = 1000) enquanto a data
     /// ficar até esta quantidade de dias à frente de hoje; além disso, o fator é
     /// lido no ciclo original (passado). Padrão 5500, a janela da FEBRABAN
-    /// (a confirmar no leiaute oficial).
+    /// (a confirmar no leiaute oficial). Negativo volta ao padrão; acima de 36500 é limitado a 36500.
     /// </summary>
-    public int JanelaFuturaFatorDias { get; set; } = 5500;
+    public int JanelaFuturaFatorDias { get; set; } = FatorVencimentoHelper.JanelaFuturaPadraoDias;
 }

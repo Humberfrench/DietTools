@@ -15,6 +15,12 @@ internal static class FatorVencimentoHelper
 
     public const int FatorInicialCicloNovo = 1000;
 
+    /// <summary>Janela padrão à frente de hoje (a da FEBRABAN, a confirmar no leiaute oficial).</summary>
+    public const int JanelaFuturaPadraoDias = 5500;
+
+    /// <summary>Limite superior da janela (100 anos); valores acima são limitados a ele.</summary>
+    public const int JanelaFuturaMaximaDias = 36500;
+
     /// <summary>Resultado de <see cref="CalcularVencimento"/>.</summary>
     /// <param name="Data">Data obtida, ou <c>null</c> se o fator não a define.</param>
     /// <param name="Ciclo">Ciclo escolhido; <see cref="CicloFatorVencimento.Nenhum"/> sem data.</param>
@@ -33,7 +39,7 @@ internal static class FatorVencimentoHelper
     /// </summary>
     /// <param name="fator">Fator de 4 dígitos (0–9999).</param>
     /// <param name="hoje">Data local de referência.</param>
-    /// <param name="janelaFuturaDias">Limite à frente de hoje para aceitar o ciclo novo.</param>
+    /// <param name="janelaFuturaDias">Limite à frente de hoje para aceitar o ciclo novo; negativo vira <see cref="JanelaFuturaPadraoDias"/> e acima de <see cref="JanelaFuturaMaximaDias"/> é limitado.</param>
     public static ResultadoFator CalcularVencimento(int fator, DateOnly hoje, int janelaFuturaDias)
     {
         if (fator == 0)
@@ -42,8 +48,10 @@ internal static class FatorVencimentoHelper
         if (fator < FatorInicialCicloNovo)
             return new ResultadoFator(null, CicloFatorVencimento.Nenhum, true);
 
+        // Janela negativa é configuração inválida: volta ao padrão em vez de empurrar tudo para o ciclo original.
+        var janela = janelaFuturaDias < 0 ? JanelaFuturaPadraoDias : Math.Min(janelaFuturaDias, JanelaFuturaMaximaDias);
         var novo = InicioCicloNovo.AddDays(fator - FatorInicialCicloNovo);
-        if (novo <= hoje.AddDays(janelaFuturaDias))
+        if (novo <= hoje.AddDays(janela))
             return new ResultadoFator(novo, CicloFatorVencimento.Novo, false);
 
         return new ResultadoFator(BaseCicloOriginal.AddDays(fator), CicloFatorVencimento.Original, false);

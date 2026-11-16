@@ -99,7 +99,8 @@ Erros **bloqueantes** (derrubam `IsValid`): `CODIGO_VAZIO`, `CODIGO_INVALIDO`,
 | `AtribuirDMaisUmQuandoVencimentoIndeterminado` | `true` | Sem data no código: D+1, marcado como estimativa |
 | `InterpretarDataDoCampoLivreDeArrecadacao` | `true` | Lê AAAAMMDD nas posições 20–27 da arrecadação |
 | `ValidarModulo11Arrecadacao` | `false` | DV divergente nos indicadores 8 e 9 bloqueia (`true`) ou só avisa (`false`) |
-| `JanelaFuturaFatorDias` | `5500` | Ver abaixo |
+| `JanelaFuturaFatorDias` | `5500` | Ver abaixo. Negativo volta ao padrão; acima de 36500 é limitado |
+| `FusoHorarioId` | `null` | Fuso do negócio (ex.: `America/Sao_Paulo`) para a data de hoje. `null` usa a data local do `TimeProvider` |
 
 ### Fator de vencimento
 
@@ -112,8 +113,15 @@ vencimento; `0001` a `0999` são inválidos.
 
 ### Data de hoje
 
-Data **local** (sem UTC) de `TimeProvider.GetLocalNow()`; só a data é comparada.
-Um boleto que vence hoje não está vencido.
+Por padrão, a data **local** (sem UTC) de `TimeProvider.GetLocalNow()`; só a data é comparada.
+Um boleto que vence hoje não está vencido. **Em host configurado em UTC** (contêiner, nuvem) a
+data local já vira o dia seguinte no fim da tarde de Brasília: defina `FusoHorarioId`
+(`America/Sao_Paulo`) ou registre um `TimeProvider` no fuso do negócio.
+
+### Entrada
+
+O texto informado pode ter no máximo 256 caracteres (com separadores); acima disso volta
+`TAMANHO_INVALIDO` sem processar.
 
 ## Banco, moeda e cartão
 

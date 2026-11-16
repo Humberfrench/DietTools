@@ -301,7 +301,8 @@ Registro do que foi decidido na implementação do item 7 em diante. Onde houver
 - **Política do ciclo** (só boletos futuros são avaliados): fator ≥ 1000 usa o ciclo novo (`22/02/2025 + fator − 1000`) enquanto a data não passar de hoje + `JanelaFuturaFatorDias` (5500; confirmar no leiaute oficial); além disso lê o ciclo original, sempre passado. Isso resolve T14 a T16. O T18 deixa de existir como "ambíguo": o ciclo escolhido vem em `CicloFator`.
 - Fatores `0001` a `0999` são inválidos (`FATOR_VENCIMENTO_INVALIDO`); `0000` não tem data (D+1 por política).
 - Vencimento em sábado ou domingo é levado para a **segunda-feira**, inclusive a estimativa D+1. Feriados **não** são tratados.
-- "Hoje" é a data **local** (sem UTC) de `TimeProvider.GetLocalNow()`. Vencendo hoje não é vencido.
+- "Hoje" é a data **local** (sem UTC) de `TimeProvider.GetLocalNow()`. Vencendo hoje não é vencido. Opcionalmente `FusoHorarioId` fixa o fuso do negócio, para hosts em UTC.
+- `JanelaFuturaFatorDias` negativo volta ao padrão (5500) e acima de 36500 é limitado; a entrada bruta tem no máximo 256 caracteres (`TAMANHO_INVALIDO` acima disso, sem alocar).
 - Arrecadação: nos 7 exemplos reais o campo livre traz o vencimento em AAAAMMDD nas posições 20–27 do código de barras. É lido como `CampoLivreArrecadacao` quando for data válida (anos 2000–2099). É **convenção dos convênios**, não regra do padrão; pode ser desligado em `InterpretarDataDoCampoLivreDeArrecadacao`. Sem data, vale D+1.
 
 ### 12.4 Banco, moeda e cartão
