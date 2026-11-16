@@ -23,6 +23,8 @@ public static class BoletoValidacaoErrorCodes
     public const string Campo3Invalido = "CAMPO_3_INVALIDO";
     /// <summary>DV geral (posição 4) da arrecadação inválido.</summary>
     public const string ArrecadacaoDvInvalido = "ARRECADACAO_DV_INVALIDO";
+    /// <summary>DV de arrecadação com Módulo 11 (indicador 8/9) divergente, mas não conferido. Não bloqueia.</summary>
+    public const string ArrecadacaoDvNaoConferido = "ARRECADACAO_DV_NAO_CONFERIDO";
     /// <summary>DV do bloco 1 da linha digitável de arrecadação inválido.</summary>
     public const string ArrecadacaoCampo1Invalido = "ARRECADACAO_CAMPO_1_INVALIDO";
     /// <summary>DV do bloco 2 da linha digitável de arrecadação inválido.</summary>

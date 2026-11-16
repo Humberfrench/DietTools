@@ -300,6 +300,8 @@ public class BoletoValidatorTests
 
     // ---- arrecadação --------------------------------------------------------------------
 
+    private static readonly BoletoValidacaoOptions Modulo11Estrito = new() { ValidarModulo11Arrecadacao = true };
+
     [Fact]
     public void BarrasDeArrecadacaoReais_SaoValidas_ComValorEVencimentoDoCampoLivre()
     {
@@ -376,10 +378,10 @@ public class BoletoValidatorTests
     public void Arrecadacao_DvGeralAlterado_Rejeita(char indicador)
     {
         var barras = BoletoVetores.BarrasArrecadacaoSintetica(indicador: indicador);
-        var r = Validador().Validar(BoletoVetores.Adulterar(barras, 3));
+        var r = Validador().Validar(BoletoVetores.Adulterar(barras, 3), Modulo11Estrito);
 
         Assert.False(r.IsValid);
-        Assert.True(TemErro(r, BoletoValidacaoErrorCodes.ArrecadacaoDvInvalido));
+        Assert.True(TemErro(r, BoletoValidacaoErrorCodes.ArrecadacaoDvInvalido, bloqueante: true));
     }
 
     [Theory]
@@ -397,7 +399,7 @@ public class BoletoValidatorTests
 
         for (var bloco = 0; bloco < 4; bloco++)
         {
-            var r = Validador().Validar(BoletoVetores.Adulterar(linha, (bloco * 12) + 11));
+            var r = Validador().Validar(BoletoVetores.Adulterar(linha, (bloco * 12) + 11), Modulo11Estrito);
 
             Assert.Equal([esperados[bloco]], r.Errors.Where(e => e.Bloqueante).Select(e => e.Code).ToArray());
         }
@@ -415,8 +417,60 @@ public class BoletoValidatorTests
         var comMod11 = corpo[..3] + dv11 + corpo[3..];
         var comMod10 = corpo[..3] + dv10 + corpo[3..];
 
-        Assert.True(Validador().Validar(comMod11).IsValid);
-        Assert.True(TemErro(Validador().Validar(comMod10), BoletoValidacaoErrorCodes.ArrecadacaoDvInvalido));
+        Assert.True(Validador().Validar(comMod11, Modulo11Estrito).IsValid);
+        Assert.True(TemErro(Validador().Validar(comMod10, Modulo11Estrito), BoletoValidacaoErrorCodes.ArrecadacaoDvInvalido, bloqueante: true));
+    }
+
+    [Theory]
+    [InlineData('8')]
+    [InlineData('9')]
+    public void Arrecadacao_Modulo11Divergente_NoPadrao_AvisaMasExtraiValorEVencimento(char indicador)
+    {
+        var barras = BoletoVetores.BarrasArrecadacaoSintetica(indicador: indicador, valorCentavos: 14287);
+        var r = Validador(2026, 11, 9).Validar(BoletoVetores.Adulterar(barras, 3));
+
+        Assert.True(r.IsValid);
+        Assert.True(TemErro(r, BoletoValidacaoErrorCodes.ArrecadacaoDvNaoConferido, bloqueante: false));
+        Assert.False(TemErro(r, BoletoValidacaoErrorCodes.ArrecadacaoDvInvalido));
+        Assert.Equal(indicador == '8' ? 142.87m : 0m, r.Valor);
+        Assert.Equal(new DateOnly(2026, 11, 16), r.DataVencimento);
+    }
+
+    [Fact]
+    public void Arrecadacao_Modulo11Divergente_NaLinha_GeraUmUnicoAviso()
+    {
+        var barras = BoletoVetores.BarrasArrecadacaoSintetica(indicador: '8');
+        var linha = ConversorBoletoArrecadacao.ParaLinhaDigitavel(barras)!;
+        // Altera o DV de dois blocos e o geral (que está no bloco 1: posição 4).
+        var adulterada = BoletoVetores.Adulterar(BoletoVetores.Adulterar(BoletoVetores.Adulterar(linha, 11), 23), 3);
+
+        var r = Validador(2026, 11, 9).Validar(adulterada);
+
+        Assert.True(r.IsValid);
+        Assert.Single(r.Errors, e => e.Code == BoletoValidacaoErrorCodes.ArrecadacaoDvNaoConferido);
+        Assert.Equal(142.87m, r.Valor);
+    }
+
+    [Theory]
+    [InlineData('6')]
+    [InlineData('7')]
+    public void Arrecadacao_Modulo10Divergente_BloqueiaMesmoNoPadrao(char indicador)
+    {
+        var barras = BoletoVetores.BarrasArrecadacaoSintetica(indicador: indicador);
+        var r = Validador().Validar(BoletoVetores.Adulterar(barras, 3));
+
+        Assert.False(r.IsValid);
+        Assert.True(TemErro(r, BoletoValidacaoErrorCodes.ArrecadacaoDvInvalido, bloqueante: true));
+        Assert.False(TemErro(r, BoletoValidacaoErrorCodes.ArrecadacaoDvNaoConferido));
+    }
+
+    [Fact]
+    public void Arrecadacao_Modulo11Correto_NaoGeraAviso_NemNoPadrao()
+    {
+        var r = Validador(2026, 11, 9).Validar(BoletoVetores.BarrasArrecadacaoSintetica(indicador: '8'));
+
+        Assert.True(r.IsValid);
+        Assert.False(TemErro(r, BoletoValidacaoErrorCodes.ArrecadacaoDvNaoConferido));
     }
 
     [Fact]

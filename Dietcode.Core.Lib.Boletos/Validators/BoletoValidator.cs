@@ -51,8 +51,8 @@ public sealed class BoletoValidator : IBoletoValidator
 
         var validador = _factory.ObterValidador(tipo);
         var formato = tipo is TipoCodigoBoleto.CodigoBarrasBancario or TipoCodigoBoleto.CodigoBarrasArrecadacao
-            ? validador.ValidarCodigoBarras(normalizado)
-            : validador.ValidarLinhaDigitavel(normalizado);
+            ? validador.ValidarCodigoBarras(normalizado, options)
+            : validador.ValidarLinhaDigitavel(normalizado, options);
 
         var erros = new List<BoletoValidacaoError>(formato.Errors);
         var vencimento = ResolverVencimento(formato, options, erros);

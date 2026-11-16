@@ -24,6 +24,15 @@ public sealed class BoletoValidacaoOptions
     public bool InterpretarDataDoCampoLivreDeArrecadacao { get; set; } = true;
 
     /// <summary>
+    /// Quando <c>true</c>, o dígito verificador divergente da arrecadação com indicador <c>8</c> ou
+    /// <c>9</c> (Módulo 11) é erro bloqueante. Padrão <c>false</c>: vira o aviso não bloqueante
+    /// <c>ARRECADACAO_DV_NAO_CONFERIDO</c> e valor e vencimento seguem sendo extraídos. O Módulo 11 da
+    /// arrecadação ainda não foi conferido com um boleto real; os indicadores 6 e 7 (Módulo 10) sempre
+    /// validam.
+    /// </summary>
+    public bool ValidarModulo11Arrecadacao { get; set; }
+
+    /// <summary>
     /// Para o fator ≥ 1000 usa-se o ciclo novo (22/02/2025 = 1000) enquanto a data
     /// ficar até esta quantidade de dias à frente de hoje; além disso, o fator é
     /// lido no ciclo original (passado). Padrão 5500, a janela da FEBRABAN

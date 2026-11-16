@@ -7,8 +7,8 @@ namespace Dietcode.Core.Lib.Boletos;
 internal interface IFormatoBoletoValidator
 {
     /// <summary>Valida um código de barras de 44 dígitos.</summary>
-    FormatoBoletoResultado ValidarCodigoBarras(string codigoBarras);
+    FormatoBoletoResultado ValidarCodigoBarras(string codigoBarras, BoletoValidacaoOptions options);
 
     /// <summary>Valida uma linha digitável (47 dígitos bancária, 48 de arrecadação).</summary>
-    FormatoBoletoResultado ValidarLinhaDigitavel(string linhaDigitavel);
+    FormatoBoletoResultado ValidarLinhaDigitavel(string linhaDigitavel, BoletoValidacaoOptions options);
 }

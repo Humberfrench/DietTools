@@ -292,7 +292,7 @@ Registro do que foi decidido na implementação do item 7 em diante. Onde houver
 
 - `Valor` é `decimal` e vem `0` quando não informado (`ValorInformadoNoCodigo = false`), em vez de `decimal?`.
 - Novos campos: `ValorMulta` e `ValorDesconto` (sempre `0`; o código de barras do padrão não os carrega), `DataVencimentoOriginal`, `VencimentoAjustadoDiaUtil`, `Vencido`, `CicloFator` e `PossivelBoletoCartao`.
-- `BoletoValidacaoError` ganhou `Bloqueante`. `IsValid` considera só os bloqueantes. Avisos não bloqueantes: `VALOR_NAO_INFORMADO`, `SEGMENTO_DESCONHECIDO`, `VENCIMENTO_INDETERMINADO` quando vale D+1. `BOLETO_VENCIDO` é bloqueante conforme `BloquearVencido` (padrão `true`).
+- `BoletoValidacaoError` ganhou `Bloqueante`. `IsValid` considera só os bloqueantes. Avisos não bloqueantes: `VALOR_NAO_INFORMADO`, `SEGMENTO_DESCONHECIDO`, `ARRECADACAO_DV_NAO_CONFERIDO`, `VENCIMENTO_INDETERMINADO` quando vale D+1. `BOLETO_VENCIDO` é bloqueante conforme `BloquearVencido` (padrão `true`).
 - Códigos de erro acrescentados à lista da §7: `ARRECADACAO_CAMPO_1..4_INVALIDO`, `ARRECADACAO_INDICADOR_INVALIDO` e `SEGMENTO_DESCONHECIDO`. `BANCO_INVALIDO` não é produzido (ver 12.4).
 - `OrigemVencimento`: `NaoInformado`, `FatorVencimento`, `CampoLivreArrecadacao`, `RegraDMaisUm`.
 
@@ -314,6 +314,7 @@ Registro do que foi decidido na implementação do item 7 em diante. Onde houver
 
 - DV geral: posições 1–3 e 5–44, módulo do indicador (`6`/`7` Módulo 10, `8`/`9` Módulo 11). Linha de 48: cada bloco de 11 dígitos usa o mesmo módulo.
 - Módulo 11 da arrecadação: pesos 2 a 9 da direita para a esquerda, resto 0 ou 1 → DV 0, senão `11 − resto`. **Pendente de conferência** com o leiaute oficial e com boletos reais de indicador `8` e `9` (os 7 reais são indicador `6`, Módulo 10, e todos conferem).
+- **Decisão de 16/11/2026:** enquanto não houver conferência, o DV divergente nos indicadores `8` e `9` **não bloqueia** (`ValidarModulo11Arrecadacao = false`, padrão): vira o aviso `ARRECADACAO_DV_NAO_CONFERIDO` (um só por código) e valor e vencimento são extraídos normalmente. Os indicadores `6` e `7` (Módulo 10, conferidos com boletos reais) sempre bloqueiam. Ao conferir um boleto real de `8` ou `9`, o padrão passa a `true`.
 - Módulo 11 bancário: `11 − resto`, com 0, 10 e 11 virando 1. Conferido com os 9 boletos bancários reais.
 - Valor só nos indicadores `6` e `8` (11 dígitos, `long`); em `7` e `9` o valor é `0`.
 - Segmentos: mapa herdado do legado (6 e 9 = `Outros`, 7 = trânsito). `0` e `8` viram `Desconhecido` com aviso, em vez de "Banco" como no legado.

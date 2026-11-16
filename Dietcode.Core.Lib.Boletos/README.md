@@ -87,7 +87,7 @@ Erros **bloqueantes** (derrubam `IsValid`): `CODIGO_VAZIO`, `CODIGO_INVALIDO`,
 `ARRECADACAO_INDICADOR_INVALIDO`, `FATOR_VENCIMENTO_INVALIDO`, e
 `BOLETO_VENCIDO` (enquanto `BloquearVencido` for `true`).
 
-**Avisos** (não bloqueiam): `VALOR_NAO_INFORMADO`, `SEGMENTO_DESCONHECIDO`,
+**Avisos** (não bloqueiam): `VALOR_NAO_INFORMADO`, `SEGMENTO_DESCONHECIDO`, `ARRECADACAO_DV_NAO_CONFERIDO`,
 `VENCIMENTO_INDETERMINADO` (quando vale a regra D+1) e `BOLETO_VENCIDO` com
 `BloquearVencido = false`.
 
@@ -98,6 +98,7 @@ Erros **bloqueantes** (derrubam `IsValid`): `CODIGO_VAZIO`, `CODIGO_INVALIDO`,
 | `BloquearVencido` | `true` | `BOLETO_VENCIDO` bloqueante |
 | `AtribuirDMaisUmQuandoVencimentoIndeterminado` | `true` | Sem data no código: D+1, marcado como estimativa |
 | `InterpretarDataDoCampoLivreDeArrecadacao` | `true` | Lê AAAAMMDD nas posições 20–27 da arrecadação |
+| `ValidarModulo11Arrecadacao` | `false` | DV divergente nos indicadores 8 e 9 bloqueia (`true`) ou só avisa (`false`) |
 | `JanelaFuturaFatorDias` | `5500` | Ver abaixo |
 
 ### Fator de vencimento
@@ -128,7 +129,11 @@ Nos indicadores `7` e `9` o valor volta `0`. Nos módulos 11 vale resto 0 ou 1 �
 > O Módulo 11 da arrecadação (indicadores 8 e 9) foi implementado pela regra
 > corrente nas bibliotecas de boleto, mas ainda **não foi conferido com um boleto
 > real nem com o leiaute oficial da FEBRABAN**: os 7 exemplos reais usados nos
-> testes são todos de indicador `6`.
+> testes são todos de indicador `6`. Por isso, **por padrão** um DV divergente nos
+> indicadores 8 e 9 não bloqueia: vira o aviso `ARRECADACAO_DV_NAO_CONFERIDO` e
+> valor e vencimento são extraídos normalmente. Os indicadores 6 e 7 (Módulo 10)
+> sempre validam. Quando houver um boleto real de indicador 8 ou 9 conferido, o
+> padrão de `ValidarModulo11Arrecadacao` passa a `true`.
 
 ## Testes
 

@@ -10,7 +10,7 @@ internal sealed class BoletoBancarioValidator : IFormatoBoletoValidator
     private const char MoedaReal = '9';
 
     /// <inheritdoc />
-    public FormatoBoletoResultado ValidarCodigoBarras(string codigoBarras)
+    public FormatoBoletoResultado ValidarCodigoBarras(string codigoBarras, BoletoValidacaoOptions options)
     {
         var resultado = new FormatoBoletoResultado();
         AnalisarCodigoBarras(resultado, codigoBarras);
@@ -19,7 +19,7 @@ internal sealed class BoletoBancarioValidator : IFormatoBoletoValidator
     }
 
     /// <inheritdoc />
-    public FormatoBoletoResultado ValidarLinhaDigitavel(string linhaDigitavel)
+    public FormatoBoletoResultado ValidarLinhaDigitavel(string linhaDigitavel, BoletoValidacaoOptions options)
     {
         var resultado = new FormatoBoletoResultado { LinhaDigitavel = linhaDigitavel };
 

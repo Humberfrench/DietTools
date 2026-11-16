@@ -9,19 +9,20 @@ namespace Dietcode.Core.Lib.Boletos;
 internal sealed class BoletoArrecadacaoValidator : IFormatoBoletoValidator
 {
     /// <inheritdoc />
-    public FormatoBoletoResultado ValidarCodigoBarras(string codigoBarras)
+    public FormatoBoletoResultado ValidarCodigoBarras(string codigoBarras, BoletoValidacaoOptions options)
     {
         var resultado = new FormatoBoletoResultado();
-        AnalisarCodigoBarras(resultado, codigoBarras);
+        AnalisarCodigoBarras(resultado, codigoBarras, options, dvsDivergentes: null);
         return resultado;
     }
 
     /// <inheritdoc />
-    public FormatoBoletoResultado ValidarLinhaDigitavel(string linhaDigitavel)
+    public FormatoBoletoResultado ValidarLinhaDigitavel(string linhaDigitavel, BoletoValidacaoOptions options)
     {
         var resultado = new FormatoBoletoResultado { LinhaDigitavel = linhaDigitavel };
         var codigoBarras = ConversorBoletoArrecadacao.ParaCodigoBarras(linhaDigitavel);
         var indicador = codigoBarras[2];
+        var divergentes = new List<BoletoValidacaoError>();
 
         // Sem indicador válido não há como escolher o módulo; AnalisarCodigoBarras reporta.
         if (IndicadorValido(indicador))
@@ -40,17 +41,23 @@ internal sealed class BoletoArrecadacaoValidator : IFormatoBoletoValidator
                 var esperado = DigitoVerificadorHelper.DigitoArrecadacao(indicador, digitos);
 
                 if (linhaDigitavel[(bloco * 12) + 11] - '0' != esperado)
-                    resultado.Errors.Add(new BoletoValidacaoError(
+                    divergentes.Add(new BoletoValidacaoError(
                         codigos[bloco], $"O dígito verificador do campo {bloco + 1} da linha digitável é inválido."));
             }
         }
 
-        AnalisarCodigoBarras(resultado, codigoBarras);
+        AnalisarCodigoBarras(resultado, codigoBarras, options, divergentes);
         return resultado;
     }
 
-    private static void AnalisarCodigoBarras(FormatoBoletoResultado resultado, string codigoBarras)
+    /// <summary>
+    /// <paramref name="dvsDivergentes"/> recebe os DVs de bloco já conferidos pela linha digitável; o DV geral é
+    /// somado a eles e todos são resolvidos juntos em <see cref="ResolverDvs"/>.
+    /// </summary>
+    private static void AnalisarCodigoBarras(
+        FormatoBoletoResultado resultado, string codigoBarras, BoletoValidacaoOptions options, List<BoletoValidacaoError>? dvsDivergentes)
     {
+        dvsDivergentes ??= [];
         resultado.CodigoBarras = codigoBarras;
 
         var segmento = MapearSegmento(codigoBarras[1]);
@@ -72,14 +79,38 @@ internal sealed class BoletoArrecadacaoValidator : IFormatoBoletoValidator
         // DV geral (posição 4, índice 3) sobre os outros 43 dígitos.
         var semDv = codigoBarras[..3] + codigoBarras[4..];
         if (codigoBarras[3] - '0' != DigitoVerificadorHelper.DigitoArrecadacao(indicador, semDv))
-            resultado.Errors.Add(new BoletoValidacaoError(
+            dvsDivergentes.Add(new BoletoValidacaoError(
                 BoletoValidacaoErrorCodes.ArrecadacaoDvInvalido, "O dígito verificador geral do código de barras é inválido."));
+
+        ResolverDvs(resultado, indicador, dvsDivergentes, options);
 
         // Valor só existe nos indicadores 6 e 8; em 7 e 9 as posições 5–15 são referência.
         resultado.ValorCentavos = indicador is '6' or '8' ? long.Parse(codigoBarras.AsSpan(4, 11)) : 0;
 
         resultado.DataCampoLivre = FatorVencimentoHelper.LerDataAnoMesDia(codigoBarras.Substring(19, 8));
         resultado.LinhaDigitavel ??= ConversorBoletoArrecadacao.ParaLinhaDigitavel(codigoBarras);
+    }
+
+    /// <summary>
+    /// DV divergente é erro bloqueante, exceto no Módulo 11 (indicador 8/9) com
+    /// <see cref="BoletoValidacaoOptions.ValidarModulo11Arrecadacao"/> desligado: aí vira um único aviso.
+    /// </summary>
+    private static void ResolverDvs(
+        FormatoBoletoResultado resultado, char indicador, List<BoletoValidacaoError> divergentes, BoletoValidacaoOptions options)
+    {
+        if (divergentes.Count == 0)
+            return;
+
+        if (indicador is '8' or '9' && !options.ValidarModulo11Arrecadacao)
+        {
+            resultado.Errors.Add(new BoletoValidacaoError(
+                BoletoValidacaoErrorCodes.ArrecadacaoDvNaoConferido,
+                "O dígito verificador (Módulo 11) não confere, mas a validação do Módulo 11 da arrecadação está desligada; valor e vencimento foram extraídos mesmo assim.",
+                Bloqueante: false));
+            return;
+        }
+
+        resultado.Errors.AddRange(divergentes);
     }
 
     private static bool IndicadorValido(char indicador) => indicador is >= '6' and <= '9';
