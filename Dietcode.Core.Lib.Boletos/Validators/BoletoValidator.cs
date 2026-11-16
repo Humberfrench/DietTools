@@ -97,7 +97,7 @@ public sealed class BoletoValidator : IBoletoValidator
     private Vencimento ResolverVencimento(
         FormatoBoletoResultado formato, BoletoValidacaoOptions options, List<BoletoValidacaoError> erros)
     {
-        var hoje = DateOnly.FromDateTime(_timeProvider.GetLocalNow().DateTime);
+        var hoje = ObterHoje(options);
 
         DateOnly? data = null;
         var origem = OrigemVencimento.NaoInformado;
@@ -157,6 +157,16 @@ public sealed class BoletoValidator : IBoletoValidator
                 $"O boleto venceu em {efetivo:dd/MM/yyyy}.", options.BloquearVencido));
 
         return new Vencimento(efetivo, original, origem, ciclo, estimado, vencido);
+    }
+
+    /// <summary>Data de hoje: local do <see cref="TimeProvider"/> ou, se configurado, a do fuso do negócio.</summary>
+    private DateOnly ObterHoje(BoletoValidacaoOptions options)
+    {
+        var agora = string.IsNullOrWhiteSpace(options.FusoHorarioId)
+            ? _timeProvider.GetLocalNow()
+            : TimeZoneInfo.ConvertTime(_timeProvider.GetUtcNow(), TimeZoneInfo.FindSystemTimeZoneById(options.FusoHorarioId));
+
+        return DateOnly.FromDateTime(agora.DateTime);
     }
 
     private static BoletoValidacaoError ErroDeTipoNaoSuportado(string normalizado)

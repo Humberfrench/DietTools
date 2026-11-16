@@ -549,6 +549,57 @@ public class BoletoValidatorTests
         Assert.True(r.Vencido);
     }
 
+    // ---- robustez: entrada, janela e fuso -----------------------------------------------
+
+    [Fact]
+    public void EntradaGigante_Eh_RejeitadaSemProcessar()
+    {
+        var r = Validador().Validar(new string('1', 1_000_000));
+
+        Assert.False(r.IsValid);
+        Assert.Equal(BoletoValidacaoErrorCodes.TamanhoInvalido, Assert.Single(r.Errors).Code);
+        Assert.Equal(string.Empty, r.CodigoNormalizado);
+    }
+
+    [Fact]
+    public void LinhaFormatadaComSeparadores_NaoPassaDoLimiteDeEntrada()
+    {
+        var formatada = "0339 9.50461 76900.419847 44270.601022 4 1629 0000711270";
+
+        Assert.True(formatada.Length < CodigoBoletoNormalizer.TamanhoMaximoEntrada);
+    }
+
+    [Theory]
+    [InlineData(-5)]
+    [InlineData(int.MaxValue)]
+    [InlineData(int.MinValue)]
+    public void JanelaFuturaForaDoIntervalo_Eh_Ajustada_SemLancar(int janela)
+    {
+        var r = Validador().Validar(BoletoVetores.LinhasBancarias[0], new BoletoValidacaoOptions { JanelaFuturaFatorDias = janela });
+
+        Assert.True(r.IsValid);
+        Assert.Equal(CicloFatorVencimento.Novo, r.CicloFator); // negativo volta ao padrão; enorme é limitado a 36500
+    }
+
+    [Fact]
+    public void FusoHorario_Configurado_DefineAData_EmHostUtc()
+    {
+        // 17/11 02:00 UTC = 16/11 23:00 em São Paulo. O boleto real vence em 16/11/2026 (arrecadação).
+        var validador = new BoletoValidator(new RelogioFixo(2026, 11, 17, hora: 2), Microsoft.Extensions.Options.Options.Create(new BoletoValidacaoOptions()));
+
+        var semFuso = validador.Validar(BoletoVetores.BarrasArrecadacao[0]);
+        var comFuso = validador.Validar(BoletoVetores.BarrasArrecadacao[0], new BoletoValidacaoOptions { FusoHorarioId = "America/Sao_Paulo" });
+
+        Assert.True(semFuso.Vencido);   // o relógio "local" do host está em UTC e já virou o dia
+        Assert.False(comFuso.Vencido);  // no fuso do negócio ainda é dia 16
+        Assert.True(comFuso.IsValid);
+    }
+
+    [Fact]
+    public void FusoHorario_Inexistente_Lanca()
+        => Assert.Throws<TimeZoneNotFoundException>(() =>
+            Validador().Validar(BoletoVetores.LinhasBancarias[0], new BoletoValidacaoOptions { FusoHorarioId = "Marte/Olympus" }));
+
     // ---- injeção de dependência ---------------------------------------------------------
 
     [Fact]
