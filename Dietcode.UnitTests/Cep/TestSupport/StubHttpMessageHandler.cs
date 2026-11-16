@@ -33,6 +33,9 @@ internal sealed class StubHttpMessageHandler : HttpMessageHandler
         HttpRequestMessage request,
         CancellationToken cancellationToken)
     {
+        // Um handler real respeita token já cancelado; sem isso testes de cancelamento ficam à mercê do HttpClient.
+        cancellationToken.ThrowIfCancellationRequested();
+
         return Task.FromResult(_responder(request));
     }
 }
