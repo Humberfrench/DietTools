@@ -20,8 +20,8 @@
 		<NeutralLanguage>pt-BR</NeutralLanguage>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Dietcode.Core.DomainValidator" Version="10.1.0" />
-		<PackageReference Include="Dietcode.Core.Lib" Version="10.7.0" />
+		<PackageReference Include="Dietcode.Core.DomainValidator" Version="10.2.0" />
+		<PackageReference Include="Dietcode.Core.Lib" Version="10.12.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="C:\Users\humbe\OneDrive\Desenvolvimento\DevDietcode\DietTools\Icon\dietcode128.png" Pack="true" PackagePath="\" />
