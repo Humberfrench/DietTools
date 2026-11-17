@@ -76,6 +76,8 @@ public sealed class BoletoValidator : IBoletoValidator
             ValorInformadoNoCodigo = valor > 0,
             DataVencimento = vencimento.Data,
             DataVencimentoOriginal = vencimento.DataOriginal,
+            DataHoraVencimento = vencimento.Data?.ToDateTime(TimeOnly.MinValue),
+            DataHoraVencimentoOriginal = vencimento.DataOriginal?.ToDateTime(TimeOnly.MinValue),
             VencimentoAjustadoDiaUtil = vencimento.DataOriginal != vencimento.Data,
             VencimentoEstimado = vencimento.Estimado,
             OrigemVencimento = vencimento.Origem,

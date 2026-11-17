@@ -100,6 +100,39 @@ public class BoletoValidatorTests
     }
 
     [Fact]
+    public void DataHoraVencimento_EhADataDoVencimentoAMeiaNoite_SemKind()
+    {
+        // Fator 1630 = sábado 14/11/2026 -> efetivo segunda 16/11.
+        var r = Validador().Validar("17490000040000001504014551449144716300000004635");
+
+        Assert.Equal(new DateTime(2026, 11, 16, 0, 0, 0), r.DataHoraVencimento);
+        Assert.Equal(new DateTime(2026, 11, 14, 0, 0, 0), r.DataHoraVencimentoOriginal);
+        Assert.Equal(DateTimeKind.Unspecified, r.DataHoraVencimento!.Value.Kind);
+        Assert.Equal(r.DataVencimento, DateOnly.FromDateTime(r.DataHoraVencimento.Value));
+        Assert.Equal(r.DataVencimentoOriginal, DateOnly.FromDateTime(r.DataHoraVencimentoOriginal!.Value));
+    }
+
+    [Fact]
+    public void DataHoraVencimento_Arrecadacao_VemDoCampoLivre()
+    {
+        var r = Validador().Validar(BoletoVetores.BarrasArrecadacao[4]);
+
+        Assert.Equal(new DateTime(2026, 12, 31, 0, 0, 0), r.DataHoraVencimento);
+    }
+
+    [Fact]
+    public void DataHoraVencimento_SemVencimento_VemNula()
+    {
+        var r = Validador().Validar(
+            BoletoVetores.BarrasBancario(fator: 0),
+            new BoletoValidacaoOptions { AtribuirDMaisUmQuandoVencimentoIndeterminado = false });
+
+        Assert.Null(r.DataHoraVencimento);
+        Assert.Null(r.DataHoraVencimentoOriginal);
+        Assert.Null(r.DataVencimento);
+    }
+
+    [Fact]
     public void TodasAsLinhasBancariasReais_SaoValidas_EFazemRoundTripCom44()
     {
         var v = Validador();
