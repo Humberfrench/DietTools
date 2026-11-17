@@ -15,7 +15,7 @@ em [`Specs/SPEC-ValidacaoBoletos.md`](Specs/SPEC-ValidacaoBoletos.md).
 ## Instalação
 
 ```bash
-dotnet add package Dietcode.Core.Lib.Boletos --version 10.1.1
+dotnet add package Dietcode.Core.Lib.Boletos --version 10.2.0
 ```
 
 ## Uso
