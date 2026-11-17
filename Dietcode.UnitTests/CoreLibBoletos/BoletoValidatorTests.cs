@@ -108,6 +108,7 @@ public class BoletoValidatorTests
         Assert.Equal(new DateTime(2026, 11, 16, 0, 0, 0), r.DataHoraVencimento);
         Assert.Equal(new DateTime(2026, 11, 14, 0, 0, 0), r.DataHoraVencimentoOriginal);
         Assert.Equal(DateTimeKind.Unspecified, r.DataHoraVencimento!.Value.Kind);
+        Assert.Equal(DateTimeKind.Unspecified, r.DataHoraVencimentoOriginal!.Value.Kind);
         Assert.Equal(r.DataVencimento, DateOnly.FromDateTime(r.DataHoraVencimento.Value));
         Assert.Equal(r.DataVencimentoOriginal, DateOnly.FromDateTime(r.DataHoraVencimentoOriginal!.Value));
     }
@@ -118,6 +119,8 @@ public class BoletoValidatorTests
         var r = Validador().Validar(BoletoVetores.BarrasArrecadacao[4]);
 
         Assert.Equal(new DateTime(2026, 12, 31, 0, 0, 0), r.DataHoraVencimento);
+        Assert.Equal(DateTimeKind.Unspecified, r.DataHoraVencimento!.Value.Kind);
+        Assert.Equal(DateTimeKind.Unspecified, r.DataHoraVencimentoOriginal!.Value.Kind);
     }
 
     [Fact]

@@ -57,15 +57,16 @@ public sealed class BoletoValidacaoResult
     /// <summary>
     /// <see cref="DataVencimento"/> como data e hora: meia-noite (00:00:00) do dia, com
     /// <see cref="DateTimeKind.Unspecified"/>, na data local do negócio e sem conversão para UTC.
-    /// <c>null</c> quando não há vencimento.
+    /// <c>null</c> quando não há vencimento. Calculado a partir de <see cref="DataVencimento"/>, então
+    /// as duas representações nunca divergem.
     /// </summary>
-    public DateTime? DataHoraVencimento { get; init; }
+    public DateTime? DataHoraVencimento => DataVencimento?.ToDateTime(TimeOnly.MinValue);
 
     /// <summary>
     /// <see cref="DataVencimentoOriginal"/> como data e hora (00:00:00, <see cref="DateTimeKind.Unspecified"/>).
-    /// <c>null</c> quando não há vencimento.
+    /// <c>null</c> quando não há vencimento. Calculado a partir de <see cref="DataVencimentoOriginal"/>.
     /// </summary>
-    public DateTime? DataHoraVencimentoOriginal { get; init; }
+    public DateTime? DataHoraVencimentoOriginal => DataVencimentoOriginal?.ToDateTime(TimeOnly.MinValue);
 
     /// <summary><c>true</c> quando <see cref="DataVencimento"/> difere de <see cref="DataVencimentoOriginal"/>.</summary>
     public bool VencimentoAjustadoDiaUtil { get; init; }

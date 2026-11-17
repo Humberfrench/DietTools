@@ -15,7 +15,7 @@ em [`Specs/SPEC-ValidacaoBoletos.md`](Specs/SPEC-ValidacaoBoletos.md).
 ## Instalação
 
 ```bash
-dotnet add package Dietcode.Core.Lib.Boletos --version 10.1.0
+dotnet add package Dietcode.Core.Lib.Boletos --version 10.1.1
 ```
 
 ## Uso
@@ -73,7 +73,7 @@ esquerda são preservados.
 | `ValorMulta`, `ValorDesconto` | Sempre `0`: o código de barras do padrão não carrega esses valores |
 | `DataVencimento` | Vencimento efetivo; sábado e domingo vão para a segunda-feira |
 | `DataVencimentoOriginal`, `VencimentoAjustadoDiaUtil` | Data como veio do código e se foi ajustada. Feriados não são tratados |
-| `DataHoraVencimento`, `DataHoraVencimentoOriginal` | As mesmas duas datas como `DateTime` (00:00:00, `Kind` não especificado, data local do negócio, sem UTC); `null` sem vencimento |
+| `DataHoraVencimento`, `DataHoraVencimentoOriginal` | As mesmas duas datas como `DateTime`, calculadas a partir delas (00:00:00, `Kind` não especificado, data local do negócio, sem UTC); `null` sem vencimento |
 | `OrigemVencimento` | `FatorVencimento`, `CampoLivreArrecadacao`, `RegraDMaisUm` ou `NaoInformado` |
 | `VencimentoEstimado` | `true` quando a data é D+1 atribuída pelo gateway, não o vencimento do título |
 | `Vencido` | `DataVencimento` anterior a hoje (data local) |
