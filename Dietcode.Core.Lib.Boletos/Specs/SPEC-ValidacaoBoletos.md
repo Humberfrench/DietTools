@@ -294,7 +294,7 @@ Registro do que foi decidido na implementação do item 7 em diante. Onde houver
 - Novos campos: `ValorMulta` e `ValorDesconto` (sempre `0`; o código de barras do padrão não os carrega), `DataVencimentoOriginal`, `VencimentoAjustadoDiaUtil`, `Vencido`, `CicloFator` e `PossivelBoletoCartao`.
 - `BoletoValidacaoError` ganhou `Bloqueante`. `IsValid` considera só os bloqueantes. Avisos não bloqueantes: `VALOR_NAO_INFORMADO`, `SEGMENTO_DESCONHECIDO`, `ARRECADACAO_DV_NAO_CONFERIDO`, `VENCIMENTO_INDETERMINADO` quando vale D+1. `BOLETO_VENCIDO` é bloqueante conforme `BloquearVencido` (padrão `true`).
 - Códigos de erro acrescentados à lista da §7: `ARRECADACAO_CAMPO_1..4_INVALIDO`, `ARRECADACAO_INDICADOR_INVALIDO` e `SEGMENTO_DESCONHECIDO`. `BANCO_INVALIDO` não é produzido (ver 12.4).
-- `DataHoraVencimento` e `DataHoraVencimentoOriginal` (`DateTime?`): as datas de `DataVencimento` e `DataVencimentoOriginal` à meia-noite, `Kind` não especificado, sem conversão para UTC. Os campos `DateOnly` foram mantidos. Pacote 10.0.0 → 10.1.0.
+- `DataHoraVencimento` e `DataHoraVencimentoOriginal` (`DateTime?`): as datas de `DataVencimento` e `DataVencimentoOriginal` à meia-noite, `Kind` não especificado, sem conversão para UTC. Os campos `DateOnly` foram mantidos e os `DateTime?` são calculados a partir deles (somente leitura), para nunca divergirem. Pacote 10.0.0 → 10.1.0 → 10.2.0 (os `DateTime?` perderam o `init`, mudança de API que sobe o `Y`).
 - `OrigemVencimento`: `NaoInformado`, `FatorVencimento`, `CampoLivreArrecadacao`, `RegraDMaisUm`.
 
 ### 12.3 Fator, vencimento e data
